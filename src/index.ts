@@ -6,7 +6,7 @@ const run = async () => {
     const PORT = Number(process.env.PORT) || 3000;
     console.clear()
 
-    //conecion a la base de datos
+    //conexion a la base de datos
     await connectDB();
 
     app.listen(PORT, () => {

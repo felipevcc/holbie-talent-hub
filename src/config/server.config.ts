@@ -21,13 +21,13 @@ app.use(cors({ origin: "*" }));
 import helmet from "helmet";
 app.use(helmet());
 
-// Parse to JSON
+// Handle JSON
 app.use(express.json());
 
-//import routes
+// import routes
 import UsersRoutes from '../routes/Users.routes';
 
-// usar rutas
+// use routes
 app.use('/api/users', UsersRoutes);
 
 export default app;
