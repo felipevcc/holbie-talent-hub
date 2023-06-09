@@ -1,9 +1,10 @@
 import { RequestHandler } from "express";
 import { query } from "../services/ConnetDB.services";
+import { ProfessionalProfile, Education, Experience } from "../types/professional_profiles.d";
 
 // Returns all the professional profiles
 export const ProfilesGet: RequestHandler = async (_req, res) => {
-  const sqlQuery = await query('SELECT * FROM professional_profiles');
+  const sqlQuery = await query('SELECT * FROM professional_profiles') as ProfessionalProfile[];
   return res.json(sqlQuery);
 };
 
@@ -13,8 +14,8 @@ export const ProfileGet: RequestHandler = async (_req, res) => {
   const sqlQuery = await query(
     'SELECT * FROM professional_profiles \
     WHERE profile_id = ?', [profile_id]
-  );
-  return res.json(sqlQuery);
+  ) as ProfessionalProfile[];
+  return res.json(sqlQuery[0]);
 };
 
 // Returns the professional profile's education with the given profile_id
@@ -23,7 +24,7 @@ export const ProfileEducationGet: RequestHandler = async (_req, res) => {
   const sqlQuery = await query(
     'SELECT * FROM education \
     WHERE profile_id = ?', [profile_id]
-  );
+  ) as Education[];
   return res.json(sqlQuery);
 };
 
@@ -33,7 +34,7 @@ export const ProfileExperienceGet: RequestHandler = async (_req, res) => {
   const sqlQuery = await query(
     'SELECT * FROM experience \
     WHERE profile_id = ?', [profile_id]
-  );
+  ) as Experience[];
   return res.json(sqlQuery);
 };
 
@@ -43,8 +44,8 @@ export const EducationGet: RequestHandler = async (_req, res) => {
   const sqlQuery = await query(
     'SELECT * FROM education \
     WHERE education_id = ?', [education_id]
-  );
-  return res.json(sqlQuery);
+  ) as Education[];
+  return res.json(sqlQuery[0]);
 };
 
 // Returns the experience with the given experience_id
@@ -53,6 +54,6 @@ export const ExperienceGet: RequestHandler = async (_req, res) => {
   const sqlQuery = await query(
     'SELECT * FROM experience \
     WHERE experience_id = ?', [experience_id]
-  );
-  return res.json(sqlQuery);
+  ) as Experience[];
+  return res.json(sqlQuery[0]);
 };

@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { ContactsGet } from "../middleWares/Contacts.middleWares";
+import { ProfessionalContactsGet, ProfessionalContactGet } from "../middleWares/Contacts.middleWares";
 
 const router = Router();
 
-router.get('/contacts', ContactsGet);
+router.get('/professional_profiles/:profile_id/contacts', ProfessionalContactsGet);
+router.get('/professional_contacts/:contact_id', ProfessionalContactGet);
 
 export default router;

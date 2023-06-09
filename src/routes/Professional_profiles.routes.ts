@@ -1,11 +1,13 @@
 // education - experience
 import { Router } from "express";
-import { ProfilesGet } from "../middleWares/Professional_profiles.middleWares";
-import { ProfileGet } from "../middleWares/Professional_profiles.middleWares";
-import { ProfileEducationGet } from "../middleWares/Professional_profiles.middleWares";
-import { ProfileExperienceGet } from "../middleWares/Professional_profiles.middleWares";
-import { EducationGet } from "../middleWares/Professional_profiles.middleWares";
-import { ExperienceGet } from "../middleWares/Professional_profiles.middleWares";
+import {
+  ProfilesGet,
+  ProfileGet,
+  ProfileEducationGet,
+  ProfileExperienceGet,
+  EducationGet,
+  ExperienceGet
+} from "../middleWares/Professional_profiles.middleWares";
 
 const router = Router();
 
