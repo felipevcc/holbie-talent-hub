@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
-import { query } from "../services/ConnetDB.services";
+import { knexInstance as query } from "../services/ConnetDB.services";
 
+// Get all projects
 export const ProjectsGet: RequestHandler = async (_req, res) => {
-  const sqlQuery = await query('SELECT * FROM projects');
+  const sqlQuery = await query('projects').select('*');
   return res.json(sqlQuery);
 };

@@ -1,42 +1,88 @@
 /*
   - Create and test the MYSQL connection
 */
-import { PoolOptions, createPool } from "mysql2/promise";
+//import { PoolOptions } from 'mysql2/promise';
+import { knex, Knex } from 'knex';
 
-const Options: PoolOptions = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  typeCast: true,
-  timezone: "America/Bogota"
-}
+const dbConfig: Knex.Config = {
+  client: 'mysql2',
+  connection: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    typeCast: true
+  }
+};
 
 const dbName: string = process.env.DB_NAME as string;
 
-const conn = {
-  [dbName]: createPool(Options)
-};
+export const knexInstance = knex(dbConfig);
 
 export default async function connectDB() {
-  const con = conn[dbName];
-
   try {
-    const connection = await con.getConnection();
-    connection.release();
+    await knexInstance.raw('SELECT 1');
     console.log(`✅ [32mConnected[39m DB 📄 ${dbName}`);
-  } catch (err: any) {
-    console.error(`❌ [31mError[39m DB 📄 ${dbName}`, err.sqlMessage);
+  } catch (error: any) {
+    console.error(`❌ [31mError[39m DB 📄 ${dbName}`, error.message);
   }
 }
 
-/**
- * function created to facilitate the query in the other methods of the api
- * @param {string} sql query in sql language
- * @param params query parameters
- * @return the response from the database
- */
-export async function query(sql: string, params?: any, DBname: string = dbName) {
-  const [rows] = await conn[DBname].query(sql, params);
-  return rows;
+
+/*
+
+import { Knex } from 'knex';
+
+const dbConfig: Knex.Config = {
+  client: 'mysql2',
+  connection: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    typeCast: true,
+    timezone: 'America/Bogota',
+  },
+};
+
+const knexInstance = Knex(dbConfig);
+
+export default knexInstance;
+
+=================
+=================
+
+import knex, { Knex } from 'knex';
+
+const dbConfig: Knex.Config = {
+  client: 'mysql2',
+  connection: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    typeCast: true,
+    timezone: 'America/Bogota',
+  },
+};
+
+const dbName: string = process.env.DB_NAME as string;
+
+const knexInstance = knex(dbConfig);
+
+export default async function connectDB() {
+  try {
+    await knexInstance.raw('SELECT 1');
+    console.log(`✅ [32mConnected[39m DB 📄 ${dbName}`);
+  } catch (error: any) {
+    console.error(`❌ [31mError[39m DB 📄 ${dbName}`, error.message);
+  }
 }
+
+export async function query(sql: string, params?: any) {
+  const result = await knexInstance.raw(sql, params);
+  return result[0];
+}
+
+
+*/

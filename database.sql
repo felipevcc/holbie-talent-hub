@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS professional_profiles (
   headline VARCHAR(255),
   about_me TEXT,
   location VARCHAR(255),
+  job_name VARCHAR(255),
   kind_job ENUM('REMOTE', 'ONSITE', 'BOTH'),
   job_type ENUM('FULL_TIME', 'PART_TIME', 'INTERNSHIP', 'CONTRACT', 'VOLUNTEER', 'OTHER'),
   salary_min INT,
@@ -216,6 +217,20 @@ CREATE TABLE IF NOT EXISTS ratings (
   FOREIGN KEY (receiver_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+-- Tabla "project_ratings"
+CREATE TABLE IF NOT EXISTS project_ratings (
+  rating_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  positive_rating BOOLEAN NOT NULL DEFAULT TRUE,
+  comment TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  company_id BIGINT UNSIGNED NOT NULL,
+  project_id BIGINT UNSIGNED NOT NULL,
+  UNIQUE KEY (company_id, project_id),
+  FOREIGN KEY (company_id) REFERENCES company_profiles(profile_id) ON DELETE CASCADE,
+  FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
+);
+
 -- Tabla "messages"
 CREATE TABLE IF NOT EXISTS messages (
   message_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -249,7 +264,6 @@ CREATE TABLE IF NOT EXISTS professional_skills (
 CREATE TABLE IF NOT EXISTS project_skills (
   project_id BIGINT UNSIGNED NOT NULL,
   skill_id BIGINT UNSIGNED NOT NULL,
-  proficiency_level INT,
   PRIMARY KEY (project_id, skill_id),
   FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE,
   FOREIGN KEY (skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE
@@ -274,4 +288,13 @@ CREATE TABLE IF NOT EXISTS company_capstone_projects (
   PRIMARY KEY (company_id, project_id),
   FOREIGN KEY (company_id) REFERENCES company_profiles(profile_id) ON DELETE CASCADE,
   FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
+);
+
+-- Tabla "favorite_profiles"
+CREATE TABLE IF NOT EXISTS favorite_profiles (
+  company_id BIGINT UNSIGNED NOT NULL,
+  profile_id BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (company_id, profile_id),
+  FOREIGN KEY (company_id) REFERENCES company_profiles(profile_id) ON DELETE CASCADE,
+  FOREIGN KEY (profile_id) REFERENCES professional_profiles(profile_id) ON DELETE CASCADE
 );
