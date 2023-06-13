@@ -1,8 +1,8 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 
-// Get all skills
-export const RatingsGet: RequestHandler = async (_req, res) => {
+// Returns all the ratings
+export const RatingsGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('ratings').select('*');
   return res.json(sqlQuery);
 };
