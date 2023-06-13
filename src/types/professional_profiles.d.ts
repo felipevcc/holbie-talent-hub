@@ -4,6 +4,7 @@ export interface ProfessionalProfile {
   headline: string;
   about_me: string;
   location: string;
+  job_name: string;
   kind_job: string;
   job_type: string;
   salary_min: number;

@@ -8,3 +8,8 @@ export interface CompanyProfile {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface FavoriteProfile {
+  company_id: number;
+  profile_id: number;
+}

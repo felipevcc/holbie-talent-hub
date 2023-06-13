@@ -69,6 +69,26 @@ export const ProfessionalContactPut: RequestHandler = async (req: Request, res: 
   }
 };
 
+// DELETE endpoint to delete a professional profile contact
+export const ProfessionalContactDelete: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { contact_id } = req.params;
+    const sqlQuery = await query('professional_profile_contacts')
+      .where('contact_id', contact_id)
+      .del();
+
+    const deletedRows = sqlQuery;
+    if (!deletedRows) {
+      res.status(404).json({ message: 'Contact not found' });
+    } else {
+      res.status(204).json();
+    }
+  } catch (error) {
+    console.error('Failed to delete contact:', error);
+    res.status(500).json({ message: 'Failed to delete contact' });
+  }
+};
+
 // ===============================================================
 // ================== COMPANY_PROFILE_CONTACTS ==================
 // ===============================================================
@@ -136,6 +156,26 @@ export const CompanyContactPut: RequestHandler = async (req: Request, res: Respo
   }
 };
 
+// DELETE endpoint to delete a company profile contact
+export const CompanyContactDelete: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { contact_id } = req.params;
+    const sqlQuery = await query('company_contacts')
+      .where('contact_id', contact_id)
+      .del();
+
+    const deletedRows = sqlQuery;
+    if (!deletedRows) {
+      res.status(404).json({ message: 'Contact not found' });
+    } else {
+      res.status(204).json();
+    }
+  } catch (error) {
+    console.error('Failed to delete contact:', error);
+    res.status(500).json({ message: 'Failed to delete contact' });
+  }
+};
+
 // ===============================================================
 // ====================== PROJECT_CONTACTS =======================
 // ===============================================================
@@ -200,5 +240,25 @@ export const ProjectContactPut: RequestHandler = async (req: Request, res: Respo
   } catch (error) {
     console.error('Failed to update contact:', error);
     res.status(500).json({ message: 'Failed to update contact' });
+  }
+};
+
+// DELETE endpoint to delete a project contact
+export const ProjectContactDelete: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { contact_id } = req.params;
+    const sqlQuery = await query('project_contacts')
+      .where('contact_id', contact_id)
+      .del();
+
+    const deletedRows = sqlQuery;
+    if (!deletedRows) {
+      res.status(404).json({ message: 'Contact not found' });
+    } else {
+      res.status(204).json();
+    }
+  } catch (error) {
+    console.error('Failed to delete contact:', error);
+    res.status(500).json({ message: 'Failed to delete contact' });
   }
 };
