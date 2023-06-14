@@ -14,7 +14,10 @@ import {
   ExperienceGetById,
   ExperiencePost,
   ExperiencePut,
-  ExperienceDelete
+  ExperienceDelete,
+  JobGet,
+  JobPost,
+  ProfileApplicationsGet
 } from "../middleWares/Professional_profiles.middleWares";
 
 const router = Router();
@@ -40,5 +43,11 @@ router.post('/professional_profiles/:profile_id/experience', ExperiencePost);
 router.put('/experience/:experience_id', ExperiencePut);
 router.delete('/experience/:experience_id', ExperienceDelete);
 
+// jobs
+router.get('/professional_profiles/:profile_id/company_profiles', JobGet);
+router.post('/professional_profiles/:profile_id/company_profiles', JobPost);
+
+// applications
+router.get('/professional_profiles/:profile_id/applications', ProfileApplicationsGet);
 
 export default router;

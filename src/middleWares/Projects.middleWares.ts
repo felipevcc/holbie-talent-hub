@@ -5,7 +5,7 @@ import { Project } from "../types/projects.d";
 // Returns all the projects
 export const ProjectsGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('projects').select('*');
-  return res.json(sqlQuery);
+  res.json(sqlQuery);
 };
 
 // Returns the project with the given project_id
@@ -86,4 +86,3 @@ export const ProjectDelete: RequestHandler = async (req: Request, res: Response)
     res.status(500).json({ message: 'Failed to delete project' });
   }
 };
-

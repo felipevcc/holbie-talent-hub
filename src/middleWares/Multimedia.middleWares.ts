@@ -8,5 +8,5 @@ import { knexInstance as query } from "../services/ConnetDB.services";
 // Get all projects
 export const MultimediaGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('multimedia').select('*');
-  return res.json(sqlQuery);
+  res.json(sqlQuery);
 };

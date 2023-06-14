@@ -1,6 +1,8 @@
 import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { CompanyProfile, FavoriteProfile } from "../types/company_profiles.d";
+import { ProfessionalProfile } from "../types/professional_profiles.d";
+import { Application } from "../types/applications.d";
 
 // ===============================================================
 // ====================== COMPANY_PROFILES =======================
@@ -9,16 +11,16 @@ import { CompanyProfile, FavoriteProfile } from "../types/company_profiles.d";
 // Returns all the company profiles
 export const ProfilesGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('company_profiles').select('*') as CompanyProfile[];
-  return res.json(sqlQuery);
+  res.json(sqlQuery);
 };
 
 // Returns the company profile with the given profile_id
 export const ProfileGetById: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { user_id } = req.params;
+    const { profile_id } = req.params;
     const sqlQuery = await query('company_profiles')
       .select('*')
-      .where('id', user_id)
+      .where('profile_id', profile_id)
       .first() as CompanyProfile;
     res.json(sqlQuery);
   } catch(error) {
@@ -33,9 +35,9 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
     const newCompany = req.body;
     const sqlQuery = await query('company_profiles').insert(newCompany);
 
-    const CompanyId = sqlQuery[0];
+    const ProfileId = sqlQuery[0];
     const createdCompany = await query('company_profiles')
-      .where('id', CompanyId)
+      .where('profile_id', ProfileId)
       .first() as CompanyProfile;
 
     res.status(201).json(createdCompany);
@@ -48,12 +50,12 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
 // PUT endpoint to update a company profile
 export const ProfilePut: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { user_id } = req.params;
+    const { profile_id } = req.params;
     const updateCompany = req.body;
 
     const sqlQuery = await query('company_profiles')
       .update(updateCompany)
-      .where('id', user_id);
+      .where('profile_id', profile_id);
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -61,7 +63,7 @@ export const ProfilePut: RequestHandler = async (req: Request, res: Response) =>
     } else {
       const updatedCompany = await query('company_profiles')
         .select('*')
-        .where('id', user_id)
+        .where('profile_id', profile_id)
         .first() as CompanyProfile;
       res.json(updatedCompany);
     }
@@ -97,11 +99,16 @@ export const ProfileDelete: RequestHandler = async (req: Request, res: Response)
 
 // Returns all the favorite professional profiles
 export const FavoriteProfilesGet: RequestHandler = async (req: Request, res: Response) => {
-  const { company_id } = req.params;
-  const sqlQuery = await query('favorite_profiles')
-    .select('profile_id')
-    .where('company_id', company_id) as FavoriteProfile[];
-  return res.json(sqlQuery);
+  try {
+    const { company_id } = req.params;
+    const sqlQuery = await query('favorite_profiles')
+      .select('profile_id')
+      .where('company_id', company_id) as FavoriteProfile[];
+    res.json(sqlQuery); 
+  } catch(error) {
+    console.log('Failed to get favorite profiles' ,error);
+    res.status(404).json({message: 'Company id not found'});
+  }
 };
 
 // POST endpoint to create a favorite professional profile
@@ -140,5 +147,59 @@ export const FavoriteProfileDelete: RequestHandler = async (req: Request, res: R
   } catch (error) {
     console.error('Failed to delete favorite profile:', error);
     res.status(500).json({ message: 'Failed to delete favorite profile' });
+  }
+};
+
+// ===============================================================
+// ========== COMPANY_PROFESSIONAL_PROFILES (employees) ==========
+// ===============================================================
+
+// Returns the employees with the given company_id
+export const EmployeesGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { company_id } = req.params;
+    const sqlQuery = await query('company_professional_profiles')
+      .select('professional_profile_id')
+      .where('company_id', company_id) as ProfessionalProfile[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get professional profiles' + error);
+    res.status(404).json({ message: 'Company id not found' });
+  }
+};
+
+// POST endpoint to create a employee
+export const EmployeePost: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const newEmployee = req.body;
+    await query('company_professional_profiles').insert(newEmployee);
+
+    const createdEmployee = await query('company_professional_profiles')
+      .where('company_id', newEmployee.company_id)
+      .andWhere('professional_profile_id', newEmployee.profile_id)
+      .first() as FavoriteProfile;
+
+    res.status(201).json(createdEmployee);
+  } catch(error) {
+    console.log('Failed to create employee' ,error);
+    res.status(500).json({message: 'Failed to create employee'});
+  }
+};
+
+// ===============================================================
+// ==================== COMPANY - APPLICATIONS ===================
+// ===============================================================
+
+// Returns the company applications with the given company_id
+export const CompanyApplicationsGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { company_id } = req.params;
+    const sqlQuery = await query('applications')
+      .select('*')
+      .where('company_id', company_id) as Application[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get applications' + error);
+    res.status(404).json({ message: 'Company id not found' });
   }
 };

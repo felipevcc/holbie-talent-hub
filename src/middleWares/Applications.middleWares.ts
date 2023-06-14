@@ -5,7 +5,7 @@ import { Application } from "../types/applications.d";
 // Returns all the applications
 export const ApplicationsGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('applications').select('*');
-  return res.json(sqlQuery);
+  res.json(sqlQuery);
 };
 
 // Returns the application with the given application_id

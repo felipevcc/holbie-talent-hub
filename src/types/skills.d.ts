@@ -5,3 +5,10 @@ export interface Skill {
   created_at: Date;
   updated_at: Date;
 };
+
+export interface ProfileSkill {
+  user_id: number;
+  name: string;
+  description: string;
+  proficiency_level: number;
+}

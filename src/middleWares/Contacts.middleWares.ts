@@ -8,21 +8,31 @@ import { ProfessionalContact, CompanyContact, ProjectContact } from "../types/co
 
 // Returns all the professional profile contacts with the given profile_id
 export const ProfessionalContactsGet: RequestHandler = async (_req: Request, res: Response) => {
-  const { profile_id } = _req.params;
-  const sqlQuery = await query('professional_profile_contacts')
-    .select('*')
-    .where('profile_id', profile_id) as ProfessionalContact[];
-  return res.json(sqlQuery);
+  try {
+    const { profile_id } = _req.params;
+    const sqlQuery = await query('professional_profile_contacts')
+      .select('*')
+      .where('profile_id', profile_id) as ProfessionalContact[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get contacts', error);
+    res.status(500).json({ message: 'Failed to get contacts' });
+  }
 };
 
 // Returns the professional profile contact with the given contact_id
 export const ProfessionalContactGetById: RequestHandler = async (req: Request, res: Response) => {
-  const { contact_id } = req.params;
-  const sqlQuery = await query('professional_profile_contacts')
-    .select('*')
-    .where('contact_id', contact_id)
-    .first() as ProfessionalContact;
-  return res.json(sqlQuery);
+  try {
+    const { contact_id } = req.params;
+    const sqlQuery = await query('professional_profile_contacts')
+      .select('*')
+      .where('contact_id', contact_id)
+      .first() as ProfessionalContact;
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get contact', error);
+    res.status(500).json({ message: 'Failed to get contact id' });
+  }
 };
 
 // POST endpoint to create a professional profile contact
@@ -94,22 +104,32 @@ export const ProfessionalContactDelete: RequestHandler = async (req: Request, re
 // ===============================================================
 
 // Returns all the company profile contacts with the given company_id
-export const CompanyContactsGet: RequestHandler = async (_req: Request, res: Response) => {
-  const { company_id } = _req.params;
-  const sqlQuery = await query('company_contacts')
-  .select('*')
-  .where('company_id', company_id) as CompanyContact[];
-  return res.json(sqlQuery);
+export const CompanyContactsGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { company_id } = req.params;
+    const sqlQuery = await query('company_contacts')
+      .select('*')
+      .where('company_id', company_id) as CompanyContact[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get company contacts', error);
+    res.status(500).json({ message: 'Failed to get company contacts' });
+  }
 };
 
 // Returns the company profile contact with the given contact_id
 export const CompanyContactGetById: RequestHandler = async (req: Request, res: Response) => {
-  const { contact_id } = req.params;
-  const sqlQuery = await query('company_contacts')
-    .select('*')
-    .where('contact_id', contact_id)
-    .first() as CompanyContact;
-  return res.json(sqlQuery);
+  try {
+    const { contact_id } = req.params;
+    const sqlQuery = await query('company_contacts')
+      .select('*')
+      .where('contact_id', contact_id)
+      .first() as CompanyContact;
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get company contact', error);
+    res.status(500).json({ message: 'Failed to get company contact' });
+  }
 };
 
 // POST endpoint to create a company profile contact
@@ -181,22 +201,32 @@ export const CompanyContactDelete: RequestHandler = async (req: Request, res: Re
 // ===============================================================
 
 // Returns all the project contacts with the given project_id
-export const ProjectContactsGet: RequestHandler = async (_req: Request, res: Response) => {
-  const { project_id } = _req.params;
-  const sqlQuery = await query('project_contacts')
-    .select('*')
-    .where('project_id', project_id) as ProjectContact[];
-  return res.json(sqlQuery);
+export const ProjectContactsGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { project_id } = req.params;
+    const sqlQuery = await query('project_contacts')
+      .select('*')
+      .where('project_id', project_id) as ProjectContact[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get project contacts', error);
+    res.status(500).json({ message: 'Failed to get project contacts' });
+  }
 };
 
 // Returns the project contact with the given contact_id
 export const ProjectContactGetById: RequestHandler = async (req: Request, res: Response) => {
-  const { contact_id } = req.params;
-  const sqlQuery = await query('project_contacts')
-    .select('*')
-    .where('contact_id', contact_id)
-    .first() as ProjectContact;
-  return res.json(sqlQuery);
+  try {
+    const { contact_id } = req.params;
+    const sqlQuery = await query('project_contacts')
+      .select('*')
+      .where('contact_id', contact_id)
+      .first() as ProjectContact;
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get project contact', error);
+    res.status(500).json({ message: 'Failed to get project contact' });
+  }
 };
 
 // POST endpoint to create a project contact
