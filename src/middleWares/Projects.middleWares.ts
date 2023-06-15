@@ -31,9 +31,10 @@ export const ProjectGetById: RequestHandler = async (req: Request, res: Response
 // POST endpoint to create a project
 export const ProjectPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newProject = req.body;
+    const { title, description, repository, website } = req.body;
 
-    const sqlQuery = await query('projects').insert(newProject);
+    const sqlQuery = await query('projects')
+      .insert({ title, description, repository, website });
     const insertedProjectId = sqlQuery[0];
 
     const createdProject = await query('projects')

@@ -20,8 +20,9 @@ export const ApplicationGetById: RequestHandler = async (req: Request, res: Resp
 // POST endpoint to create an application
 export const ApplicationPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newApplication = req.body;
-    const sqlQuery = await query('applications').insert(newApplication);
+    const { status, company_id, professional_id } = req.body;
+    const sqlQuery = await query('applications')
+    .insert({ status, company_id, professional_id });
 
     const applicationId = sqlQuery[0];
     const createdApplication = await query('applications')

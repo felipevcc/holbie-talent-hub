@@ -30,9 +30,10 @@ export const SkillGetById: RequestHandler = async (req: Request, res: Response) 
 // POST endpoint to create a skill
 export const SkillPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newSkill = req.body;
+    const { name, description } = req.body;
 
-    const sqlQuery = await query('skills').insert(newSkill);
+    const sqlQuery = await query('skills')
+      .insert({ name, description });
     const insertedSkillId = sqlQuery[0];
 
     const createdSkill = await query('skills')
@@ -113,9 +114,10 @@ export const ProfileSkillsGet: RequestHandler = async (req: Request, res: Respon
 // POST endpoint to create a professional profile's skill
 export const ProfileSkillPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newProfileSkill = req.body;
+    const { profile_id, skill_id, proficiency_level } = req.body;
 
-    const sqlQuery = await query('professional_skills').insert(newProfileSkill);
+    const sqlQuery = await query('professional_skills')
+      .insert({ profile_id, skill_id, proficiency_level });
     const insertedSkillId = sqlQuery[0];
 
     const createdSkill = await query('professional_skills')
@@ -151,14 +153,26 @@ export const ProjectSkillsGet: RequestHandler = async (req: Request, res: Respon
 // POST endpoint to create a project's skill
 export const ProjectSkillPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newProjectSkill = req.body;
+    const { project_id, skill_id } = req.body;
 
-    const sqlQuery = await query('project_skills').insert(newProjectSkill);
+    const sqlQuery = await query('project_skills')
+      .insert({ project_id, skill_id });
     const insertedSkillId = sqlQuery[0];
 
     const createdSkill = await query('project_skills')
       .where('skill_id', insertedSkillId)
       .first() as Skill;
+
+    // Create skill in all collaborator profiles when adding a new project skill
+    const collaboratorsIds = await query('professional_profiles_projects')
+      .select('profile_id')
+      .where('project_id', project_id) as number[];
+    for (const collaboratorId of collaboratorsIds) {
+      await query('professional_skills')
+        .insert({ profile_id: collaboratorId, skill_id })
+        .onConflict(['profile_id', 'skill_id'])
+        .ignore();
+    }
 
     res.status(201).json(createdSkill);
   } catch (error) {

@@ -26,9 +26,10 @@ export const UserGetById: RequestHandler = async (req: Request, res: Response) =
 // POST endpoint to create an user
 export const UserPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newUser = req.body;
+    const { first_name, last_name, email, password_hash, role, company_id = null, professional_id = null } = req.body;
 
-    const sqlQuery = await query('users').insert(newUser);
+    const sqlQuery = await query('users')
+      .insert({ first_name, last_name, email, password_hash, role, company_id, professional_id });
     const insertedUserId = sqlQuery[0];
 
     const createdUser = await query('users')

@@ -32,8 +32,9 @@ export const ProfileGetById: RequestHandler = async (req: Request, res: Response
 // POST endpoint to create a company profile
 export const ProfilePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newCompany = req.body;
-    const sqlQuery = await query('company_profiles').insert(newCompany);
+    const { company_name, industry, about_us, location, website } = req.body;
+    const sqlQuery = await query('company_profiles')
+      .insert({ company_name, industry, about_us, location, website });
 
     const ProfileId = sqlQuery[0];
     const createdCompany = await query('company_profiles')
@@ -114,12 +115,12 @@ export const FavoriteProfilesGet: RequestHandler = async (req: Request, res: Res
 // POST endpoint to create a favorite professional profile
 export const FavoriteProfilePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newFavoriteProfile = req.body;
-    await query('favorite_profiles').insert(newFavoriteProfile);
+    const { company_id, profile_id } = req.body;
+    await query('favorite_profiles').insert({ company_id, profile_id });
 
     const createdFavoriteProfile = await query('favorite_profiles')
-      .where('company_id', newFavoriteProfile.company_id)
-      .andWhere('profile_id', newFavoriteProfile.profile_id)
+      .where('company_id', company_id)
+      .andWhere('profile_id', profile_id)
       .first() as FavoriteProfile;
 
     res.status(201).json(createdFavoriteProfile);
@@ -171,12 +172,13 @@ export const EmployeesGet: RequestHandler = async (req: Request, res: Response) 
 // POST endpoint to create a employee
 export const EmployeePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newEmployee = req.body;
-    await query('company_professional_profiles').insert(newEmployee);
+    const { company_id, professional_profile_id } = req.body;
+    await query('company_professional_profiles')
+      .insert({ company_id, professional_profile_id });
 
     const createdEmployee = await query('company_professional_profiles')
-      .where('company_id', newEmployee.company_id)
-      .andWhere('professional_profile_id', newEmployee.profile_id)
+      .where('company_id', company_id)
+      .andWhere('professional_profile_id', professional_profile_id)
       .first() as FavoriteProfile;
 
     res.status(201).json(createdEmployee);

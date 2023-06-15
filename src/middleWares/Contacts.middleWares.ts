@@ -38,9 +38,10 @@ export const ProfessionalContactGetById: RequestHandler = async (req: Request, r
 // POST endpoint to create a professional profile contact
 export const ProfessionalContactPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newContact = req.body;
+    const { contact_type, contact_info, profile_id } = req.body;
 
-    const sqlQuery = await query('professional_profile_contacts').insert(newContact);
+    const sqlQuery = await query('professional_profile_contacts')
+      .insert({ contact_type, contact_info, profile_id });
     const insertedContactId = sqlQuery[0];
 
     const createdContact = await query('professional_profile_contacts')
@@ -135,9 +136,10 @@ export const CompanyContactGetById: RequestHandler = async (req: Request, res: R
 // POST endpoint to create a company profile contact
 export const CompanyContactPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newContact = req.body;
+    const { contact_type, contact_info, company_id } = req.body;
 
-    const sqlQuery = await query('company_contacts').insert(newContact);
+    const sqlQuery = await query('company_contacts')
+      .insert({ contact_type, contact_info, company_id });
     const insertedContactId = sqlQuery[0];
 
     const createdContact = await query('company_contacts')
@@ -232,9 +234,10 @@ export const ProjectContactGetById: RequestHandler = async (req: Request, res: R
 // POST endpoint to create a project contact
 export const ProjectContactPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newContact = req.body;
+    const { contact_type, contact_info, project_id } = req.body;
 
-    const sqlQuery = await query('project_contacts').insert(newContact);
+    const sqlQuery = await query('project_contacts')
+      .insert({ contact_type, contact_info, project_id });
     const insertedContactId = sqlQuery[0];
 
     const createdContact = await query('project_contacts')

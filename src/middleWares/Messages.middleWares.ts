@@ -107,8 +107,9 @@ export const UserReceivedMessagesGet: RequestHandler = async (req: Request, res:
 // POST endpoint to create a message
 export const MessagePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newMessage = req.body;
-    const sqlQuery = await query('messages').insert(newMessage);
+    const { subject, content, type_connection, sender_id, receiver_id, application_id = null, project_id = null } = req.body;
+    const sqlQuery = await query('messages')
+      .insert({ subject, content, type_connection, sender_id, receiver_id, application_id, project_id });
 
     const messageId = sqlQuery[0];
     const createdMessage = await query('messages')

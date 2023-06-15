@@ -33,9 +33,10 @@ export const ProfileGetById: RequestHandler = async (req: Request, res: Response
 // POST endpoint to create a profile
 export const ProfilePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newProfile = req.body;
+    const { is_user, headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max } = req.body;
 
-    const sqlQuery = await query('professional_profiles').insert(newProfile);
+    const sqlQuery = await query('professional_profiles')
+      .insert({ is_user, headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max });
     const insertedProfileId = sqlQuery[0];
 
     const createdProfile = await query('professional_profiles')
@@ -130,9 +131,10 @@ export const EducationGetById: RequestHandler = async (req: Request, res: Respon
 // POST endpoint to create an education
 export const EducationPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newEducation = req.body;
+    const { institution, degree, field_of_study, profile_id } = req.body;
 
-    const sqlQuery = await query('education').insert(newEducation);
+    const sqlQuery = await query('education')
+      .insert({ institution, degree, field_of_study, profile_id });
     const insertedEducationId = sqlQuery[0];
 
     const createdEducation = await query('education')
@@ -226,9 +228,10 @@ export const ExperienceGetById: RequestHandler = async (req: Request, res: Respo
 // POST endpoint to create an experience
 export const ExperiencePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newExperience = req.body;
+    const { company_name, position, description, start_date, end_date, profile_id } = req.body;
 
-    const sqlQuery = await query('experience').insert(newExperience);
+    const sqlQuery = await query('experience')
+      .insert({ company_name, position, description, start_date, end_date, profile_id});
     const insertedExperienceId = sqlQuery[0];
 
     const createdExperience = await query('experience')
@@ -308,12 +311,12 @@ export const JobGet: RequestHandler = async (req: Request, res: Response) => {
 // POST endpoint to create a job
 export const JobPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newJob = req.body;
-    await query('company_professional_profiles').insert(newJob);
+    const { company_id, professional_profile_id } = req.body;
+    await query('company_professional_profiles').insert({ company_id, professional_profile_id });
 
     const createdJob = await query('company_professional_profiles')
-      .where('professional_profile_id', newJob.profile_id)
-      .andWhere('company_id', newJob.company_id)
+      .where('professional_profile_id', professional_profile_id)
+      .andWhere('company_id', company_id)
       .first() as CompanyProfile;
 
     res.status(201).json(createdJob);
@@ -342,7 +345,7 @@ export const ProfileApplicationsGet: RequestHandler = async (req: Request, res: 
 };
 
 // ===============================================================
-// =================== PROJECTS =====================
+// =============== PROFESSIONAL_PROFILES - PROJECTS ==============
 // ===============================================================
 
 // Returns all the profile projects with the given profile_id
@@ -362,12 +365,13 @@ export const ProjectsGet: RequestHandler = async (req: Request, res: Response) =
 // POST endpoint to create a project relationship
 export const ProjectPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newProject = req.body;
-    await query('professional_profiles_projects').insert(newProject);
+    const { profile_id, project_id } = req.body;
+    await query('professional_profiles_projects')
+      .insert({ profile_id, project_id });
 
     const createdProject = await query('professional_profiles_projects')
-      .where('profile_id', newProject.profile_id)
-      .andWhere('project_id', newProject.project_id)
+      .where('profile_id', profile_id)
+      .andWhere('project_id', project_id)
       .first() as Project;
 
     res.status(201).json(createdProject);
