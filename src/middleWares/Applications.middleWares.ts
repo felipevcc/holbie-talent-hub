@@ -2,12 +2,6 @@ import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { Application } from "../types/applications.d";
 
-// Returns all the applications
-export const ApplicationsGet: RequestHandler = async (_req: Request, res: Response) => {
-  const sqlQuery = await query('applications').select('*');
-  res.json(sqlQuery);
-};
-
 // Returns the application with the given application_id
 export const ApplicationGetById: RequestHandler = async (req: Request, res: Response) => {
   try {
@@ -45,21 +39,20 @@ export const ApplicationPost: RequestHandler = async (req: Request, res: Respons
 export const ApplicationPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { application_id } = req.params;
-    const updatedApplication = req.body;
+    const { status } = req.body;
 
     const sqlQuery = await query('applications')
       .where('application_id', application_id)
-      .update('id', updatedApplication);
+      .update({ status });
 
-    const applicationId = sqlQuery[0];
-    if (!applicationId) {
+    const affectedRows = sqlQuery;
+    if (!affectedRows) {
       res.status(404).json({ message: 'Application id not found' });
     } else {
-      const createdApplication = await query('applications')
-        .select('*')
-        .where('application_id', applicationId)
+      const updatedApplication = await query('applications')
+        .where('application_id', application_id)
         .first() as Application;
-      res.status(201).json(createdApplication);
+      res.json(updatedApplication);
     }
   } catch (error) {
     console.log('Failed to update application', error);

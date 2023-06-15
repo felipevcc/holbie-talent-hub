@@ -50,11 +50,11 @@ export const SkillPost: RequestHandler = async (req: Request, res: Response) => 
 export const SkillPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { skill_id } = req.params;
-    const updatedFields = req.body;
+    const { name, description } = req.body;
 
     const sqlQuery = await query('skills')
       .where('skill_id', skill_id)
-      .update(updatedFields);
+      .update({ name, description });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {

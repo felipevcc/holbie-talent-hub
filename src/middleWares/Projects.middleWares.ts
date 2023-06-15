@@ -1,6 +1,11 @@
 import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { Project } from "../types/projects.d";
+import { ProfessionalProfile } from "../types/professional_profiles.d";
+
+// ===============================================================
+// ========================== PROJECTS ===========================
+// ===============================================================
 
 // Returns all the projects
 export const ProjectsGet: RequestHandler = async (_req: Request, res: Response) => {
@@ -11,12 +16,12 @@ export const ProjectsGet: RequestHandler = async (_req: Request, res: Response) 
 // Returns the project with the given project_id
 export const ProjectGetById: RequestHandler = async (req: Request, res: Response) => {
   try {
-  const { project_id } = req.params;
-  const sqlQuery = await query('projects')
-    .select('*')
-    .where('id', project_id)
-    .first() as Project;
-  res.json(sqlQuery);
+    const { project_id } = req.params;
+    const sqlQuery = await query('projects')
+      .select('*')
+      .where('id', project_id)
+      .first() as Project;
+    res.json(sqlQuery);
   } catch (error) {
     console.log('Failed to get project', error);
     res.status(500).json({ message: 'Project id not found' });
@@ -46,11 +51,11 @@ export const ProjectPost: RequestHandler = async (req: Request, res: Response) =
 export const ProjectPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { project_id } = req.params;
-    const updatedFields = req.body;
+    const { title, description, repository, website, start_date, end_date } = req.body;
 
     const sqlQuery = await query('projects')
       .where('project_id', project_id)
-      .update(updatedFields);
+      .update({ title, description, repository, website, start_date, end_date });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -84,5 +89,23 @@ export const ProjectDelete: RequestHandler = async (req: Request, res: Response)
   } catch (error) {
     console.error('Failed to delete project:', error);
     res.status(500).json({ message: 'Failed to delete project' });
+  }
+};
+
+// ===============================================================
+// =================== PROJECT COLLABORATORS =====================
+// ===============================================================
+
+// Returns all the collaborators of the project with the given project_id
+export const ProjectCollaboratorsGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { project_id } = req.params;
+    const sqlQuery = await query('professional_profiles_projects')
+      .select('profile_id')
+      .where('project_id', project_id) as ProfessionalProfile[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.log('Failed to get collaborators', error);
+    res.status(500).json({ message: 'Project id not found' });
   }
 };

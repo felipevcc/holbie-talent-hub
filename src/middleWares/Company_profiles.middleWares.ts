@@ -51,11 +51,11 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
 export const ProfilePut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
-    const updateCompany = req.body;
+    const { company_name, industry, about_us, location, website } = req.body;
 
     const sqlQuery = await query('company_profiles')
-      .update(updateCompany)
-      .where('profile_id', profile_id);
+      .where('profile_id', profile_id)
+      .update({ company_name, industry, about_us, location, website });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -187,7 +187,7 @@ export const EmployeePost: RequestHandler = async (req: Request, res: Response) 
 };
 
 // ===============================================================
-// ==================== COMPANY - APPLICATIONS ===================
+// ===================== COMPANY - APPLICATIONS ==================
 // ===============================================================
 
 // Returns the company applications with the given company_id

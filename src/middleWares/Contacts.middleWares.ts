@@ -58,11 +58,11 @@ export const ProfessionalContactPost: RequestHandler = async (req: Request, res:
 export const ProfessionalContactPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { contact_id } = req.params;
-    const updatedFields = req.body;
+    const { contact_type, contact_info } = req.body;
 
     const sqlQuery = await query('professional_profile_contacts')
       .where('contact_id', contact_id)
-      .update(updatedFields);
+      .update({ contact_type, contact_info });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -155,11 +155,11 @@ export const CompanyContactPost: RequestHandler = async (req: Request, res: Resp
 export const CompanyContactPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { contact_id } = req.params;
-    const updatedFields = req.body;
+    const { contact_type, contact_info } = req.body;
 
     const sqlQuery = await query('company_contacts')
       .where('contact_id', contact_id)
-      .update(updatedFields);
+      .update({ contact_type, contact_info });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -252,11 +252,11 @@ export const ProjectContactPost: RequestHandler = async (req: Request, res: Resp
 export const ProjectContactPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { contact_id } = req.params;
-    const updatedFields = req.body;
+    const { contact_type, contact_info } = req.body;
 
     const sqlQuery = await query('project_contacts')
       .where('contact_id', contact_id)
-      .update(updatedFields);
+      .update({ contact_type, contact_info });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {

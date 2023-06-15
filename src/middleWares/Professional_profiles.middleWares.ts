@@ -3,6 +3,7 @@ import { knexInstance as query } from "../services/ConnetDB.services";
 import { ProfessionalProfile, Education, Experience } from "../types/professional_profiles.d";
 import { CompanyProfile } from "../types/company_profiles.d";
 import { Application } from "../types/applications.d";
+import { Project } from "../types/projects.d";
 
 // ===============================================================
 // ==================== PROFESSIONAL_PROFILES ====================
@@ -52,11 +53,11 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
 export const ProfilePut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
-    const updatedFields = req.body;
+    const { headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max } = req.body;
 
     const sqlQuery = await query('professional_profiles')
       .where('profile_id', profile_id)
-      .update(updatedFields);
+      .update({ headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -148,11 +149,11 @@ export const EducationPost: RequestHandler = async (req: Request, res: Response)
 export const EducationPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { education_id } = req.params;
-    const updatedFields = req.body;
+    const { institution, degree, field_of_study, start_date, end_date } = req.body;
 
     const sqlQuery = await query('education')
       .where('education_id', education_id)
-      .update(updatedFields);
+      .update({ institution, degree, field_of_study, start_date, end_date });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -245,11 +246,11 @@ export const ExperiencePost: RequestHandler = async (req: Request, res: Response
 export const ExperiencePut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { experience_id } = req.params;
-    const updatedFields = req.body;
+    const { company_name, description, start_date, end_date } = req.body;
 
     const sqlQuery = await query('experience')
       .where('experience_id', experience_id)
-      .update(updatedFields);
+      .update({ company_name, description, start_date, end_date });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -337,5 +338,41 @@ export const ProfileApplicationsGet: RequestHandler = async (req: Request, res: 
   } catch (error) {
     console.error('Failed to get applications' + error);
     res.status(404).json({ message: 'Profile id not found' });
+  }
+};
+
+// ===============================================================
+// =================== PROJECTS =====================
+// ===============================================================
+
+// Returns all the profile projects with the given profile_id
+export const ProjectsGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { profile_id } = req.params;
+    const sqlQuery = await query('professional_profiles_projects')
+      .select('project_id')
+      .where('profile_id', profile_id) as Project[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.log('Failed to get projects', error);
+    res.status(500).json({ message: 'Profile id not found' });
+  }
+};
+
+// POST endpoint to create a project relationship
+export const ProjectPost: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const newProject = req.body;
+    await query('professional_profiles_projects').insert(newProject);
+
+    const createdProject = await query('professional_profiles_projects')
+      .where('profile_id', newProject.profile_id)
+      .andWhere('project_id', newProject.project_id)
+      .first() as Project;
+
+    res.status(201).json(createdProject);
+  } catch(error) {
+    console.log('Failed to create relationship' ,error);
+    res.status(500).json({message: 'Failed to create relationship'});
   }
 };

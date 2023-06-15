@@ -46,11 +46,11 @@ export const UserPost: RequestHandler = async (req: Request, res: Response) => {
 export const UserPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
-    const updatedFields = req.body;
+    const { first_name, last_name, email, password_hash, role } = req.body; // the role and id can be modified
 
     const sqlQuery = await query('users')
       .where('user_id', user_id)
-      .update(updatedFields);
+      .update({ first_name, last_name, email, password_hash, role });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
