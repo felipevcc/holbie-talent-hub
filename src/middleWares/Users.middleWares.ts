@@ -1,6 +1,7 @@
 import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { User } from "../types/users.d";
+import bcrypt from 'bcrypt';
 
 // Returns all the users
 export const UsersGet: RequestHandler = async (_req: Request, res: Response) => {
@@ -28,8 +29,12 @@ export const UserPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { first_name, last_name, email, password_hash, role, company_id = null, professional_id = null } = req.body;
 
+    // Number of salt rounds (higher is safer but slower)
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password_hash, saltRounds);
+
     const sqlQuery = await query('users')
-      .insert({ first_name, last_name, email, password_hash, role, company_id, professional_id });
+      .insert({ first_name, last_name, email, password_hash: hashedPassword, role, company_id, professional_id });
     const insertedUserId = sqlQuery[0];
 
     const createdUser = await query('users')
@@ -49,9 +54,20 @@ export const UserPut: RequestHandler = async (req: Request, res: Response) => {
     const { user_id } = req.params;
     const { first_name, last_name, email, password_hash, role } = req.body; // the role and id can be modified
 
+    let hashedPassword: string | undefined = undefined;
+    if (password_hash !== undefined) {
+      const saltRounds = 10;
+      hashedPassword = await bcrypt.hash(password_hash, saltRounds);
+    }
+
+    const updateData: Partial<User> = { first_name, last_name, email, role };
+    if (hashedPassword !== undefined) {
+      updateData.password_hash = hashedPassword;
+    }
+
     const sqlQuery = await query('users')
       .where('user_id', user_id)
-      .update({ first_name, last_name, email, password_hash, role });
+      .update(updateData);
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {

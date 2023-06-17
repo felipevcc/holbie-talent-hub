@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  // Application
   ApplicationGetById,
   ApplicationPost,
   ApplicationPut,
@@ -8,6 +9,7 @@ import {
 
 const router = Router();
 
+// Application
 router.get('/applications/:application_id', ApplicationGetById);
 router.post('/applications', ApplicationPost);
 router.put('/applications/:application_id', ApplicationPut);

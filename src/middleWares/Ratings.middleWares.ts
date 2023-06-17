@@ -84,7 +84,7 @@ export const RatingPost: RequestHandler = async (req: Request, res: Response) =>
       .select('skill_id, proficiency_level')
       .where('profile_id', profileReceiverId);
 
-    for (const skill of profileSkills) {
+    for (let skill of profileSkills) {
       let newProficiencyLevel;
       if (positive_rating) {
         newProficiencyLevel = skill.proficiency_level + 1;
@@ -210,7 +210,7 @@ export const CompanyRatingPost: RequestHandler = async (req: Request, res: Respo
       .andWhere('professional_profiles_projects.project_id', project_id);
 
     // Updating the skills of project contributors
-    for (const profileSkill of profileSkills) {
+    for (let profileSkill of profileSkills) {
       let newProficiencyLevel;
       if (positive_rating) {
         newProficiencyLevel = profileSkill.proficiency_level + 1;
@@ -235,8 +235,6 @@ export const CompanyRatingPost: RequestHandler = async (req: Request, res: Respo
       }
     }
     res.status(201).json(createdRating);
-    //res.json(sqlQuery);
-    //res.json(projectSkills);
   } catch (error) {
     console.log('Failed to create rating', error);
     res.status(500).json({ message: 'Failed to create rating' });

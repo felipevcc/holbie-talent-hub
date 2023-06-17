@@ -1,8 +1,15 @@
 import { Router } from "express";
-import { UsersGet, UserGetById, UserPost, UserPut, UserDelete } from "../middleWares/Users.middleWares";
+import { 
+  // Users
+  UsersGet,
+  UserGetById,
+  UserPost,
+  UserPut,
+  UserDelete } from "../middleWares/Users.middleWares";
 
 const router = Router();
 
+// Users
 router.get('/users', UsersGet);
 router.get('/users/:user_id', UserGetById);
 router.post('/users', UserPost);

@@ -3,7 +3,6 @@ import { knexInstance as query } from "../services/ConnetDB.services";
 import { ProfessionalProfile, Education, Experience } from "../types/professional_profiles.d";
 import { CompanyProfile } from "../types/company_profiles.d";
 import { Application } from "../types/applications.d";
-import { Project } from "../types/projects.d";
 
 // ===============================================================
 // ==================== PROFESSIONAL_PROFILES ====================
@@ -341,42 +340,5 @@ export const ProfileApplicationsGet: RequestHandler = async (req: Request, res: 
   } catch (error) {
     console.error('Failed to get applications' + error);
     res.status(404).json({ message: 'Profile id not found' });
-  }
-};
-
-// ===============================================================
-// =============== PROFESSIONAL_PROFILES - PROJECTS ==============
-// ===============================================================
-
-// Returns all the profile projects with the given profile_id
-export const ProjectsGet: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const { profile_id } = req.params;
-    const sqlQuery = await query('professional_profiles_projects')
-      .select('project_id')
-      .where('profile_id', profile_id) as Project[];
-    res.json(sqlQuery);
-  } catch (error) {
-    console.log('Failed to get projects', error);
-    res.status(500).json({ message: 'Profile id not found' });
-  }
-};
-
-// POST endpoint to create a project relationship
-export const ProjectPost: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const { profile_id, project_id } = req.body;
-    await query('professional_profiles_projects')
-      .insert({ profile_id, project_id });
-
-    const createdProject = await query('professional_profiles_projects')
-      .where('profile_id', profile_id)
-      .andWhere('project_id', project_id)
-      .first() as Project;
-
-    res.status(201).json(createdProject);
-  } catch(error) {
-    console.log('Failed to create relationship' ,error);
-    res.status(500).json({message: 'Failed to create relationship'});
   }
 };

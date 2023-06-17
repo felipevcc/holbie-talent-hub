@@ -1,59 +1,58 @@
 import { Router } from "express";
 import {
+  // ProfessionalProfiles
   ProfilesGet,
   ProfileGetById,
   ProfilePost,
   ProfilePut,
   ProfileDelete,
+  // ProfileEducation
   ProfileEducationGet,
   EducationGetById,
   EducationPost,
   EducationPut,
   EducationDelete,
+  // ProfileExperience
   ProfileExperienceGet,
   ExperienceGetById,
   ExperiencePost,
   ExperiencePut,
   ExperienceDelete,
+  // Jobs
   JobGet,
   JobPost,
-  ProfileApplicationsGet,
-  ProjectsGet,
-  ProjectPost
+  // ProfileApplications
+  ProfileApplicationsGet
 } from "../middleWares/Professional_profiles.middleWares";
 
 const router = Router();
 
-// professional_profiles
+// ProfessionalProfiles
 router.get('/professional_profiles', ProfilesGet);
 router.get('/professional_profiles/:profile_id', ProfileGetById);
 router.post('/professional_profiles', ProfilePost);
 router.put('/professional_profiles/:profile_id', ProfilePut);
 router.delete('/professional_profiles/:profile_id', ProfileDelete);
 
-// education
+// ProfessionalEducation
 router.get('/professional_profiles/:profile_id/education', ProfileEducationGet);
 router.get('/education/:education_id', EducationGetById);
 router.post('/professional_profiles/:profile_id/education', EducationPost);
 router.put('/education/:education_id', EducationPut);
 router.delete('/education/:education_id', EducationDelete);
 
-// experience
+// ProfessionalExperience
 router.get('/professional_profiles/:profile_id/experience', ProfileExperienceGet);
 router.get('/experience/:experience_id', ExperienceGetById);
 router.post('/professional_profiles/:profile_id/experience', ExperiencePost);
 router.put('/experience/:experience_id', ExperiencePut);
 router.delete('/experience/:experience_id', ExperienceDelete);
 
-// jobs
+// Jobs
 router.get('/professional_profiles/:profile_id/company_profiles', JobGet);
 router.post('/professional_profiles/:profile_id/company_profiles', JobPost);
 
-// applications
+// ProfileApplications
 router.get('/professional_profiles/:profile_id/applications', ProfileApplicationsGet);
-
-// projects
-router.get('/professional_profiles/<profile_id>/projects', ProjectsGet);
-router.post('/professional_profiles/<profile_id>/project_relationship', ProjectPost);
 
 export default router;
