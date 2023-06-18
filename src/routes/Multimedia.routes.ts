@@ -36,9 +36,9 @@ router.put('/professional_multimedia/:media_id/', ProfessionalMultimediaPut);
 router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelete);
 
 // CompanyMultimedia
-router.get('/company/:profile_id/multimedia', CompanyMultimediaGet);
+router.get('/company_profiles/:profile_id/multimedia', CompanyMultimediaGet);
 router.get('/company_multimedia/:media_id', CompanyMultimediaGetById);
-router.post('/company/:profile_id/multimedia', CompanyMultimediaPost);
+router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
 router.put('/company_multimedia/:media_id', CompanyMultimediaPut);
 router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
 

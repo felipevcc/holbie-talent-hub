@@ -27,10 +27,10 @@ export const ProjectGetById: RequestHandler = async (req: Request, res: Response
 export const ProjectPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params
-    const { title, description = null, repository = null, website = null } = req.body;
+    const { title, description = null, repository = null, website = null, start_date, end_date = null } = req.body;
 
     const sqlQuery = await query('projects')
-      .insert({ title, description, repository, website });
+      .insert({ title, description, repository, website, start_date, end_date });
 
     const insertedProjectId = sqlQuery[0];
     const createdProject = await query('projects')
@@ -102,8 +102,10 @@ export const ProjectCollaboratorsGet: RequestHandler = async (req: Request, res:
   try {
     const { project_id } = req.params;
     const sqlQuery = await query('professional_profiles_projects')
-      .select('profile_id')
-      .where('project_id', project_id) as ProfessionalProfile[];
+      .select('professional_profiles.profile_id', 'users.first_name', 'professional_profiles.headline')
+      .join('professional_profiles', 'professional_profiles.profile_id', 'professional_profiles_projects.profile_id')
+      .join('users', 'users.professional_id', 'professional_profiles_projects.profile_id')
+      .where('professional_profiles_projects.project_id', project_id) as ProfessionalProfile[];
     res.json(sqlQuery);
   } catch (error) {
     console.log('Failed to get collaborators', error);
@@ -114,8 +116,8 @@ export const ProjectCollaboratorsGet: RequestHandler = async (req: Request, res:
 // POST endpoint to create a project relationship (collaborators)
 export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { profile_id } = req.params;
-    const { project_id } = req.body;
+    const { project_id } = req.params;
+    const { profile_id } = req.body;
     await query('professional_profiles_projects')
       .insert({ profile_id, project_id });
 
@@ -127,7 +129,7 @@ export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res
     // Create all project skills in the profile of the new collaborator
     
     // Project skills
-    const projectSkills = await query('projects_skills')
+    const projectSkills = await query('project_skills')
       .select('skill_id')
       .where('project_id', project_id);
     // Stop if no skills
@@ -205,8 +207,9 @@ export const ProfileProjectsGet: RequestHandler = async (req: Request, res: Resp
   try {
     const { profile_id } = req.params;
     const sqlQuery = await query('professional_profiles_projects')
-      .select('project_id')
-      .where('profile_id', profile_id) as Project[];
+      .select('projects.*')
+      .join('projects', 'projects.project_id', 'professional_profiles_projects.project_id')
+      .where('professional_profiles_projects.profile_id', profile_id) as Project[];
     res.json(sqlQuery);
   } catch (error) {
     console.log('Failed to get projects', error);

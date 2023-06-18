@@ -2,7 +2,6 @@ import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { ProfessionalProfile, Education, Experience } from "../types/professional_profiles.d";
 import { CompanyProfile } from "../types/company_profiles.d";
-import { Application } from "../types/applications.d";
 
 // ===============================================================
 // ==================== PROFESSIONAL_PROFILES ====================
@@ -130,10 +129,11 @@ export const EducationGetById: RequestHandler = async (req: Request, res: Respon
 // POST endpoint to create an education
 export const EducationPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { institution, degree, field_of_study, profile_id } = req.body;
+    const { profile_id } = req.params;
+    const { institution, degree, field_of_study, start_date, end_date = null } = req.body;
 
     const sqlQuery = await query('education')
-      .insert({ institution, degree, field_of_study, profile_id });
+      .insert({ institution, degree, field_of_study, start_date, end_date, profile_id });
     const insertedEducationId = sqlQuery[0];
 
     const createdEducation = await query('education')
@@ -227,7 +227,8 @@ export const ExperienceGetById: RequestHandler = async (req: Request, res: Respo
 // POST endpoint to create an experience
 export const ExperiencePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { company_name, position, description, start_date, end_date, profile_id } = req.body;
+    const { profile_id } = req.params;
+    const { company_name, position, description, start_date, end_date = null } = req.body;
 
     const sqlQuery = await query('experience')
       .insert({ company_name, position, description, start_date, end_date, profile_id});
@@ -298,47 +299,12 @@ export const JobGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
     const sqlQuery = await query('company_professional_profiles')
-      .select('company_id')
-      .where('professional_profile_id', profile_id) as CompanyProfile[];
+      .select('company_professional_profiles.company_id', 'company_profiles.company_name')
+      .join('company_profiles', 'company_profiles.profile_id', 'company_professional_profiles.company_id')
+      .where('company_professional_profiles.professional_profile_id', profile_id) as CompanyProfile[];
     res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get jobs' + error);
-    res.status(404).json({ message: 'Profile id not found' });
-  }
-};
-
-// POST endpoint to create a job
-export const JobPost: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const { company_id, professional_profile_id } = req.body;
-    await query('company_professional_profiles').insert({ company_id, professional_profile_id });
-
-    const createdJob = await query('company_professional_profiles')
-      .where('professional_profile_id', professional_profile_id)
-      .andWhere('company_id', company_id)
-      .first() as CompanyProfile;
-
-    res.status(201).json(createdJob);
-  } catch(error) {
-    console.log('Failed to create job' ,error);
-    res.status(500).json({message: 'Failed to create job'});
-  }
-};
-
-// ===============================================================
-// ============= PROFESSIONAL_PROFILES - APPLICATIONS ============
-// ===============================================================
-
-// Returns the professional profiles applications with the given profile_id
-export const ProfileApplicationsGet: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const { profile_id } = req.params;
-    const sqlQuery = await query('applications')
-      .select('*')
-      .where('profile_id', profile_id) as Application[];
-    res.json(sqlQuery);
-  } catch (error) {
-    console.error('Failed to get applications' + error);
     res.status(404).json({ message: 'Profile id not found' });
   }
 };

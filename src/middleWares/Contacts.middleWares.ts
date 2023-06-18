@@ -34,11 +34,12 @@ export const ProfessionalContactGetById: RequestHandler = async (req: Request, r
     res.status(500).json({ message: 'Failed to get contact id' });
   }
 };
-
+//
 // POST endpoint to create a professional profile contact
 export const ProfessionalContactPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { contact_type, contact_info, profile_id } = req.body;
+    const { profile_id } = req.params;
+    const { contact_type, contact_info } = req.body;
 
     const sqlQuery = await query('professional_profile_contacts')
       .insert({ contact_type, contact_info, profile_id });
@@ -107,10 +108,10 @@ export const ProfessionalContactDelete: RequestHandler = async (req: Request, re
 // Returns all the company profile contacts with the given company_id
 export const CompanyContactsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { company_id } = req.params;
+    const { profile_id } = req.params;
     const sqlQuery = await query('company_contacts')
       .select('*')
-      .where('company_id', company_id) as CompanyContact[];
+      .where('company_id', profile_id) as CompanyContact[];
     res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get company contacts', error);
@@ -136,10 +137,11 @@ export const CompanyContactGetById: RequestHandler = async (req: Request, res: R
 // POST endpoint to create a company profile contact
 export const CompanyContactPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { contact_type, contact_info, company_id } = req.body;
+    const { profile_id } = req.params;
+    const { contact_type, contact_info } = req.body;
 
     const sqlQuery = await query('company_contacts')
-      .insert({ contact_type, contact_info, company_id });
+      .insert({ contact_type, contact_info, company_id: profile_id });
     const insertedContactId = sqlQuery[0];
 
     const createdContact = await query('company_contacts')
@@ -234,7 +236,8 @@ export const ProjectContactGetById: RequestHandler = async (req: Request, res: R
 // POST endpoint to create a project contact
 export const ProjectContactPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { contact_type, contact_info, project_id } = req.body;
+    const { project_id } = req.params;
+    const { contact_type, contact_info } = req.body;
 
     const sqlQuery = await query('project_contacts')
       .insert({ contact_type, contact_info, project_id });

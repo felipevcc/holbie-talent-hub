@@ -2,7 +2,6 @@ import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { CompanyProfile, FavoriteProfile } from "../types/company_profiles.d";
 import { ProfessionalProfile } from "../types/professional_profiles.d";
-import { Application } from "../types/applications.d";
 
 // ===============================================================
 // ====================== COMPANY_PROFILES =======================
@@ -103,8 +102,10 @@ export const FavoriteProfilesGet: RequestHandler = async (req: Request, res: Res
   try {
     const { company_id } = req.params;
     const sqlQuery = await query('favorite_profiles')
-      .select('profile_id')
-      .where('company_id', company_id) as FavoriteProfile[];
+      .select('favorite_profiles.profile_id', 'users.first_name', 'professional_profiles.headline')
+      .join('professional_profiles', 'professional_profiles.profile_id', 'favorite_profiles.profile_id')
+      .join('users', 'users.professional_id', 'favorite_profiles.profile_id')
+      .where('favorite_profiles.company_id', company_id) as FavoriteProfile[];
     res.json(sqlQuery); 
   } catch(error) {
     console.log('Failed to get favorite profiles' ,error);
@@ -115,7 +116,8 @@ export const FavoriteProfilesGet: RequestHandler = async (req: Request, res: Res
 // POST endpoint to create a favorite professional profile
 export const FavoriteProfilePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { company_id, profile_id } = req.body;
+    const { company_id } = req.params;
+    const { profile_id } = req.body;
     await query('favorite_profiles').insert({ company_id, profile_id });
 
     const createdFavoriteProfile = await query('favorite_profiles')
@@ -160,8 +162,10 @@ export const EmployeesGet: RequestHandler = async (req: Request, res: Response) 
   try {
     const { company_id } = req.params;
     const sqlQuery = await query('company_professional_profiles')
-      .select('professional_profile_id')
-      .where('company_id', company_id) as ProfessionalProfile[];
+      .select('company_professional_profiles.professional_profile_id', 'users.first_name', 'professional_profiles.headline')
+      .join('professional_profiles', 'professional_profiles.profile_id', 'company_professional_profiles.professional_profile_id')
+      .join('users', 'users.professional_id', 'company_professional_profiles.professional_profile_id')
+      .where('company_professional_profiles.company_id', company_id) as ProfessionalProfile[];
     res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get professional profiles' + error);
@@ -172,7 +176,8 @@ export const EmployeesGet: RequestHandler = async (req: Request, res: Response) 
 // POST endpoint to create a employee
 export const EmployeePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { company_id, professional_profile_id } = req.body;
+    const { company_id } = req.params;
+    const { professional_profile_id } = req.body;
     await query('company_professional_profiles')
       .insert({ company_id, professional_profile_id });
 
@@ -185,23 +190,5 @@ export const EmployeePost: RequestHandler = async (req: Request, res: Response) 
   } catch(error) {
     console.log('Failed to create employee' ,error);
     res.status(500).json({message: 'Failed to create employee'});
-  }
-};
-
-// ===============================================================
-// ===================== COMPANY - APPLICATIONS ==================
-// ===============================================================
-
-// Returns the company applications with the given company_id
-export const CompanyApplicationsGet: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const { company_id } = req.params;
-    const sqlQuery = await query('applications')
-      .select('*')
-      .where('company_id', company_id) as Application[];
-    res.json(sqlQuery);
-  } catch (error) {
-    console.error('Failed to get applications' + error);
-    res.status(404).json({ message: 'Company id not found' });
   }
 };

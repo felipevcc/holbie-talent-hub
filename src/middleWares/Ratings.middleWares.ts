@@ -25,10 +25,10 @@ export const RatingGetById: RequestHandler = async (req: Request, res: Response)
 export const RatingPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { rating_id } = req.params;
-    const { positive_rating, comment } = req.body;
+    const { comment } = req.body;
     const sqlQuery = await query('ratings')
       .where('rating_id', rating_id)
-      .update({ positive_rating, comment });
+      .update({ comment });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -81,11 +81,11 @@ export const RatingPost: RequestHandler = async (req: Request, res: Response) =>
       .select('professional_id')
       .where('user_id', receiver_id);
     const profileSkills = await query('professional_skills')
-      .select('skill_id, proficiency_level')
-      .where('profile_id', profileReceiverId);
+      .select('skill_id', 'proficiency_level')
+      .where('profile_id', profileReceiverId[0].professional_id);
 
     for (let skill of profileSkills) {
-      let newProficiencyLevel;
+      let newProficiencyLevel: number;
       if (positive_rating) {
         newProficiencyLevel = skill.proficiency_level + 1;
       } else {
@@ -98,7 +98,7 @@ export const RatingPost: RequestHandler = async (req: Request, res: Response) =>
       }
       await query('professional_skills')
         .where({
-          profile_id: profileReceiverId,
+          profile_id: profileReceiverId[0].professional_id,
           skill_id: skill.skill_id
         })
         .update({ proficiency_level: newProficiencyLevel });
@@ -148,10 +148,10 @@ export const ProjectRatingGetById: RequestHandler = async (req: Request, res: Re
 export const ProjectRatingPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { rating_id } = req.params;
-    const { positive_rating, comment } = req.body;
+    const { comment } = req.body;
     const sqlQuery = await query('project_ratings')
       .where('rating_id', rating_id)
-      .update({ positive_rating, comment });
+      .update({ comment });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {

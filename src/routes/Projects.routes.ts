@@ -26,11 +26,11 @@ router.put('/projects/:project_id', ProjectPut);
 router.delete('/projects/:project_id', ProjectDelete);
 
 // ProfessionalProfiles - Collaborators
-router.get('/projects/:project_id/professional_profiles',ProjectCollaboratorsGet);
+router.get('/projects/:project_id/collaborators',ProjectCollaboratorsGet);
+router.post('/projects/:project_id/collaborators', ProjectCollaboratorsPost);
 
 // Profiles - Projects
 router.get('/professional_profiles/:profile_id/projects', ProfileProjectsGet);
-router.post('/professional_profiles/:profile_id/project_relationship', ProjectCollaboratorsPost);
 
 // Capstones
 router.get('/company_profiles/:company_id/capstones', CompanyCapstonesGet);

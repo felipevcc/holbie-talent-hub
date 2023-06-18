@@ -115,9 +115,9 @@ export const ProfileSkillsGet: RequestHandler = async (req: Request, res: Respon
 export const ProfileSkillPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
-    const { skill_id, proficiency_level } = req.body;
+    const { skill_id } = req.body;
 
-    await query('professional_skills').insert({ profile_id, skill_id, proficiency_level });
+    await query('professional_skills').insert({ profile_id, skill_id });
 
     const createdSkill = await query('professional_skills')
       .where('profile_id', profile_id)

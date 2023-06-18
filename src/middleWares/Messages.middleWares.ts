@@ -6,33 +6,6 @@ import { Message } from "../types/messages.d";
 // ========================== MESSAGES ===========================
 // ===============================================================
 
-/*
-USERS-MESSAGES
-users/<user_id>/messages (GET)
-users/<user_id>/messages/sent (GET)
-users/<user_id>/messages/received (GET)
-
-messages (POST)
-messages/<message_id> (GET, DELETE, PUT)
-
-CREATE TABLE IF NOT EXISTS messages (
-  message_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  subject VARCHAR(255),
-  content TEXT,
-  type_connection ENUM('COMPANY', 'PROJECT') NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  sender_id BIGINT UNSIGNED NOT NULL,
-  receiver_id BIGINT UNSIGNED NOT NULL,
-  application_id BIGINT UNSIGNED NULL,
-  project_id BIGINT UNSIGNED NULL,
-  FOREIGN KEY (sender_id) REFERENCES users(user_id) ON DELETE CASCADE,
-  FOREIGN KEY (receiver_id) REFERENCES users(user_id) ON DELETE CASCADE,
-  FOREIGN KEY (application_id) REFERENCES applications(application_id) ON DELETE CASCADE,
-  FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
-);
-*/
-
 // Returns the message with the given message_id
 export const MessageGetById: RequestHandler = async (req: Request, res: Response) => {
   try {
@@ -107,9 +80,10 @@ export const UserReceivedMessagesGet: RequestHandler = async (req: Request, res:
 // POST endpoint to create a message
 export const MessagePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { subject, content, type_connection, sender_id, receiver_id, application_id = null, project_id = null } = req.body;
+    const { user_id } = req.params;
+    const { subject, content, type_connection , receiver_id, application_id = null, project_id = null } = req.body;
     const sqlQuery = await query('messages')
-      .insert({ subject, content, type_connection, sender_id, receiver_id, application_id, project_id });
+      .insert({ subject, content, type_connection, sender_id: user_id, receiver_id, application_id, project_id });
 
     const messageId = sqlQuery[0];
     const createdMessage = await query('messages')

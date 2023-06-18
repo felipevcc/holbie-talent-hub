@@ -2,6 +2,38 @@ import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { Application } from "../types/applications.d";
 
+// ===============================================================
+// ========================== APPLICATIONS =======================
+// ===============================================================
+
+// Returns the company applications with the given company_id
+export const CompanyApplicationsGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { company_id } = req.params;
+    const sqlQuery = await query('applications')
+      .select('*')
+      .where('company_id', company_id) as Application[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get applications' + error);
+    res.status(404).json({ message: 'Company id not found' });
+  }
+};
+
+// Returns the professional profiles applications with the given profile_id
+export const ProfileApplicationsGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { profile_id } = req.params;
+    const sqlQuery = await query('applications')
+      .select('*')
+      .where('professional_id', profile_id) as Application[];
+    res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get applications' + error);
+    res.status(404).json({ message: 'Profile id not found' });
+  }
+};
+
 // Returns the application with the given application_id
 export const ApplicationGetById: RequestHandler = async (req: Request, res: Response) => {
   try {

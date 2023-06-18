@@ -38,7 +38,8 @@ export const ProfessionalMultimediaGetById: RequestHandler = async (req: Request
 // POST endpoint to create a professional profile multimedia
 export const ProfessionalMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { media_type, file_path, profile_id } = req.body;
+    const { profile_id } = req.params;
+    const { media_type, file_path } = req.body;
 
     const sqlQuery = await query('professional_profile_multimedia')
       .insert({ media_type, file_path, profile_id });
@@ -107,10 +108,10 @@ export const ProfessionalMultimediaDelete: RequestHandler = async (req: Request,
 // Returns all the company profile multimedia with the given company_id
 export const CompanyMultimediaGet: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { company_id } = req.params;
+    const { profile_id } = req.params;
     const sqlQuery = await query('company_multimedia')
       .select('*')
-      .where('company_id', company_id) as CompanyMultimedia[];
+      .where('profile_id', profile_id) as CompanyMultimedia[];
     res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get company multimedia', error);
@@ -136,7 +137,8 @@ export const CompanyMultimediaGetById: RequestHandler = async (req: Request, res
 // POST endpoint to create company multimedia
 export const CompanyMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { media_type, file_path, profile_id } = req.body;
+    const { profile_id } = req.params;
+    const { media_type, file_path } = req.body;
 
     const sqlQuery = await query('company_multimedia')
       .insert({ media_type, file_path, profile_id });
@@ -157,11 +159,11 @@ export const CompanyMultimediaPost: RequestHandler = async (req: Request, res: R
 export const CompanyMultimediaPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { media_id } = req.params;
-    const { media_type, media_info } = req.body;
+    const { media_type, file_path } = req.body;
 
     const sqlQuery = await query('company_multimedia')
       .where('media_id', media_id)
-      .update({ media_type, media_info });
+      .update({ media_type, file_path });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -205,10 +207,10 @@ export const CompanyMediaDelete: RequestHandler = async (req: Request, res: Resp
 // Returns all the project multimedia with the given project_id
 export const ProjectMultimediaGet: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { media_id } = req.params;
-    const sqlQuery = await query('pproject_multimedia')
+    const { project_id } = req.params;
+    const sqlQuery = await query('project_multimedia')
       .select('*')
-      .where('media_id', media_id) as ProjectMultimedia[];
+      .where('project_id', project_id) as ProjectMultimedia[];
     res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get project multimedia', error);
@@ -234,7 +236,8 @@ export const ProjectMultimediaGetById: RequestHandler = async (req: Request, res
 // POST endpoint to create a project multimedia
 export const ProjectMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { media_type, file_path, project_id } = req.body;
+    const { project_id } = req.params;
+    const { media_type, file_path } = req.body;
 
     const sqlQuery = await query('project_multimedia')
       .insert({ media_type, file_path, project_id });
@@ -303,10 +306,10 @@ export const ProjectMultimediaDelete: RequestHandler = async (req: Request, res:
 // Returns all the education multimedia with the given education_id
 export const EducationMultimediaGet: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { media_id } = req.params;
+    const { education_id } = req.params;
     const sqlQuery = await query('education_multimedia')
       .select('*')
-      .where('media_id', media_id) as EducationMultimedia[];
+      .where('education_id', education_id) as EducationMultimedia[];
     res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get education multimedia', error);
@@ -332,7 +335,8 @@ export const EducationMultimediaGetById: RequestHandler = async (req: Request, r
 // POST endpoint to create a education multimedia
 export const EducationMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { media_type, file_path, education_id } = req.body;
+    const { education_id } = req.params;
+    const { media_type, file_path } = req.body;
 
     const sqlQuery = await query('education_multimedia')
       .insert({ media_type, file_path, education_id });

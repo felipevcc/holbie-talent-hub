@@ -13,8 +13,6 @@ import {
   // Employees
   EmployeesGet,
   EmployeePost,
-  // CompanyApplications
-  CompanyApplicationsGet,
 } from "../middleWares/Company_profiles.middleWares";
 
 const router = Router();
@@ -32,10 +30,7 @@ router.post('/company_profiles/:company_id/favorite_profiles', FavoriteProfilePo
 router.delete('/company_profiles/:company_id/favorite_profiles/:profile_id', FavoriteProfileDelete);
 
 // Employees
-router.get('/company_profiles/:company_id/professional_profiles', EmployeesGet);
-router.post('/company_profiles/:company_id/professional_profiles', EmployeePost);
-
-// CompanyApplications
-router.get('/company_profiles/:company_id/applications', CompanyApplicationsGet);
+router.get('/company_profiles/:company_id/employees', EmployeesGet);
+router.post('/company_profiles/:company_id/employees', EmployeePost);
 
 export default router;

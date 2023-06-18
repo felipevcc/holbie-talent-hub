@@ -19,11 +19,11 @@ import {
 
 const router = Router();
 
-// Ratings
-router.get('/ratings/:rating_id', RatingGetById);
-router.put('/ratings/:rating_id', RatingPut);
+// Ratings (Profile_ratings)
+router.get('/profile_ratings/:rating_id', RatingGetById);
+router.put('/profile_ratings/:rating_id', RatingPut);
 
-// Users - Ratings
+// Users - Ratings (Profile ratings)
 router.get('/users/:user_id/ratings/sent', UserSentRatingsGet);
 router.post('/users/:user_id/ratings/sent', RatingPost);
 router.get('/users/:user_id/ratings/received', UserReceivedRatingsGet);
