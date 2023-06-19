@@ -17,7 +17,7 @@ export const MessageGetById: RequestHandler = async (req: Request, res: Response
     res.json(sqlQuery);
   } catch (error) {
     console.log('Failed to get message', error);
-    res.status(500).json({ message: 'Message id not found' });
+    res.status(500).json({ message: 'Failed to get message' });
   }
 };
 
@@ -41,7 +41,7 @@ export const MessagePut: RequestHandler = async (req: Request, res: Response) =>
     }
   } catch (error) {
     console.log('Failed to update message', error);
-    res.status(500).json({ message: 'Message id not found' });
+    res.status(500).json({ message: 'Failed to update message' });
   }
 }
 
@@ -59,7 +59,7 @@ export const UserSentMessagesGet: RequestHandler = async (req: Request, res: Res
     res.json(sqlQuery);
   } catch (error) {
     console.log('Failed to get user\'s sent messages', error);
-    res.status(500).json({ message: 'User id not found' });
+    res.status(500).json({ message: 'Failed to get user\'s sent messages' });
   }
 }
 
@@ -73,7 +73,7 @@ export const UserReceivedMessagesGet: RequestHandler = async (req: Request, res:
     res.json(sqlQuery);
   } catch (error) {
     console.log('Failed to get user\'s received messages', error);
-    res.status(500).json({ message: 'User id not found' });
+    res.status(500).json({ message: 'Failed to get user\'s received messages' });
   }
 }
 
