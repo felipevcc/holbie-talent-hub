@@ -10,13 +10,23 @@ import { ProfessionalMultimedia, CompanyMultimedia, ProjectMultimedia, Education
 export const ProfessionalMultimediaGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('professional_profile_multimedia')
       .select('*')
       .where('profile_id', profile_id) as ProfessionalMultimedia[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get multimedia', error);
-    res.status(500).json({ message: 'Failed to get multimedia' });
+    return res.status(500).json({ message: 'Failed to get multimedia' });
   }
 };
 
@@ -28,10 +38,13 @@ export const ProfessionalMultimediaGetById: RequestHandler = async (req: Request
       .select('*')
       .where('media_id', media_id)
       .first() as ProfessionalMultimedia;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Media id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get multimedia', error);
-    res.status(500).json({ message: 'Failed to get multimedia id' });
+    return res.status(500).json({ message: 'Failed to get multimedia id' });
   }
 };
 
@@ -49,10 +62,10 @@ export const ProfessionalMultimediaPost: RequestHandler = async (req: Request, r
       .where('media_id', insertedMultimediaId)
       .first() as ProfessionalMultimedia;
 
-    res.status(201).json(createdMultimedia);
+    return res.status(201).json(createdMultimedia);
   } catch (error) {
     console.error('Failed to create multimedia:', error);
-    res.status(500).json({ message: 'Failed to create multimedia' });
+    return res.status(500).json({ message: 'Failed to create multimedia' });
   }
 };
 
@@ -68,16 +81,16 @@ export const ProfessionalMultimediaPut: RequestHandler = async (req: Request, re
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
       const updatedMultimedia = await query('professional_profile_multimedia')
         .where('media_id', media_id)
         .first() as ProfessionalMultimedia;
-      res.json(updatedMultimedia);
+      return res.json(updatedMultimedia);
     }
   } catch (error) {
     console.error('Failed to update multimedia:', error);
-    res.status(500).json({ message: 'Failed to update multimedia' });
+    return res.status(500).json({ message: 'Failed to update multimedia' });
   }
 };
 
@@ -91,13 +104,13 @@ export const ProfessionalMultimediaDelete: RequestHandler = async (req: Request,
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete multimedia:', error);
-    res.status(500).json({ message: 'Failed to delete multimedia' });
+    return res.status(500).json({ message: 'Failed to delete multimedia' });
   }
 };
 
@@ -109,13 +122,23 @@ export const ProfessionalMultimediaDelete: RequestHandler = async (req: Request,
 export const CompanyMultimediaGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if company profile exists
+    const companyExists = await query('company_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!companyExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('company_multimedia')
       .select('*')
       .where('profile_id', profile_id) as CompanyMultimedia[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get company multimedia', error);
-    res.status(500).json({ message: 'Failed to get company multimedia' });
+    return res.status(500).json({ message: 'Failed to get company multimedia' });
   }
 };
 
@@ -127,10 +150,13 @@ export const CompanyMultimediaGetById: RequestHandler = async (req: Request, res
       .select('*')
       .where('media_id', media_id)
       .first() as CompanyMultimedia;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Media id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get company multimedia', error);
-    res.status(500).json({ message: 'Failed to get company multimedia' });
+    return res.status(500).json({ message: 'Failed to get company multimedia' });
   }
 };
 
@@ -148,10 +174,10 @@ export const CompanyMultimediaPost: RequestHandler = async (req: Request, res: R
       .where('media_id', insertedMediaId)
       .first() as CompanyMultimedia;
 
-    res.status(201).json(createdMedia);
+    return res.status(201).json(createdMedia);
   } catch (error) {
     console.error('Failed to create multimedia:', error);
-    res.status(500).json({ message: 'Failed to create multimedia' });
+    return res.status(500).json({ message: 'Failed to create multimedia' });
   }
 };
 
@@ -167,16 +193,16 @@ export const CompanyMultimediaPut: RequestHandler = async (req: Request, res: Re
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
       const updatedMultimedia = await query('company_multimedia')
         .where('media_id', media_id)
         .first() as CompanyMultimedia;
-      res.json(updatedMultimedia);
+      return res.json(updatedMultimedia);
     }
   } catch (error) {
     console.error('Failed to update multimedia:', error);
-    res.status(500).json({ message: 'Failed to update multimedia' });
+    return res.status(500).json({ message: 'Failed to update multimedia' });
   }
 };
 
@@ -190,13 +216,13 @@ export const CompanyMediaDelete: RequestHandler = async (req: Request, res: Resp
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete media:', error);
-    res.status(500).json({ message: 'Failed to delete media' });
+    return res.status(500).json({ message: 'Failed to delete media' });
   }
 };
 
@@ -208,13 +234,23 @@ export const CompanyMediaDelete: RequestHandler = async (req: Request, res: Resp
 export const ProjectMultimediaGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { project_id } = req.params;
+
+    // Check if project exists
+    const projectExists = await query('projects')
+      .select('project_id')
+      .where('project_id', project_id)
+      .first();
+    if (!projectExists) {
+      return res.status(404).json({ message: 'Project id not found' });
+    }
+
     const sqlQuery = await query('project_multimedia')
       .select('*')
       .where('project_id', project_id) as ProjectMultimedia[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get project multimedia', error);
-    res.status(500).json({ message: 'Failed to get project multimedia' });
+    return res.status(500).json({ message: 'Failed to get project multimedia' });
   }
 };
 
@@ -226,10 +262,13 @@ export const ProjectMultimediaGetById: RequestHandler = async (req: Request, res
       .select('*')
       .where('media_id', media_id)
       .first() as ProjectMultimedia;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Media id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get project multimedia', error);
-    res.status(500).json({ message: 'Failed to get project multimedia' });
+    return res.status(500).json({ message: 'Failed to get project multimedia' });
   }
 };
 
@@ -247,10 +286,10 @@ export const ProjectMultimediaPost: RequestHandler = async (req: Request, res: R
       .where('media_id', insertedMultimediaId)
       .first() as ProjectMultimedia;
 
-    res.status(201).json(createdMultimedia);
+    return res.status(201).json(createdMultimedia);
   } catch (error) {
     console.error('Failed to create multimedia:', error);
-    res.status(500).json({ message: 'Failed to create multimedia' });
+    return res.status(500).json({ message: 'Failed to create multimedia' });
   }
 };
 
@@ -266,16 +305,16 @@ export const ProjectMultimediaPut: RequestHandler = async (req: Request, res: Re
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
       const updatedMultimedia = await query('project_multimedia')
         .where('media_id', media_id)
         .first() as ProjectMultimedia;
-      res.json(updatedMultimedia);
+      return res.json(updatedMultimedia);
     }
   } catch (error) {
     console.error('Failed to update multimedia:', error);
-    res.status(500).json({ message: 'Failed to update multimedia' });
+    return res.status(500).json({ message: 'Failed to update multimedia' });
   }
 };
 
@@ -289,13 +328,13 @@ export const ProjectMultimediaDelete: RequestHandler = async (req: Request, res:
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete multimedia:', error);
-    res.status(500).json({ message: 'Failed to delete multimedia' });
+    return res.status(500).json({ message: 'Failed to delete multimedia' });
   }
 };
 
@@ -310,10 +349,10 @@ export const EducationMultimediaGet: RequestHandler = async (req: Request, res: 
     const sqlQuery = await query('education_multimedia')
       .select('*')
       .where('education_id', education_id) as EducationMultimedia[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get education multimedia', error);
-    res.status(500).json({ message: 'Failed to get education multimedia' });
+    return res.status(500).json({ message: 'Failed to get education multimedia' });
   }
 };
 
@@ -325,10 +364,10 @@ export const EducationMultimediaGetById: RequestHandler = async (req: Request, r
       .select('*')
       .where('media_id', media_id)
       .first() as EducationMultimedia;
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get education multimedia', error);
-    res.status(500).json({ message: 'Failed to get education multimedia' });
+    return res.status(500).json({ message: 'Failed to get education multimedia' });
   }
 };
 
@@ -346,10 +385,10 @@ export const EducationMultimediaPost: RequestHandler = async (req: Request, res:
       .where('media_id', insertedMultimediaId)
       .first() as EducationMultimedia;
 
-    res.status(201).json(createdMultimedia);
+    return res.status(201).json(createdMultimedia);
   } catch (error) {
     console.error('Failed to create multimedia:', error);
-    res.status(500).json({ message: 'Failed to create multimedia' });
+    return res.status(500).json({ message: 'Failed to create multimedia' });
   }
 };
 
@@ -365,16 +404,16 @@ export const EducationMultimediaPut: RequestHandler = async (req: Request, res: 
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
       const updatedMultimedia = await query('education_multimedia')
         .where('media_id', media_id)
         .first() as EducationMultimedia;
-      res.json(updatedMultimedia);
+      return res.json(updatedMultimedia);
     }
   } catch (error) {
     console.error('Failed to update multimedia:', error);
-    res.status(500).json({ message: 'Failed to update multimedia' });
+    return res.status(500).json({ message: 'Failed to update multimedia' });
   }
 };
 
@@ -388,12 +427,12 @@ export const EducationMultimediaDelete: RequestHandler = async (req: Request, re
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Multimedia not found' });
+      return res.status(404).json({ message: 'Multimedia not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete multimedia:', error);
-    res.status(500).json({ message: 'Failed to delete multimedia' });
+    return res.status(500).json({ message: 'Failed to delete multimedia' });
   }
 };

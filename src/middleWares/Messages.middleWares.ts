@@ -12,12 +12,15 @@ export const MessageGetById: RequestHandler = async (req: Request, res: Response
     const { message_id } = req.params;
     const sqlQuery = await query('messages')
       .select('*')
-      .where('message_id', message_id)  
+      .where('message_id', message_id)
       .first() as Message;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Message id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get message', error);
-    res.status(500).json({ message: 'Failed to get message' });
+    console.error('Failed to get message', error);
+    return res.status(500).json({ message: 'Failed to get message' });
   }
 };
 
@@ -32,16 +35,16 @@ export const MessagePut: RequestHandler = async (req: Request, res: Response) =>
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Message not found' });
+      return res.status(404).json({ message: 'Message not found' });
     } else {
       const updatedMessage = await query('messages')
         .where('message_id', message_id)
         .first() as Message;
-      res.json(updatedMessage);
+      return res.json(updatedMessage);
     }
   } catch (error) {
-    console.log('Failed to update message', error);
-    res.status(500).json({ message: 'Failed to update message' });
+    console.error('Failed to update message', error);
+    return res.status(500).json({ message: 'Failed to update message' });
   }
 }
 
@@ -53,13 +56,23 @@ export const MessagePut: RequestHandler = async (req: Request, res: Response) =>
 export const UserSentMessagesGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
+
+    // Check if user exists
+    const userExists = await query('users')
+      .select('user_id')
+      .where('user_id', user_id)
+      .first();
+    if (!userExists) {
+      return res.status(404).json({ message: 'User id not found' });
+    }
+
     const sqlQuery = await query('messages')
       .select('*')
       .where('sender_id', user_id) as Message[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get user\'s sent messages', error);
-    res.status(500).json({ message: 'Failed to get user\'s sent messages' });
+    console.error('Failed to get user\'s sent messages', error);
+    return res.status(500).json({ message: 'Failed to get user\'s sent messages' });
   }
 }
 
@@ -67,13 +80,23 @@ export const UserSentMessagesGet: RequestHandler = async (req: Request, res: Res
 export const UserReceivedMessagesGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
+
+    // Check if user exists
+    const userExists = await query('users')
+      .select('user_id')
+      .where('user_id', user_id)
+      .first();
+    if (!userExists) {
+      return res.status(404).json({ message: 'User id not found' });
+    }
+
     const sqlQuery = await query('messages')
-    .select('*')
-    .where('receiver_id', user_id) as Message[];
-    res.json(sqlQuery);
+      .select('*')
+      .where('receiver_id', user_id) as Message[];
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get user\'s received messages', error);
-    res.status(500).json({ message: 'Failed to get user\'s received messages' });
+    console.error('Failed to get user\'s received messages', error);
+    return res.status(500).json({ message: 'Failed to get user\'s received messages' });
   }
 }
 
@@ -81,7 +104,7 @@ export const UserReceivedMessagesGet: RequestHandler = async (req: Request, res:
 export const MessagePost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
-    const { subject, content, type_connection , receiver_id, application_id = null, project_id = null } = req.body;
+    const { subject, content, type_connection, receiver_id, application_id = null, project_id = null } = req.body;
     const sqlQuery = await query('messages')
       .insert({ subject, content, type_connection, sender_id: user_id, receiver_id, application_id, project_id });
 
@@ -90,9 +113,9 @@ export const MessagePost: RequestHandler = async (req: Request, res: Response) =
       .select('*')
       .where('message_id', messageId)
       .first() as Message;
-    res.status(201).json(createdMessage);
+    return res.status(201).json(createdMessage);
   } catch (error) {
-    console.log('Failed to create message', error);
-    res.status(500).json({ message: 'Failed to create message' });
+    console.error('Failed to create message', error);
+    return res.status(500).json({ message: 'Failed to create message' });
   }
 }

@@ -9,7 +9,7 @@ import { Skill } from "../types/skills.d";
 // GET Returns all the skills
 export const SkillsGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('skills').select('*') as Skill[];
-  res.json(sqlQuery);
+  return res.json(sqlQuery);
 };
 
 // GET Returns the skill with the given skill_id
@@ -20,10 +20,14 @@ export const SkillGetById: RequestHandler = async (req: Request, res: Response) 
       .select('*')
       .where('skill_id', skill_id)
       .first() as Skill;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Skill id not found' });
+    }
+
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get skill:', error);
-    res.status(404).json({ message: 'Failed to get skill' });
+    return res.status(500).json({ message: 'Failed to get skill' });
   }
 };
 
@@ -40,10 +44,10 @@ export const SkillPost: RequestHandler = async (req: Request, res: Response) => 
       .where('skill_id', insertedSkillId)
       .first() as Skill;
 
-    res.status(201).json(createdSkill);
+    return res.status(201).json(createdSkill);
   } catch (error) {
     console.error('Failed to create skill:', error);
-    res.status(500).json({ message: 'Failed to create skill' });
+    return res.status(500).json({ message: 'Failed to create skill' });
   }
 };
 
@@ -59,16 +63,16 @@ export const SkillPut: RequestHandler = async (req: Request, res: Response) => {
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Skill not found' });
+      return res.status(404).json({ message: 'Skill not found' });
     } else {
       const updatedSkill = await query('skills')
         .where('skill_id', skill_id)
         .first() as Skill;
-      res.json(updatedSkill);
+      return res.json(updatedSkill);
     }
   } catch (error) {
     console.error('Failed to update skill:', error);
-    res.status(500).json({ message: 'Failed to update skill' });
+    return res.status(500).json({ message: 'Failed to update skill' });
   }
 };
 
@@ -82,13 +86,13 @@ export const SkillDelete: RequestHandler = async (req: Request, res: Response) =
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Skill not found' });
+      return res.status(404).json({ message: 'Skill not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete skill:', error);
-    res.status(500).json({ message: 'Failed to delete skill' });
+    return res.status(500).json({ message: 'Failed to delete skill' });
   }
 };
 
@@ -100,14 +104,24 @@ export const SkillDelete: RequestHandler = async (req: Request, res: Response) =
 export const ProfileSkillsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('skills')
       .select('skills.skill_id', 'skills.name', 'skills.description', 'professional_skills.proficiency_level')
       .join('professional_skills', 'skills.skill_id', '=', 'professional_skills.skill_id')
       .where('professional_skills.profile_id', profile_id) as Skill[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get profile\'s skill' + error);
-    res.status(404).json({ message: 'Failed to get profile\'s skill' });
+    console.error('Failed to get profile\'s skill', error);
+    return res.status(500).json({ message: 'Failed to get profile\'s skill' });
   }
 };
 
@@ -124,10 +138,10 @@ export const ProfileSkillPost: RequestHandler = async (req: Request, res: Respon
       .andWhere('skill_id', skill_id)
       .first() as Skill;
 
-    res.status(201).json(createdSkill);
+    return res.status(201).json(createdSkill);
   } catch (error) {
     console.error('Failed to create profile skill:', error);
-    res.status(500).json({ message: 'Failed to create profile skill' });
+    return res.status(500).json({ message: 'Failed to create profile skill' });
   }
 };
 
@@ -139,14 +153,24 @@ export const ProfileSkillPost: RequestHandler = async (req: Request, res: Respon
 export const ProjectSkillsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { project_id } = req.params;
+
+    // Check if project exists
+    const projectExists = await query('projects')
+      .select('project_id')
+      .where('project_id', project_id)
+      .first();
+    if (!projectExists) {
+      return res.status(404).json({ message: 'Project id not found' });
+    }
+
     const sqlQuery = await query('skills')
       .select('skills.skill_id', 'skills.name', 'skills.description')
       .join('project_skills', 'skills.skill_id', '=', 'project_skills.skill_id')
       .where('project_skills.project_id', project_id) as Skill[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get project\'s skill' + error);
-    res.status(404).json({ message: 'Failed to get project\'s skill' });
+    console.error('Failed to get project\'s skill', error);
+    return res.status(500).json({ message: 'Failed to get project\'s skill' });
   }
 };
 
@@ -174,9 +198,9 @@ export const ProjectSkillPost: RequestHandler = async (req: Request, res: Respon
         .ignore();
     }
 
-    res.status(201).json(createdSkill);
+    return res.status(201).json(createdSkill);
   } catch (error) {
     console.error('Failed to create project skill:', error);
-    res.status(500).json({ message: 'Failed to create project skill' });
+    return res.status(500).json({ message: 'Failed to create project skill' });
   }
 };

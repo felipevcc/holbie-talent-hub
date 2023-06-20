@@ -16,10 +16,13 @@ export const ProjectGetById: RequestHandler = async (req: Request, res: Response
       .select('*')
       .where('project_id', project_id)
       .first() as Project;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Project id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get project', error);
-    res.status(500).json({ message: 'Project id not found' });
+    console.error('Failed to get project', error);
+    return res.status(500).json({ message: 'Failed to get project' });
   }
 };
 
@@ -41,10 +44,10 @@ export const ProjectPost: RequestHandler = async (req: Request, res: Response) =
     await query('professional_profiles_projects')
       .insert({ profile_id, project_id: insertedProjectId });
 
-    res.status(201).json(createdProject);
+    return res.status(201).json(createdProject);
   } catch (error) {
     console.error('Failed to create project:', error);
-    res.status(500).json({ message: 'Failed to create project' });
+    return res.status(500).json({ message: 'Failed to create project' });
   }
 };
 
@@ -60,16 +63,16 @@ export const ProjectPut: RequestHandler = async (req: Request, res: Response) =>
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Project not found' });
+      return res.status(404).json({ message: 'Project not found' });
     } else {
       const updatedProject = await query('projects')
         .where('project_id', project_id)
         .first() as Project;
-      res.json(updatedProject);
+      return res.json(updatedProject);
     }
   } catch (error) {
     console.error('Failed to update project:', error);
-    res.status(500).json({ message: 'Failed to update project' });
+    return res.status(500).json({ message: 'Failed to update project' });
   }
 };
 
@@ -83,13 +86,13 @@ export const ProjectDelete: RequestHandler = async (req: Request, res: Response)
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Project not found' });
+      return res.status(404).json({ message: 'Project not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete project:', error);
-    res.status(500).json({ message: 'Failed to delete project' });
+    return res.status(500).json({ message: 'Failed to delete project' });
   }
 };
 
@@ -101,15 +104,25 @@ export const ProjectDelete: RequestHandler = async (req: Request, res: Response)
 export const ProjectCollaboratorsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { project_id } = req.params;
+
+    // Check if project exists
+    const projectExists = await query('projects')
+      .select('project_id')
+      .where('project_id', project_id)
+      .first();
+    if (!projectExists) {
+      return res.status(404).json({ message: 'Project id not found' });
+    }
+
     const sqlQuery = await query('professional_profiles_projects')
       .select('professional_profiles.profile_id', 'users.first_name', 'professional_profiles.headline')
       .join('professional_profiles', 'professional_profiles.profile_id', 'professional_profiles_projects.profile_id')
       .join('users', 'users.professional_id', 'professional_profiles_projects.profile_id')
       .where('professional_profiles_projects.project_id', project_id) as ProfessionalProfile[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get collaborators', error);
-    res.status(500).json({ message: 'Project id not found' });
+    console.error('Failed to get collaborators', error);
+    return res.status(500).json({ message: 'Failed to get collaborators' });
   }
 };
 
@@ -127,14 +140,14 @@ export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res
       .first() as Project;
 
     // Create all project skills in the profile of the new collaborator
-    
+
     // Project skills
     const projectSkills = await query('project_skills')
       .select('skill_id')
       .where('project_id', project_id);
     // Stop if no skills
     if (!projectSkills.length) {
-      res.status(201).json(relationshipCreated);
+      return res.status(201).json(relationshipCreated);
     }
 
     // Create skills in the profile
@@ -153,7 +166,7 @@ export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res
       .where('project_id', project_id);
     // Stop if no project ratings
     if (!projectRatings.length) {
-      res.status(201).json(relationshipCreated);
+      return res.status(201).json(relationshipCreated);
     }
 
     // Calcs ratings value
@@ -163,7 +176,7 @@ export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res
       rating.positive_rating ? positiveRatings++ : negativeRatings--;
     }
     const ratingsValue: number = positiveRatings - negativeRatings;
-    
+
     for (let projectSkill of projectSkills) {
       // Get the proficiency_level of the current skill
       const proficiency_level: number = (await query('professional_skills')
@@ -191,10 +204,10 @@ export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res
         .update('proficiency_level', newProficiencyLevel);
     }
 
-    res.status(201).json(relationshipCreated);
-  } catch(error) {
-    console.log('Failed to create relationship' ,error);
-    res.status(500).json({message: 'Failed to create relationship'});
+    return res.status(201).json(relationshipCreated);
+  } catch (error) {
+    console.error('Failed to create relationship', error);
+    return res.status(500).json({ message: 'Failed to create relationship' });
   }
 };
 
@@ -206,14 +219,24 @@ export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res
 export const ProfileProjectsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('professional_profiles_projects')
       .select('projects.*')
       .join('projects', 'projects.project_id', 'professional_profiles_projects.project_id')
       .where('professional_profiles_projects.profile_id', profile_id) as Project[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get projects', error);
-    res.status(500).json({ message: 'Profile id not found' });
+    console.error('Failed to get projects', error);
+    return res.status(500).json({ message: 'Failed to get projects' });
   }
 };
 
@@ -225,13 +248,23 @@ export const ProfileProjectsGet: RequestHandler = async (req: Request, res: Resp
 export const CompanyCapstonesGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { company_id } = req.params;
+
+    // Check if company exists
+    const companyExists = await query('company_profiles')
+      .select('company_id')
+      .where('company_id', company_id)
+      .first();
+    if (!companyExists) {
+      return res.status(404).json({ message: 'Company id not found' });
+    }
+
     const sqlQuery = await query('company_capstone_projects')
-      .select('*')
+      .select('company_id')
       .where('company_id', company_id);
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get capstones', error);
-    res.status(500).json({ message: 'Company id not found' });
+    console.error('Failed to get capstones', error);
+    return res.status(500).json({ message: 'Failed to get capstones' });
   }
 };
 
@@ -243,10 +276,13 @@ export const CapstoneGetById: RequestHandler = async (req: Request, res: Respons
       .select('*')
       .where('project_id', project_id)
       .first() as Capstone;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Project id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get capstone' + error);
-    res.status(404).json({ message: 'Failed to get capstone' });
+    console.error('Failed to get capstone', error);
+    return res.status(500).json({ message: 'Failed to get capstone' });
   }
 };
 
@@ -263,16 +299,16 @@ export const CapstonePost: RequestHandler = async (req: Request, res: Response) 
       .andWhere('project_id', project_id)
       .first() as Capstone;
 
-    res.status(201).json(createdCapstone);
-  } catch(error) {
-    console.log('Failed to create capstone relationship' ,error);
-    res.status(500).json({message: 'Failed to create capstone relationship'});
+    return res.status(201).json(createdCapstone);
+  } catch (error) {
+    console.error('Failed to create capstone relationship', error);
+    return res.status(500).json({ message: 'Failed to create capstone relationship' });
   }
 };
 
 // PUT endpoint to update a capstone relationship (company)
 export const CapstonePut: RequestHandler = async (req: Request, res: Response) => {
-  try{
+  try {
     const { company_id, project_id } = req.params;
     const { kind = null, active = null } = req.body;
     const sqlQuery = await query('company_capstone_projects')
@@ -280,16 +316,16 @@ export const CapstonePut: RequestHandler = async (req: Request, res: Response) =
       .andWhere('project_id', project_id)
       .update({ kind, active });
     if (!sqlQuery) {
-      res.status(404).json({ message: 'capstone relationship not found' });
+      return res.status(404).json({ message: 'capstone relationship not found' });
     } else {
       const updatedCapstone = await query('company_capstone_projects')
         .where('company_id', company_id)
         .andWhere('project_id', project_id)
         .first() as Capstone;
-      res.json(updatedCapstone);
+      return res.json(updatedCapstone);
     }
-  } catch(error) {
-    console.log('Failed to update capstone' ,error);
-    res.status(500).json({message: 'Failed to update capstone'});
+  } catch (error) {
+    console.error('Failed to update capstone', error);
+    return res.status(500).json({ message: 'Failed to update capstone' });
   }
 };

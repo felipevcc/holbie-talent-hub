@@ -10,13 +10,23 @@ import { Application } from "../types/applications.d";
 export const CompanyApplicationsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { company_id } = req.params;
+
+    // Check if company exists
+    const companyExists = await query('company_profiles')
+      .select('company_id')
+      .where('company_id', company_id)
+      .first();
+    if (!companyExists) {
+      return res.status(404).json({ message: 'Company id not found' });
+    }
+
     const sqlQuery = await query('applications')
       .select('*')
       .where('company_id', company_id) as Application[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get applications' + error);
-    res.status(404).json({ message: 'Company id not found' });
+    console.error('Failed to get applications', error);
+    return res.status(500).json({ message: 'Failed to get applications' });
   }
 };
 
@@ -24,13 +34,23 @@ export const CompanyApplicationsGet: RequestHandler = async (req: Request, res: 
 export const ProfileApplicationsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('applications')
       .select('*')
       .where('professional_id', profile_id) as Application[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get applications' + error);
-    res.status(404).json({ message: 'Profile id not found' });
+    console.error('Failed to get applications', error);
+    return res.status(500).json({ message: 'Failed to get applications' });
   }
 };
 
@@ -42,10 +62,13 @@ export const ApplicationGetById: RequestHandler = async (req: Request, res: Resp
       .select('*')
       .where('application_id', application_id)
       .first() as Application;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Application id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.log('Failed to get application', error);
-    res.status(404).json({ message: 'Application id not found' });
+    return res.status(500).json({ message: 'Failed to get application' });
   }
 };
 
@@ -54,17 +77,17 @@ export const ApplicationPost: RequestHandler = async (req: Request, res: Respons
   try {
     const { status, company_id, professional_id } = req.body;
     const sqlQuery = await query('applications')
-    .insert({ status, company_id, professional_id });
+      .insert({ status, company_id, professional_id });
 
     const applicationId = sqlQuery[0];
     const createdApplication = await query('applications')
       .select('*')
       .where('application_id', applicationId)
       .first() as Application;
-    res.status(201).json(createdApplication);
+    return res.status(201).json(createdApplication);
   } catch (error) {
-    console.log('Failed to create application', error);
-    res.status(500).json({ message: 'Failed to create application' });
+    console.error('Failed to create application', error);
+    return res.status(500).json({ message: 'Failed to create application' });
   }
 };
 
@@ -80,16 +103,16 @@ export const ApplicationPut: RequestHandler = async (req: Request, res: Response
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Application id not found' });
+      return res.status(404).json({ message: 'Application id not found' });
     } else {
       const updatedApplication = await query('applications')
         .where('application_id', application_id)
         .first() as Application;
-      res.json(updatedApplication);
+      return res.json(updatedApplication);
     }
   } catch (error) {
-    console.log('Failed to update application', error);
-    res.status(500).json({ message: 'Failed to update application' });
+    console.error('Failed to update application', error);
+    return res.status(500).json({ message: 'Failed to update application' });
   }
 };
 
@@ -103,12 +126,12 @@ export const ApplicationDelete: RequestHandler = async (req: Request, res: Respo
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Application id not found' });
+      return res.status(404).json({ message: 'Application id not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
-    console.log('Failed to delete application', error);
-    res.status(500).json({ message: 'Failed to delete application' });
+    console.error('Failed to delete application', error);
+    return res.status(500).json({ message: 'Failed to delete application' });
   }
 };

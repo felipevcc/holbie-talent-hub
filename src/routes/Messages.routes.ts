@@ -58,27 +58,11 @@ const router = Router();
  *         receiver_id: 2
  *         application_id: 1
  *         project_id: null
- *     MessageError404:
+ *     Error:
  *       type: object
  *       properties:
  *         message:
  *           type: string
- *       example:
- *         message: "Message not found"
- *     MessageError500:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *       example:
- *         message: "Message id not found"
- *     UserError500:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *       example:
- *         message: "User id not found"
  *     UpdateMessage:
  *       type: object
  *       properties:
@@ -165,12 +149,22 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Message'
+ *       '404':
+ *         description: Message id not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "Message id not found"
  *       '500':
  *         description: Failed to get message
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MessageError500'
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "Failed to get message"
  */
 router.get('/messages/:message_id', MessageGetById);
 
@@ -196,17 +190,21 @@ router.get('/messages/:message_id', MessageGetById);
  *             schema:
  *               $ref: '#/components/schemas/Message'
  *       '404':
- *         description: Message not found
+ *         description: Message id not found
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MessageError404'
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "Message id not found"
  *       '500':
  *         description: Failed to update message
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/MessageError500'
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "Failed to update message"
  */
 router.put('/messages/:message_id', MessagePut);
 
@@ -231,12 +229,22 @@ router.put('/messages/:message_id', MessagePut);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Message'
+ *       '404':
+ *         description: User id not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "User id not found"
  *       '500':
  *         description: Failed to get user's sent messages
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/UserError500'
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "Failed to get user's sent messages"
  */
 router.get('/users/:user_id/messages/sent', UserSentMessagesGet);
 
@@ -266,7 +274,9 @@ router.get('/users/:user_id/messages/sent', UserSentMessagesGet);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/UserError500'
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "Failed to create message"
  */
 router.post('/users/:user_id/messages/sent', MessagePost);
 
@@ -288,12 +298,22 @@ router.post('/users/:user_id/messages/sent', MessagePost);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Message'
+ *       '404':
+ *         description: User id not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "User id not found"
  *       '500':
  *         description: Failed to get user's received messages
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/UserError500'
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: "Failed to get user's received messages"
  */
 router.get('/users/:user_id/messages/received', UserReceivedMessagesGet);
 

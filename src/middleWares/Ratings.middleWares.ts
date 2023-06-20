@@ -14,10 +14,13 @@ export const RatingGetById: RequestHandler = async (req: Request, res: Response)
       .select('*')
       .where('rating_id', rating_id)
       .first() as Rating;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Rating id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get rating', error);
-    res.status(500).json({ message: 'Rating id not found' });
+    console.error('Failed to get rating', error);
+    return res.status(500).json({ message: 'Failed to get rating' });
   }
 };
 
@@ -32,16 +35,16 @@ export const RatingPut: RequestHandler = async (req: Request, res: Response) => 
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Rating not found' });
+      return res.status(404).json({ message: 'Rating not found' });
     } else {
       const updatedRating = await query('ratings')
         .where('rating_id', rating_id)
         .first() as Rating;
-      res.json(updatedRating);
+      return res.json(updatedRating);
     }
   } catch (error) {
-    console.log('Failed to update rating', error);
-    res.status(500).json({ message: 'Rating id not found' });
+    console.error('Failed to update rating', error);
+    return res.status(500).json({ message: 'Failed to update rating' });
   }
 };
 
@@ -53,13 +56,23 @@ export const RatingPut: RequestHandler = async (req: Request, res: Response) => 
 export const UserSentRatingsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
+
+    // Check if user exists
+    const userExists = await query('users')
+      .select('user_id')
+      .where('user_id', user_id)
+      .first();
+    if (!userExists) {
+      return res.status(404).json({ message: 'User id not found' });
+    }
+
     const sqlQuery = await query('ratings')
       .select('*')
       .where('sender_id', user_id) as Rating[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get user\'s sent ratings', error);
-    res.status(500).json({ message: 'User id not found' });
+    console.error('Failed to get user\'s sent ratings', error);
+    return res.status(500).json({ message: 'Failed to get user\'s sent ratings' });
   }
 }
 
@@ -104,10 +117,10 @@ export const RatingPost: RequestHandler = async (req: Request, res: Response) =>
         .update({ proficiency_level: newProficiencyLevel });
     }
 
-    res.status(201).json(createdRating);
+    return res.status(201).json(createdRating);
   } catch (error) {
     console.log('Failed to get user\'s sent ratings', error);
-    res.status(500).json({ message: 'User id not found' });
+    return res.status(500).json({ message: 'User id not found' });
   }
 };
 
@@ -115,13 +128,23 @@ export const RatingPost: RequestHandler = async (req: Request, res: Response) =>
 export const UserReceivedRatingsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
+
+    // Check if user exists
+    const userExists = await query('users')
+      .select('user_id')
+      .where('user_id', user_id)
+      .first();
+    if (!userExists) {
+      return res.status(404).json({ message: 'User id not found' });
+    }
+
     const sqlQuery = await query('ratings')
       .select('*')
       .where('receiver_id', user_id) as Rating[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get user\'s received ratings', error);
-    res.status(500).json({ message: 'User id not found' });
+    console.error('Failed to get user\'s received ratings', error);
+    return res.status(500).json({ message: 'Failed to get user\'s received ratings' });
   }
 };
 
@@ -137,10 +160,13 @@ export const ProjectRatingGetById: RequestHandler = async (req: Request, res: Re
       .select('*')
       .where('rating_id', rating_id)
       .first() as ProjectRating;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Rating id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get project rating', error);
-    res.status(500).json({ message: 'Rating id not found' });
+    console.error('Failed to get project rating', error);
+    return res.status(500).json({ message: 'Failed to get project rating' });
   }
 };
 
@@ -155,16 +181,16 @@ export const ProjectRatingPut: RequestHandler = async (req: Request, res: Respon
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Rating not found' });
+      return res.status(404).json({ message: 'Rating not found' });
     } else {
       const updatedRating = await query('project_ratings')
         .where('rating_id', rating_id)
         .first() as ProjectRating;
-      res.json(updatedRating);
+      return res.json(updatedRating);
     }
   } catch (error) {
-    console.log('Failed to update project rating', error);
-    res.status(500).json({ message: 'Rating id not found' });
+    console.error('Failed to update project rating', error);
+    return res.status(500).json({ message: 'Failed to update project rating' });
   }
 };
 
@@ -176,13 +202,23 @@ export const ProjectRatingPut: RequestHandler = async (req: Request, res: Respon
 export const CompanySentRatingsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if company profile exists
+    const companyExists = await query('company_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!companyExists) {
+      return res.status(404).json({ message: 'Company profile id not found' });
+    }
+
     const sqlQuery = await query('project_ratings')
       .select('*')
       .where('company_id', profile_id) as Rating[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get company\'s sent ratings', error);
-    res.status(500).json({ message: 'Company id not found' });
+    console.error('Failed to get company\'s sent ratings', error);
+    return res.status(500).json({ message: 'Failed to get company\'s sent ratings' });
   }
 }
 
@@ -230,14 +266,14 @@ export const CompanyRatingPost: RequestHandler = async (req: Request, res: Respo
           })
           .update({ proficiency_level: newProficiencyLevel });
       } catch (error) {
-        console.log('Failed to update proficiency_level', error);
-        res.status(500).json({ message: 'Failed to update proficiency_level' });
+        console.error('Failed to update proficiency_level', error);
+        return res.status(500).json({ message: 'Failed to update proficiency_level' });
       }
     }
-    res.status(201).json(createdRating);
+    return res.status(201).json(createdRating);
   } catch (error) {
     console.log('Failed to create rating', error);
-    res.status(500).json({ message: 'Failed to create rating' });
+    return res.status(500).json({ message: 'Failed to create rating' });
   }
 };
 
@@ -245,12 +281,22 @@ export const CompanyRatingPost: RequestHandler = async (req: Request, res: Respo
 export const ProjectReceivedRatingsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { project_id } = req.params;
+
+    // Check if project exists
+    const projectExists = await query('projects')
+      .select('project_id')
+      .where('project_id', project_id)
+      .first();
+    if (!projectExists) {
+      return res.status(404).json({ message: 'Project id not found' });
+    }
+
     const sqlQuery = await query('project_ratings')
       .select('*')
       .where('project_id', project_id) as ProjectRating[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.log('Failed to get project\'s received ratings', error);
-    res.status(500).json({ message: 'Project id not found' });
+    console.error('Failed to get project\'s received ratings', error);
+    return res.status(500).json({ message: 'Failed to get project\'s received rating' });
   }
 };

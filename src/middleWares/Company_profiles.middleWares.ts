@@ -10,7 +10,7 @@ import { ProfessionalProfile } from "../types/professional_profiles.d";
 // Returns all the company profiles
 export const ProfilesGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('company_profiles').select('*') as CompanyProfile[];
-  res.json(sqlQuery);
+  return res.json(sqlQuery);
 };
 
 // Returns the company profile with the given profile_id
@@ -21,10 +21,13 @@ export const ProfileGetById: RequestHandler = async (req: Request, res: Response
       .select('*')
       .where('profile_id', profile_id)
       .first() as CompanyProfile;
-    res.json(sqlQuery);
-  } catch(error) {
-    console.log('Failed to get company profile' ,error);
-    res.status(404).json({message: 'Company id not found'});
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Company profile id not found' });
+    }
+    return res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get company profile', error);
+    return res.status(500).json({ message: 'Failed to get company profile' });
   }
 };
 
@@ -40,10 +43,10 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
       .where('profile_id', ProfileId)
       .first() as CompanyProfile;
 
-    res.status(201).json(createdCompany);
-  } catch(error) {
-    console.log('Failed to create company profile' ,error);
-    res.status(500).json({message: 'Failed to create company profile'});
+    return res.status(201).json(createdCompany);
+  } catch (error) {
+    console.error('Failed to create company profile', error);
+    return res.status(500).json({ message: 'Failed to create company profile' });
   }
 };
 
@@ -59,17 +62,17 @@ export const ProfilePut: RequestHandler = async (req: Request, res: Response) =>
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Company not found' });
+      return res.status(404).json({ message: 'Company not found' });
     } else {
       const updatedCompany = await query('company_profiles')
         .select('*')
         .where('profile_id', profile_id)
         .first() as CompanyProfile;
-      res.json(updatedCompany);
+      return res.json(updatedCompany);
     }
   } catch (error) {
-    console.log('Failed to update company profile', error);
-    res.status(500).json({ message: 'Failed to update company profile' });
+    console.error('Failed to update company profile', error);
+    return res.status(500).json({ message: 'Failed to update company profile' });
   }
 };
 
@@ -83,13 +86,13 @@ export const ProfileDelete: RequestHandler = async (req: Request, res: Response)
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Company profile not found' });
+      return res.status(404).json({ message: 'Company profile not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete company profile:', error);
-    res.status(500).json({ message: 'Failed to delete company profile' });
+    return res.status(500).json({ message: 'Failed to delete company profile' });
   }
 };
 
@@ -101,15 +104,25 @@ export const ProfileDelete: RequestHandler = async (req: Request, res: Response)
 export const FavoriteProfilesGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { company_id } = req.params;
+
+    // Check if company exists
+    const companyExists = await query('company_profiles')
+      .select('profile_id')
+      .where('profile_id', company_id)
+      .first();
+    if (!companyExists) {
+      return res.status(404).json({ message: 'Company id not found' });
+    }
+
     const sqlQuery = await query('favorite_profiles')
       .select('favorite_profiles.profile_id', 'users.first_name', 'professional_profiles.headline')
       .join('professional_profiles', 'professional_profiles.profile_id', 'favorite_profiles.profile_id')
       .join('users', 'users.professional_id', 'favorite_profiles.profile_id')
       .where('favorite_profiles.company_id', company_id) as FavoriteProfile[];
-    res.json(sqlQuery); 
-  } catch(error) {
-    console.log('Failed to get favorite profiles' ,error);
-    res.status(404).json({message: 'Company id not found'});
+    return res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get favorite profiles', error);
+    return res.status(500).json({ message: 'Failed to get favorite profiles' });
   }
 };
 
@@ -125,10 +138,10 @@ export const FavoriteProfilePost: RequestHandler = async (req: Request, res: Res
       .andWhere('profile_id', profile_id)
       .first() as FavoriteProfile;
 
-    res.status(201).json(createdFavoriteProfile);
-  } catch(error) {
-    console.log('Failed to create favorite profile' ,error);
-    res.status(500).json({message: 'Failed to create favorite profile'});
+    return res.status(201).json(createdFavoriteProfile);
+  } catch (error) {
+    console.error('Failed to create favorite profile', error);
+    return res.status(500).json({ message: 'Failed to create favorite profile' });
   }
 };
 
@@ -143,13 +156,13 @@ export const FavoriteProfileDelete: RequestHandler = async (req: Request, res: R
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Favorite profile not found' });
+      return res.status(404).json({ message: 'Favorite profile not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete favorite profile:', error);
-    res.status(500).json({ message: 'Failed to delete favorite profile' });
+    return res.status(500).json({ message: 'Failed to delete favorite profile' });
   }
 };
 
@@ -161,15 +174,25 @@ export const FavoriteProfileDelete: RequestHandler = async (req: Request, res: R
 export const EmployeesGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { company_id } = req.params;
+
+    // Check if company exists
+    const companyExists = await query('company_profiles')
+      .select('profile_id')
+      .where('profile_id', company_id)
+      .first();
+    if (!companyExists) {
+      return res.status(404).json({ message: 'Company id not found' });
+    }
+
     const sqlQuery = await query('company_professional_profiles')
       .select('company_professional_profiles.professional_profile_id', 'users.first_name', 'professional_profiles.headline')
       .join('professional_profiles', 'professional_profiles.profile_id', 'company_professional_profiles.professional_profile_id')
       .join('users', 'users.professional_id', 'company_professional_profiles.professional_profile_id')
       .where('company_professional_profiles.company_id', company_id) as ProfessionalProfile[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get professional profiles' + error);
-    res.status(404).json({ message: 'Company id not found' });
+    console.error('Failed to get professional profiles', error);
+    return res.status(500).json({ message: 'Failed to get professional profiles' });
   }
 };
 
@@ -186,9 +209,9 @@ export const EmployeePost: RequestHandler = async (req: Request, res: Response) 
       .andWhere('professional_profile_id', professional_profile_id)
       .first() as FavoriteProfile;
 
-    res.status(201).json(createdEmployee);
-  } catch(error) {
-    console.log('Failed to create employee' ,error);
-    res.status(500).json({message: 'Failed to create employee'});
+    return res.status(201).json(createdEmployee);
+  } catch (error) {
+    console.error('Failed to create employee', error);
+    return res.status(500).json({ message: 'Failed to create employee' });
   }
 };

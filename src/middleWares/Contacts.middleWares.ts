@@ -10,13 +10,23 @@ import { ProfessionalContact, CompanyContact, ProjectContact } from "../types/co
 export const ProfessionalContactsGet: RequestHandler = async (_req: Request, res: Response) => {
   try {
     const { profile_id } = _req.params;
+
+    // Check if profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('professional_profile_contacts')
       .select('*')
       .where('profile_id', profile_id) as ProfessionalContact[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get contacts', error);
-    res.status(500).json({ message: 'Failed to get contacts' });
+    return res.status(500).json({ message: 'Failed to get contacts' });
   }
 };
 
@@ -28,10 +38,13 @@ export const ProfessionalContactGetById: RequestHandler = async (req: Request, r
       .select('*')
       .where('contact_id', contact_id)
       .first() as ProfessionalContact;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Contact id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get contact', error);
-    res.status(500).json({ message: 'Failed to get contact id' });
+    return res.status(500).json({ message: 'Failed to get contact' });
   }
 };
 //
@@ -49,10 +62,10 @@ export const ProfessionalContactPost: RequestHandler = async (req: Request, res:
       .where('contact_id', insertedContactId)
       .first() as ProfessionalContact;
 
-    res.status(201).json(createdContact);
+    return res.status(201).json(createdContact);
   } catch (error) {
     console.error('Failed to create contact:', error);
-    res.status(500).json({ message: 'Failed to create contact' });
+    return res.status(500).json({ message: 'Failed to create contact' });
   }
 };
 
@@ -68,16 +81,16 @@ export const ProfessionalContactPut: RequestHandler = async (req: Request, res: 
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Contact not found' });
+      return res.status(404).json({ message: 'Contact not found' });
     } else {
       const updatedContact = await query('professional_profile_contacts')
         .where('contact_id', contact_id)
         .first() as ProfessionalContact;
-      res.json(updatedContact);
+      return res.json(updatedContact);
     }
   } catch (error) {
     console.error('Failed to update contact:', error);
-    res.status(500).json({ message: 'Failed to update contact' });
+    return res.status(500).json({ message: 'Failed to update contact' });
   }
 };
 
@@ -91,13 +104,13 @@ export const ProfessionalContactDelete: RequestHandler = async (req: Request, re
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Contact not found' });
+      return res.status(404).json({ message: 'Contact not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete contact:', error);
-    res.status(500).json({ message: 'Failed to delete contact' });
+    return res.status(500).json({ message: 'Failed to delete contact' });
   }
 };
 
@@ -109,13 +122,23 @@ export const ProfessionalContactDelete: RequestHandler = async (req: Request, re
 export const CompanyContactsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if company profile exists
+    const profileExists = await query('company_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Company profile id not found' });
+    }
+
     const sqlQuery = await query('company_contacts')
       .select('*')
       .where('company_id', profile_id) as CompanyContact[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get company contacts', error);
-    res.status(500).json({ message: 'Failed to get company contacts' });
+    return res.status(500).json({ message: 'Failed to get company contacts' });
   }
 };
 
@@ -127,10 +150,13 @@ export const CompanyContactGetById: RequestHandler = async (req: Request, res: R
       .select('*')
       .where('contact_id', contact_id)
       .first() as CompanyContact;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Contact id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get company contact', error);
-    res.status(500).json({ message: 'Failed to get company contact' });
+    return res.status(500).json({ message: 'Failed to get company contact' });
   }
 };
 
@@ -148,10 +174,10 @@ export const CompanyContactPost: RequestHandler = async (req: Request, res: Resp
       .where('contact_id', insertedContactId)
       .first() as CompanyContact;
 
-    res.status(201).json(createdContact);
+    return res.status(201).json(createdContact);
   } catch (error) {
     console.error('Failed to create contact:', error);
-    res.status(500).json({ message: 'Failed to create contact' });
+    return res.status(500).json({ message: 'Failed to create contact' });
   }
 };
 
@@ -167,16 +193,16 @@ export const CompanyContactPut: RequestHandler = async (req: Request, res: Respo
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Contact not found' });
+      return res.status(404).json({ message: 'Contact not found' });
     } else {
       const updatedContact = await query('company_contacts')
         .where('contact_id', contact_id)
         .first() as CompanyContact;
-      res.json(updatedContact);
+      return res.json(updatedContact);
     }
   } catch (error) {
     console.error('Failed to update contact:', error);
-    res.status(500).json({ message: 'Failed to update contact' });
+    return res.status(500).json({ message: 'Failed to update contact' });
   }
 };
 
@@ -190,13 +216,13 @@ export const CompanyContactDelete: RequestHandler = async (req: Request, res: Re
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Contact not found' });
+      return res.status(404).json({ message: 'Contact not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete contact:', error);
-    res.status(500).json({ message: 'Failed to delete contact' });
+    return res.status(500).json({ message: 'Failed to delete contact' });
   }
 };
 
@@ -208,13 +234,23 @@ export const CompanyContactDelete: RequestHandler = async (req: Request, res: Re
 export const ProjectContactsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { project_id } = req.params;
+
+    // Check if project exists
+    const projectExists = await query('projects')
+      .select('project_id')
+      .where('project_id', project_id)
+      .first();
+    if (!projectExists) {
+      return res.status(404).json({ message: 'Project id not found' });
+    }
+
     const sqlQuery = await query('project_contacts')
       .select('*')
       .where('project_id', project_id) as ProjectContact[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get project contacts', error);
-    res.status(500).json({ message: 'Failed to get project contacts' });
+    return res.status(500).json({ message: 'Failed to get project contacts' });
   }
 };
 
@@ -226,10 +262,13 @@ export const ProjectContactGetById: RequestHandler = async (req: Request, res: R
       .select('*')
       .where('contact_id', contact_id)
       .first() as ProjectContact;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Contact id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get project contact', error);
-    res.status(500).json({ message: 'Failed to get project contact' });
+    return res.status(500).json({ message: 'Failed to get project contact' });
   }
 };
 
@@ -247,10 +286,10 @@ export const ProjectContactPost: RequestHandler = async (req: Request, res: Resp
       .where('contact_id', insertedContactId)
       .first() as ProjectContact;
 
-    res.status(201).json(createdContact);
+    return res.status(201).json(createdContact);
   } catch (error) {
     console.error('Failed to create contact:', error);
-    res.status(500).json({ message: 'Failed to create contact' });
+    return res.status(500).json({ message: 'Failed to create contact' });
   }
 };
 
@@ -266,16 +305,16 @@ export const ProjectContactPut: RequestHandler = async (req: Request, res: Respo
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Contact not found' });
+      return res.status(404).json({ message: 'Contact not found' });
     } else {
       const updatedContact = await query('project_contacts')
         .where('contact_id', contact_id)
         .first() as ProjectContact;
-      res.json(updatedContact);
+      return res.json(updatedContact);
     }
   } catch (error) {
     console.error('Failed to update contact:', error);
-    res.status(500).json({ message: 'Failed to update contact' });
+    return res.status(500).json({ message: 'Failed to update contact' });
   }
 };
 
@@ -289,12 +328,12 @@ export const ProjectContactDelete: RequestHandler = async (req: Request, res: Re
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Contact not found' });
+      return res.status(404).json({ message: 'Contact not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete contact:', error);
-    res.status(500).json({ message: 'Failed to delete contact' });
+    return res.status(500).json({ message: 'Failed to delete contact' });
   }
 };

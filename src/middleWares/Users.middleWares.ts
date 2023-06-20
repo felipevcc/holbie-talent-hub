@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 // Returns all the users
 export const UsersGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('users').select('*') as User[];
-  res.json(sqlQuery);
+  return res.json(sqlQuery);
 };
 
 // Returns the user with the given user_id
@@ -17,10 +17,13 @@ export const UserGetById: RequestHandler = async (req: Request, res: Response) =
       .select('*')
       .where('user_id', user_id)
       .first() as User;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'User id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get user:', error);
-    res.status(404).json({ message: 'Failed to get user' });
+    return res.status(500).json({ message: 'Failed to get user' });
   }
 };
 
@@ -41,10 +44,10 @@ export const UserPost: RequestHandler = async (req: Request, res: Response) => {
       .where('user_id', insertedUserId)
       .first() as User;
 
-    res.status(201).json(createdUser);
+    return res.status(201).json(createdUser);
   } catch (error) {
     console.error('Failed to create user:', error);
-    res.status(500).json({ message: 'Failed to create user' });
+    return res.status(500).json({ message: 'Failed to create user' });
   }
 };
 
@@ -71,16 +74,16 @@ export const UserPut: RequestHandler = async (req: Request, res: Response) => {
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found' });
     } else {
       const updatedUser = await query('users')
         .where('user_id', user_id)
         .first() as User;
-      res.json(updatedUser);
+      return res.json(updatedUser);
     }
   } catch (error) {
     console.error('Failed to update user:', error);
-    res.status(500).json({ message: 'Failed to update user' });
+    return res.status(500).json({ message: 'Failed to update user' });
   }
 };
 
@@ -94,12 +97,12 @@ export const UserDelete: RequestHandler = async (req: Request, res: Response) =>
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete user:', error);
-    res.status(500).json({ message: 'Failed to delete user' });
+    return res.status(500).json({ message: 'Failed to delete user' });
   }
 };

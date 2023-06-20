@@ -10,7 +10,7 @@ import { CompanyProfile } from "../types/company_profiles.d";
 // Returns all the profiles
 export const ProfilesGet: RequestHandler = async (_req: Request, res: Response) => {
   const sqlQuery = await query('professional_profiles').select('*') as ProfessionalProfile[];
-  res.json(sqlQuery);
+  return res.json(sqlQuery);
 };
 
 // Returns the profile with the given profile_id
@@ -21,10 +21,13 @@ export const ProfileGetById: RequestHandler = async (req: Request, res: Response
       .select('*')
       .where('profile_id', profile_id)
       .first() as ProfessionalProfile;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get user' + error);
-    res.status(404).json({ message: 'Profile id not found' });
+    console.error('Failed to get profile', error);
+    return res.status(500).json({ message: 'Failed to get profile' });
   }
 };
 
@@ -41,10 +44,10 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
       .where('profile_id', insertedProfileId)
       .first() as ProfessionalProfile;
 
-    res.status(201).json(createdProfile);
+    return res.status(201).json(createdProfile);
   } catch (error) {
     console.error('Failed to create profile:', error);
-    res.status(500).json({ message: 'Failed to create profile' });
+    return res.status(500).json({ message: 'Failed to create profile' });
   }
 };
 
@@ -60,16 +63,16 @@ export const ProfilePut: RequestHandler = async (req: Request, res: Response) =>
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Profile not found' });
+      return res.status(404).json({ message: 'Profile not found' });
     } else {
       const updatedProfile = await query('professional_profiles')
         .where('profile_id', profile_id)
         .first() as ProfessionalProfile;
-      res.json(updatedProfile);
+      return res.json(updatedProfile);
     }
   } catch (error) {
     console.error('Failed to update profile:', error);
-    res.status(500).json({ message: 'Failed to update profile' });
+    return res.status(500).json({ message: 'Failed to update profile' });
   }
 };
 
@@ -83,13 +86,13 @@ export const ProfileDelete: RequestHandler = async (req: Request, res: Response)
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Profile not found' });
+      return res.status(404).json({ message: 'Profile not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete profile:', error);
-    res.status(500).json({ message: 'Failed to delete profile' });
+    return res.status(500).json({ message: 'Failed to delete profile' });
   }
 };
 
@@ -101,13 +104,23 @@ export const ProfileDelete: RequestHandler = async (req: Request, res: Response)
 export const ProfileEducationGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if the profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('education')
       .select('*')
       .where('profile_id', profile_id) as Education[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get user\'s experience' + error);
-    res.status(404).json({ message: 'Education id not found' });
+    console.error('Failed to get user\'s experience', error);
+    return res.status(500).json({ message: 'Failed to get user\'s experience' });
   }
 };
 
@@ -119,10 +132,13 @@ export const EducationGetById: RequestHandler = async (req: Request, res: Respon
       .select('*')
       .where('education_id', education_id)
       .first() as Education;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Education id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get profile\'s education' + error);
-    res.status(404).json({ message: 'Failed to get profile\'s education' });
+    return res.status(500).json({ message: 'Failed to get profile\'s education' });
   }
 };
 
@@ -139,10 +155,10 @@ export const EducationPost: RequestHandler = async (req: Request, res: Response)
     const createdEducation = await query('education')
       .where('education_id', insertedEducationId)
       .first() as Education;
-    res.status(201).json(createdEducation);
+    return res.status(201).json(createdEducation);
   } catch (error) {
     console.error('Failed to create education:', error);
-    res.status(500).json({ message: 'Failed to create education' });
+    return res.status(500).json({ message: 'Failed to create education' });
   }
 };
 
@@ -158,16 +174,16 @@ export const EducationPut: RequestHandler = async (req: Request, res: Response) 
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Education not found' });
+      return res.status(404).json({ message: 'Education not found' });
     } else {
       const updatedEducation = await query('education')
         .where('education_id', education_id)
         .first() as Education;
-      res.json(updatedEducation);
+      return res.json(updatedEducation);
     }
   } catch (error) {
     console.error('Failed to update education:', error);
-    res.status(500).json({ message: 'Failed to update education' });
+    return res.status(500).json({ message: 'Failed to update education' });
   }
 };
 
@@ -181,13 +197,13 @@ export const EducationDelete: RequestHandler = async (req: Request, res: Respons
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Education not found' });
+      return res.status(404).json({ message: 'Education not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete ducation:', error);
-    res.status(500).json({ message: 'Failed to delete education' });
+    return res.status(500).json({ message: 'Failed to delete education' });
   }
 };
 
@@ -199,13 +215,23 @@ export const EducationDelete: RequestHandler = async (req: Request, res: Respons
 export const ProfileExperienceGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if the profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('experience')
       .select('*')
       .where('profile_id', profile_id) as Experience[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get profile\'s experience' + error);
-    res.status(404).json({ message: 'Failed to get user\'s experience' });
+    console.error('Failed to get profile\'s experience', error);
+    return res.status(500).json({ message: 'Failed to get user\'s experience' });
   }
 };
 
@@ -217,10 +243,13 @@ export const ExperienceGetById: RequestHandler = async (req: Request, res: Respo
       .select('*')
       .where('experience_id', experience_id)
       .first() as Experience;
-    res.json(sqlQuery);
+    if (!sqlQuery) {
+      return res.status(404).json({ message: 'Experience id not found' });
+    }
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get experience' + error);
-    res.status(404).json({ message: 'Experience id not found' });
+    console.error('Failed to get experience', error);
+    return res.status(500).json({ message: 'Failed to get experience' });
   }
 };
 
@@ -231,17 +260,17 @@ export const ExperiencePost: RequestHandler = async (req: Request, res: Response
     const { company_name, position, description, start_date, end_date = null } = req.body;
 
     const sqlQuery = await query('experience')
-      .insert({ company_name, position, description, start_date, end_date, profile_id});
+      .insert({ company_name, position, description, start_date, end_date, profile_id });
     const insertedExperienceId = sqlQuery[0];
 
     const createdExperience = await query('experience')
       .where('experience_id', insertedExperienceId)
       .first() as Experience;
 
-    res.status(201).json(createdExperience);
+    return res.status(201).json(createdExperience);
   } catch (error) {
     console.error('Failed to create experience:', error);
-    res.status(500).json({ message: 'Failed to create experience' });
+    return res.status(500).json({ message: 'Failed to create experience' });
   }
 };
 
@@ -257,16 +286,16 @@ export const ExperiencePut: RequestHandler = async (req: Request, res: Response)
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
-      res.status(404).json({ message: 'Experience not found' });
+      return res.status(404).json({ message: 'Experience not found' });
     } else {
       const updatedExperience = await query('experience')
         .where('experience_id', experience_id)
         .first() as Experience;
-      res.json(updatedExperience);
+      return res.json(updatedExperience);
     }
   } catch (error) {
     console.error('Failed to update experience:', error);
-    res.status(500).json({ message: 'Failed to update experience' });
+    return res.status(500).json({ message: 'Failed to update experience' });
   }
 };
 
@@ -280,13 +309,13 @@ export const ExperienceDelete: RequestHandler = async (req: Request, res: Respon
 
     const deletedRows = sqlQuery;
     if (!deletedRows) {
-      res.status(404).json({ message: 'Experience not found' });
+      return res.status(404).json({ message: 'Experience not found' });
     } else {
-      res.status(204).json();
+      return res.status(204).json();
     }
   } catch (error) {
     console.error('Failed to delete experience:', error);
-    res.status(500).json({ message: 'Failed to delete experience' });
+    return res.status(500).json({ message: 'Failed to delete experience' });
   }
 };
 
@@ -298,13 +327,23 @@ export const ExperienceDelete: RequestHandler = async (req: Request, res: Respon
 export const JobGet: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
+
+    // Check if the profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
     const sqlQuery = await query('company_professional_profiles')
       .select('company_professional_profiles.company_id', 'company_profiles.company_name')
       .join('company_profiles', 'company_profiles.profile_id', 'company_professional_profiles.company_id')
       .where('company_professional_profiles.professional_profile_id', profile_id) as CompanyProfile[];
-    res.json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
-    console.error('Failed to get jobs' + error);
-    res.status(404).json({ message: 'Profile id not found' });
+    console.error('Failed to get jobs', error);
+    return res.status(500).json({ message: 'Failed to get jobs' });
   }
 };
