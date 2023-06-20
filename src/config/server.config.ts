@@ -50,7 +50,7 @@ app.use("/api", UsersRoutes);
 
 // Documentation (Swagger)
 import swaggerUi from "swagger-ui-express";
-import swaggerSpecs from "../docs/swagger";
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+import swaggerSpecs from "../documentation/swagger";
+app.use("/api/documentation", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 export default app;
