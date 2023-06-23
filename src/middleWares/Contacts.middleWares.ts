@@ -115,7 +115,7 @@ export const ProfessionalContactDelete: RequestHandler = async (req: Request, re
 };
 
 // ===============================================================
-// ================== COMPANY_PROFILE_CONTACTS ==================
+// ================== COMPANY_PROFILE_CONTACTS ===================
 // ===============================================================
 
 // Returns all the company profile contacts with the given company_id

@@ -3,7 +3,7 @@ import { knexInstance as query } from "../services/ConnetDB.services";
 import { ProfessionalMultimedia, CompanyMultimedia, ProjectMultimedia, EducationMultimedia } from "../types/multimedia.d";
 
 // ===============================================================
-// ================ PROFESSIONAL_PROFILE_MULTIMEDIA ================
+// ================ PROFESSIONAL_PROFILE_MULTIMEDIA ==============
 // ===============================================================
 
 // Returns all the professional profile multimedia with the given profile_id
@@ -322,7 +322,7 @@ export const ProjectMultimediaPut: RequestHandler = async (req: Request, res: Re
 export const ProjectMultimediaDelete: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { media_id } = req.params;
-    const sqlQuery = await query('project_cmultimedia')
+    const sqlQuery = await query('project_multimedia')
       .where('media_id', media_id)
       .del();
 
