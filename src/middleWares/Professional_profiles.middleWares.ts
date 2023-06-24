@@ -9,7 +9,9 @@ import { CompanyProfile } from "../types/company_profiles.d";
 
 // Returns all the profiles
 export const ProfilesGet: RequestHandler = async (_req: Request, res: Response) => {
-  const sqlQuery = await query('professional_profiles').select('*') as ProfessionalProfile[];
+  const sqlQuery = await query('professional_profiles')
+    .select('*')
+    .where('is_user', true) as ProfessionalProfile[];
   return res.json(sqlQuery);
 };
 

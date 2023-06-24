@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS company_profiles (
   industry VARCHAR(255),
   about_us TEXT,
   location VARCHAR(255),
-  website RCHAR(512),
+  website VARCHAR(512),
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -253,12 +253,11 @@ CREATE TABLE IF NOT EXISTS messages (
 CREATE TABLE IF NOT EXISTS professional_skills (
   profile_id BIGINT UNSIGNED NOT NULL,
   skill_id BIGINT UNSIGNED NOT NULL,
-  proficiency_level INT,
+  proficiency_level INT DEFAULT 1,
   PRIMARY KEY (profile_id, skill_id),
   FOREIGN KEY (profile_id) REFERENCES professional_profiles(profile_id) ON DELETE CASCADE,
   FOREIGN KEY (skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE
 );
-
 
 -- Tabla "project_skills"
 CREATE TABLE IF NOT EXISTS project_skills (

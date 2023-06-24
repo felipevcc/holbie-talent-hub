@@ -35,18 +35,24 @@ import ProjectsRoutes from "../routes/Projects.routes";
 import RatingsRoutes from "../routes/Ratings.routes";
 import SkillsRoutes from "../routes/Skills.routes";
 import UsersRoutes from "../routes/Users.routes";
+import FiltersRoutes from "../routes/Filters.routes";
+import AuthRoutes from "../routes/Auth.routes";
+import RegistrationRoutes from "../routes/Registration.routes";
 
 // Use routes
-app.use("/api", ApplicationsRoutes);
-app.use("/api", Company_profilesRoutes);
-app.use("/api", ContactsRoutes);
-app.use("/api", MessagesRoutes);
-app.use("/api", MultimediaRoutes);
-app.use("/api", Professional_profilesRoutes);
-app.use("/api", ProjectsRoutes);
-app.use("/api", RatingsRoutes);
-app.use("/api", SkillsRoutes);
-app.use("/api", UsersRoutes);
+app.use("/api/v1", ApplicationsRoutes);
+app.use("/api/v1", Company_profilesRoutes);
+app.use("/api/v1", ContactsRoutes);
+app.use("/api/v1", MessagesRoutes);
+app.use("/api/v1", MultimediaRoutes);
+app.use("/api/v1", Professional_profilesRoutes);
+app.use("/api/v1", ProjectsRoutes);
+app.use("/api/v1", RatingsRoutes);
+app.use("/api/v1", SkillsRoutes);
+app.use("/api/v1", UsersRoutes);
+app.use("/api/v1", FiltersRoutes);
+app.use("/api/v1", AuthRoutes);
+app.use("/api/v1", RegistrationRoutes);
 
 // Documentation (Swagger)
 import swaggerUi from "swagger-ui-express";
