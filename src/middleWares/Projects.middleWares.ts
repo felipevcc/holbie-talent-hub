@@ -173,7 +173,7 @@ export const ProjectCollaboratorsPost: RequestHandler = async (req: Request, res
     let positiveRatings: number = 0;
     let negativeRatings: number = 0;
     for (let rating of projectRatings) {
-      rating.positive_rating ? positiveRatings++ : negativeRatings--;
+      rating.positive_rating ? positiveRatings++ : negativeRatings++;
     }
     const ratingsValue: number = positiveRatings - negativeRatings;
 

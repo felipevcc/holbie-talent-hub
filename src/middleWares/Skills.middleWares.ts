@@ -195,12 +195,61 @@ export const ProjectSkillPost: RequestHandler = async (req: Request, res: Respon
     // Create skill in all collaborator profiles when adding a new project skill
     const collaboratorsIds = await query('professional_profiles_projects')
       .select('profile_id')
-      .where('project_id', project_id);
+      .where('project_id', project_id)
+      .pluck('profile_id') as number[];
+      
     for (let collaboratorId of collaboratorsIds) {
       await query('professional_skills')
-        .insert({ profile_id: collaboratorId.profile_id, skill_id })
+        .insert({ profile_id: collaboratorId, skill_id })
         .onConflict(['profile_id', 'skill_id'])
         .ignore();
+    }
+
+    // Manage the proficiency_level of these new skills based on project ratings
+
+    // Project ratings
+    const projectRatings = await query('project_ratings')
+      .select('positive_rating')
+      .where('project_id', project_id);
+    // Stop if no project ratings
+    if (!projectRatings.length) {
+      return res.status(201).json(createdSkill);
+    }
+
+    // Calcs ratings value
+    let positiveRatings: number = 0;
+    let negativeRatings: number = 0;
+    for (let rating of projectRatings) {
+      rating.positive_rating ? positiveRatings++ : negativeRatings++;
+    }
+    const ratingsValue: number = positiveRatings - negativeRatings;
+
+    for (let collaboratorId of collaboratorsIds) {
+      // Get the skill proficiency_level of the current collaborator
+      const proficiency_level: number = (await query('professional_skills')
+        .select('proficiency_level')
+        .where('profile_id', collaboratorId)
+        .andWhere('skill_id', skill_id)
+        .first())['proficiency_level'];
+
+      // Modify proficiency_level according to the total value of the project ratings
+      let newProficiencyLevel = proficiency_level;
+      if (ratingsValue) {
+        newProficiencyLevel += ratingsValue;
+      } else {
+        if (!proficiency_level) {
+          continue;
+        }
+        newProficiencyLevel -= ratingsValue;
+        if (!newProficiencyLevel)
+          newProficiencyLevel = 0;
+      }
+
+      // proficiency_level update
+      await query('professional_skills')
+        .where('profile_id', collaboratorId)
+        .andWhere('skill_id', skill_id)
+        .update('proficiency_level', newProficiencyLevel);
     }
 
     return res.status(201).json(createdSkill);
