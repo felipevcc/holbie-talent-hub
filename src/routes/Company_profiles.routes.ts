@@ -166,17 +166,18 @@ const router = Router();
  *                 $ref: '#/components/schemas/CompanyProfile'
  *             example:
  *               - profile_id: 1
- *                 name: Holberton
- *                 address: Calle 5
- *                 email: info@companya.com
+ *                 company_name: Holberton
+ *                 industry: technology
+ *                 about_us: We are a company that develops software
+ *                 location: cali
+ *                 website: www.holberton.com
  *                 phone: 123456789
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
  *               - profile_id: 2
- *                 name: Coderise
- *                 address: Calle 6
- *                 email: info@companyb.com
- *                 phone: 987654321
+ *                 company_name: Coderise
+ *                 location: medellin
+ *                 website: www.coderise.com
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
  *
@@ -194,10 +195,11 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/CompanyProfile'
  *             example:
- *               name: Holberton
- *               address: Calle 5
- *               email: info@companya.com
- *               phone: 123456789
+ *               company_name: Holberton
+ *               industry: technology
+ *               about_us: We are a company that develops software
+ *               location: cali
+ *               website: www.holberton.com
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
  *       '404':
