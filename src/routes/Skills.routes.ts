@@ -90,7 +90,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/skills:
+ * /api/v1/skills:
  *   get:
  *     summary: Get all skills
  *     tags: [Skills]
@@ -146,7 +146,7 @@ router.post('/skills', SkillPost);
 
 /**
  * @swagger
- * /api/skills/{skill_id}:
+ * /api/v1/skills/{skill_id}:
  *   get:
  *     summary: Get a skill by ID
  *     tags: [Skills]
@@ -250,7 +250,7 @@ router.delete('/skills/:skill_id', SkillDelete);
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/skills:
+ * /api/v1/professional_profiles/{profile_id}/skills:
  *   get:
  *     summary: Get skills for a professional profile
  *     tags: [Professional Skills]
@@ -330,7 +330,7 @@ router.post('/professional_profiles/:profile_id/skills', ProfileSkillPost);
 
 /**
  * @swagger
- * /api/projects/{project_id}/skills:
+ * /api/v1/projects/{project_id}/skills:
  *   get:
  *     summary: Get skills for a project
  *     tags: [Project Skills]

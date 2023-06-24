@@ -167,7 +167,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/professional_profiles:
+ * /api/v1/professional_profiles:
  *   post:
  *     summary: Create a new professional profile
  *     tags: [ProfessionalProfiles]
@@ -244,7 +244,7 @@ router.get('/professional_profiles/:profile_id', ProfileGetById);
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}:
+ * /api/v1/professional_profiles/{profile_id}:
  *   get:
  *     summary: Get a professional profile by ID
  *     tags: [ProfessionalProfiles]
@@ -375,7 +375,7 @@ router.delete('/professional_profiles/:profile_id', ProfileDelete);
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/education:
+ * /api/v1/professional_profiles/{profile_id}/education:
  *   post:
  *     summary: Add education to a professional profile
  *     tags: [Education]
@@ -478,7 +478,7 @@ router.get('/professional_profiles/:profile_id/education', ProfileEducationGet);
 
 /**
  * @swagger
- * /api/education/{education_id}:
+ * /api/v1/education/{education_id}:
  *   get:
  *     summary: Get education by ID
  *     tags: [Education]
@@ -599,7 +599,7 @@ router.delete('/education/:education_id', EducationDelete);
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/experience:
+ * /api/v1/professional_profiles/{profile_id}/experience:
  *   post:
  *     summary: Add experience to a professional profile
  *     tags: [Experience]
@@ -688,7 +688,7 @@ router.get('/professional_profiles/:profile_id/experience', ProfileExperienceGet
 
 /**
  * @swagger
- * /api/experience/{experience_id}:
+ * /api/v1/experience/{experience_id}:
  *   get:
  *     summary: Get experience by ID
  *     tags: [Experience]
@@ -804,7 +804,7 @@ router.delete('/experience/:experience_id', ExperienceDelete);
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/jobs:
+ * /api/v1/professional_profiles/{profile_id}/jobs:
  *   get:
  *     summary: Get jobs for a professional profile
  *     tags: [Jobs]

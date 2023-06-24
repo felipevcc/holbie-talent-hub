@@ -100,7 +100,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/company_profiles/{company_id}/applications:
+ * /api/v1/company_profiles/{company_id}/applications:
  *   get:
  *     summary: Get applications from a company
  *     tags:
@@ -135,7 +135,7 @@ router.get('/company_profiles/:company_id/applications', CompanyApplicationsGet)
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/applications:
+ * /api/v1/professional_profiles/{profile_id}/applications:
  *   get:
  *     summary: Get applications from a profile
  *     tags:
@@ -170,7 +170,7 @@ router.get('/professional_profiles/:profile_id/applications', ProfileApplication
 
 /**
  * @swagger
- * /api/applications/{application_id}:
+ * /api/v1/applications/{application_id}:
  *   get:
  *     summary: Get application by id
  *     tags:
@@ -209,7 +209,7 @@ router.get('/applications/:application_id', ApplicationGetById);
 
 /**
  * @swagger
- * /api/applications:
+ * /api/v1/applications:
  *   post:
  *     summary: Create a new application
  *     tags: [Applications]
@@ -243,7 +243,7 @@ router.post('/applications', ApplicationPost);
 
 /**
  * @swagger
- * /api/applications/{application_id}:
+ * /api/v1/applications/{application_id}:
  *   put:
  *     summary: update application
  *     tags: [Applications]
@@ -285,7 +285,7 @@ router.put('/applications/:application_id', ApplicationPut);
 
 /**
  * @swagger
- * /api/applications/{application_id}:
+ * /api/v1/applications/{application_id}:
  *   delete:
  *     summary: Delete application
  *     tags: [Applications]

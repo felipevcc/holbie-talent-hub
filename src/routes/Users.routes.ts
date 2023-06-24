@@ -81,7 +81,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/users:
+ * /api/v1/users:
  *   get:
  *     summary: Get all users
  *     tags: [Users]
@@ -156,7 +156,7 @@ router.post('/users', UserPost);
 
 /**
  * @swagger
- * /api/users/{user_id}:
+ * /api/v1/users/{user_id}:
  *   get:
  *     summary: Get a user by ID
  *     tags: [Users]
@@ -214,6 +214,12 @@ router.post('/users', UserPost);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
+ *             example:
+ *               first_name: John
+ *               last_name: Doe
+ *               email: john.update@example.com
+ *               password: 123456
+ *               role: ACADEMY-STUDENTS
  *       '404':
  *         description: User not found
  *         content:

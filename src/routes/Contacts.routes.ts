@@ -136,7 +136,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/contacts:
+ * /api/v1/professional_profiles/{profile_id}/contacts:
  *   post:
  *     summary: Create a contact for a professional profile
  *     tags: [ProfessionalContacts]
@@ -224,7 +224,7 @@ router.post('/professional_profiles/:profile_id/contacts', ProfessionalContactPo
 
 /**
  * @swagger
- * /api/professional_contacts/{contact_id}:
+ * /api/v1/professional_contacts/{contact_id}:
  *   get:
  *     summary: Get a professional contact by ID
  *     tags: [ProfessionalContacts]
@@ -334,7 +334,7 @@ router.delete('/professional_contacts/:contact_id', ProfessionalContactDelete);
 
 /**
  * @swagger
- * /api/company_profiles/{profile_id}/contacts:
+ * /api/v1/company_profiles/{profile_id}/contacts:
  *   post:
  *     summary: Create a new contact for a company profile
  *     tags: [CompanyContacts]
@@ -429,7 +429,7 @@ router.get('/company_profiles/:profile_id/contacts', CompanyContactsGet);
 
 /**
  * @swagger
- * /api/company_contacts/{contact_id}:
+ * /api/v1/company_contacts/{contact_id}:
  *   get:
  *     summary: Get a company contact by ID
  *     tags: [CompanyContacts]
@@ -539,7 +539,7 @@ router.delete('/company_contacts/:contact_id', CompanyContactDelete);
 
 /**
  * @swagger
- * /api/projects/{project_id}/contacts:
+ * /api/v1/projects/{project_id}/contacts:
  *   post:
  *     summary: Create a new contact for a project
  *     tags: [ProjectContacts]
@@ -631,7 +631,7 @@ router.get('/projects/:project_id/contacts', ProjectContactsGet);
 
 /**
  * @swagger
- * /api/project_contacts/{contact_id}:
+ * /api/v1/project_contacts/{contact_id}:
  *   get:
  *     summary: Get a project contact by ID
  *     tags: [ProjectContacts]

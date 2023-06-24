@@ -151,7 +151,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/company_profiles:
+ * /api/v1/company_profiles:
  *   get:
  *     summary: Get company profiles
  *     tags: [CompanyProfiles]
@@ -181,7 +181,7 @@ const router = Router();
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
  *
- * /api/company_profiles/{profile_id}:
+ * /api/v1/company_profiles/{profile_id}:
  *   get:
  *     summary: Get company profile by ID
  *     tags: [CompanyProfiles]
@@ -334,7 +334,7 @@ router.delete('/company_profiles/:profile_id', ProfileDelete);
 
 /**
  * @swagger
- * /api/company_profiles/{company_id}/favorite_profiles:
+ * /api/v1/company_profiles/{company_id}/favorite_profiles:
  *   get:
  *     summary: Get favorite profiles for a company
  *     tags: [FavoriteProfiles]
@@ -412,7 +412,7 @@ router.delete('/company_profiles/:profile_id', ProfileDelete);
  *             example:
  *               message: Failed to add favorite profile
  *
- * /company_profiles/{company_id}/favorite_profiles/{profile_id}:
+ * /api/v1/company_profiles/{company_id}/favorite_profiles/{profile_id}:
  *   delete:
  *     summary: Delete favorite profile from a company
  *     tags: [FavoriteProfiles]
@@ -449,7 +449,7 @@ router.delete('/company_profiles/:company_id/favorite_profiles/:profile_id', Fav
 
 /**
  * @swagger
- * /api/company_profiles/{company_id}/employees:
+ * /api/v1/company_profiles/{company_id}/employees:
  *   get:
  *     summary: Get employees of a company
  *     tags: [CompanyProfiles]

@@ -195,7 +195,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/profile_ratings/{rating_id}:
+ * /api/v1/profile_ratings/{rating_id}:
  *   get:
  *     summary: Get profile rating by id
  *     tags: [Ratings]
@@ -268,7 +268,7 @@ router.put('/profile_ratings/:rating_id', RatingPut);
 
 /**
  * @swagger
- * /api/users/{user_id}/ratings/sent:
+ * /api/v1/users/{user_id}/ratings/sent:
  *   get:
  *     summary: Get ratings sent by user
  *     tags: [Users Ratings]
@@ -322,7 +322,7 @@ router.post('/users/:user_id/ratings/sent', RatingPost);
 
 /**
  * @swagger
- * /api/users/{user_id}/ratings/received:
+ * /api/v1/users/{user_id}/ratings/received:
  *   get:
  *     summary: Get ratings received by user
  *     tags: [Users Ratings]
@@ -352,7 +352,7 @@ router.get('/users/:user_id/ratings/received', UserReceivedRatingsGet);
 
 /**
  * @swagger
- * /api/project_ratings/{rating_id}:
+ * /api/v1/project_ratings/{rating_id}:
  *   get:
  *     summary: Get project rating by id
  *     tags: [Projects Ratings]
@@ -426,7 +426,7 @@ router.put('/project_ratings/:rating_id/', ProjectRatingPut);
 
 /**
  * @swagger
- * /api/company_profiles/{profile_id}/ratings:
+ * /api/v1/company_profiles/{profile_id}/ratings:
  *   get:
  *     summary: Get sent ratings by company profile id
  *     tags: [Company (sent - received)]
@@ -490,7 +490,7 @@ router.post('/company_profiles/:profile_id/ratings', CompanyRatingPost);
 
 /**
  * @swagger
- * /api/projects/{project_id}/ratings:
+ * /api/v1/projects/{project_id}/ratings:
  *   get:
  *     summary: Get received ratings by project id
  *     tags: [Company (sent - received)]

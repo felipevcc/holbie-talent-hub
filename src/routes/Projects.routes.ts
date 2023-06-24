@@ -160,7 +160,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/projects:
+ * /api/v1/professional_profiles/{profile_id}/projects:
  *   post:
  *     summary: Create a new project for a professional profile
  *     tags: [Projects]
@@ -206,7 +206,7 @@ router.post('/professional_profiles/:profile_id/projects', ProjectPost);
 
 /**
  * @swagger
- * /api/projects/{project_id}:
+ * /api/v1/projects/{project_id}:
  *   get:
  *     summary: Get a project by id
  *     tags: [Projects]
@@ -303,7 +303,7 @@ router.delete('/projects/:project_id', ProjectDelete);
 
 /**
  * @swagger
- * /api/projects/{project_id}/collaborators:
+ * /api/v1/projects/{project_id}/collaborators:
  *   get:
  *     summary: Get all collaborators of a project by id
  *     tags: [Collaborators]
@@ -378,7 +378,7 @@ router.post('/projects/:project_id/collaborators', ProjectCollaboratorsPost);
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/projects:
+ * /api/v1/professional_profiles/{profile_id}/projects:
  *   get:
  *     summary: Get projects by professional profile ID
  *     tags: [Profiles Projects]
@@ -419,7 +419,7 @@ router.get('/professional_profiles/:profile_id/projects', ProfileProjectsGet);
 
 /**
  * @swagger
- * /api/company_profiles/{company_id}/capstones:
+ * /api/v1/company_profiles/{company_id}/capstones:
  *   get:
  *     summary: Get all capstones of a company profile by ID
  *     tags: [Capstones]
@@ -459,7 +459,7 @@ router.get('/company_profiles/:company_id/capstones', CompanyCapstonesGet);
 
 /**
  * @swagger
- * /api/company_profiles/{company_id}/capstones:
+ * /api/v1/company_profiles/{company_id}/capstones:
  *   post:
  *     summary: Create a new capstone for a company profile
  *     tags: [Capstones]
@@ -505,7 +505,7 @@ router.post('/company_profiles/:company_id/capstones', CapstonePost);
 
 /**
  * @swagger
- * /api/company_profiles/{company_id}/capstones/{project_id}:
+ * /api/v1/company_profiles/{company_id}/capstones/{project_id}:
  *   get:
  *     summary: Get a specific capstone by project ID and company profile ID
  *     tags: [Capstones]
@@ -545,7 +545,7 @@ router.get('/company_profiles/:company_id/capstones/:project_id', CapstoneGetByI
 
 /**
  * @swagger
- * /api/company_profiles/{company_id}/capstones/{project_id}:
+ * /api/v1/company_profiles/{company_id}/capstones/{project_id}:
  *   put:
  *     summary: Update a specific capstone by project ID and company profile ID
  *     tags: [Capstones]

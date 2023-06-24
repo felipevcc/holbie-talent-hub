@@ -136,7 +136,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/messages/{message_id}:
+ * /api/v1/messages/{message_id}:
  *   get:
  *     summary: Get a message by ID
  *     tags: [Messages]
@@ -170,7 +170,7 @@ router.get('/messages/:message_id', MessageGetById);
 
 /**
  * @swagger
- * /api/messages/{message_id}:
+ * /api/v1/messages/{message_id}:
  *   put:
  *     summary: Update a message
  *     tags: [Messages]
@@ -214,7 +214,7 @@ router.put('/messages/:message_id', MessagePut);
 
 /**
  * @swagger
- * /api/users/{user_id}/messages/sent:
+ * /api/v1/users/{user_id}/messages/sent:
  *   get:
  *     summary: Get all sent messages by user ID
  *     tags: [User messages]
@@ -250,7 +250,7 @@ router.get('/users/:user_id/messages/sent', UserSentMessagesGet);
 
 /**
  * @swagger
- * /api/users/{user_id}/messages/sent:
+ * /api/v1/users/{user_id}/messages/sent:
  *   post:
  *     summary: Create a new message
  *     tags: [User messages]
@@ -282,7 +282,7 @@ router.post('/users/:user_id/messages/sent', MessagePost);
 
 /**
  * @swagger
- * /api/users/{user_id}/messages/received:
+ * /api/v1/users/{user_id}/messages/received:
  *   get:
  *     summary: Get all received messages by user ID
  *     tags: [User messages]

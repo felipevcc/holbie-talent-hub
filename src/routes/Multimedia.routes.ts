@@ -163,7 +163,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/professional_profiles/{profile_id}/multimedia:
+ * /api/v1/professional_profiles/{profile_id}/multimedia:
  *   get:
  *     summary: Get multimedia for a professional profile
  *     tags: [ProfessionalMultimedia]
@@ -243,7 +243,7 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
 
 /**
  * @swagger
- * /api/professional_multimedia/{media_id}:
+ * /api/v1/professional_multimedia/{media_id}:
  *   get:
  *     summary: Get professional multimedia by ID
  *     tags: [ProfessionalMultimedia]
@@ -339,7 +339,7 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
 
 /**
  * @swagger
- * /api/company_profiles/{profile_id}/multimedia:
+ * /api/v1/company_profiles/{profile_id}/multimedia:
  *   get:
  *     summary: Get multimedia for a company profile
  *     tags: [CompanyMultimedia]
@@ -418,7 +418,7 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
 
 /**
  * @swagger
- * /api/company_multimedia/{media_id}:
+ * /api/v1/company_multimedia/{media_id}:
  *   get:
  *     summary: Get company multimedia by ID
  *     tags: [CompanyMultimedia]
@@ -519,7 +519,7 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
 
 /**
  * @swagger
- * /api/projects/{project_id}/multimedia:
+ * /api/v1/projects/{project_id}/multimedia:
  *   post:
  *     summary: Created multimedia to a project
  *     tags: [ProjectMultimedia]
@@ -603,7 +603,7 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
     
 /**
  * @swagger
- * /api/project_multimedia/{media_id}:
+ * /api/v1/project_multimedia/{media_id}:
  *   get:
  *     summary: Get project multimedia by ID
  *     tags: [ProjectMultimedia]
@@ -715,7 +715,7 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
 
 /**
  * @swagger
- * /api/education/{education_id}/multimedia:
+ * /api/v1/education/{education_id}/multimedia:
  *   post:
  *     summary: Upload multimedia for education
  *     tags: [EducationMultimedia]
@@ -815,7 +815,7 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
 
 /**
  * @swagger
- * /api/education_multimedia/{media_id}:
+ * /api/v1/education_multimedia/{media_id}:
  *   get:
  *     summary: Get education multimedia by ID
  *     tags: [EducationMultimedia]
