@@ -30,14 +30,14 @@ export const UserGetById: RequestHandler = async (req: Request, res: Response) =
 // POST endpoint to create an user
 export const UserPost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { first_name, last_name, email, password_hash, role, company_id = null, professional_id = null } = req.body;
+    const { first_name, last_name, email, password, role, company_id = null, professional_id = null } = req.body;
 
     // Number of salt rounds (higher is safer but slower)
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password_hash, saltRounds);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const sqlQuery = await query('users')
-      .insert({ first_name, last_name, email, password_hash: hashedPassword, role, company_id, professional_id });
+      .insert({ first_name, last_name, email, password: hashedPassword, role, company_id, professional_id });
     const insertedUserId = sqlQuery[0];
 
     const createdUser = await query('users')
@@ -55,12 +55,12 @@ export const UserPost: RequestHandler = async (req: Request, res: Response) => {
 export const UserPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
-    const { first_name, last_name, email, password_hash, role } = req.body; // the role and id can be modified
+    const { first_name, last_name, email, password, role } = req.body;
 
     let hashedPassword: string | undefined = undefined;
-    if (password_hash !== undefined) {
+    if (password !== undefined) {
       const saltRounds = 10;
-      hashedPassword = await bcrypt.hash(password_hash, saltRounds);
+      hashedPassword = await bcrypt.hash(password, saltRounds);
     }
 
     const updateData: Partial<User> = { first_name, last_name, email, role };
