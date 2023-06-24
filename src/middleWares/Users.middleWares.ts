@@ -1,12 +1,17 @@
 import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../services/ConnetDB.services";
 import { User } from "../types/users.d";
-import bcrypt from 'bcrypt';
+import { hashPassword } from "./Auth.middleWares";
 
 // Returns all the users
 export const UsersGet: RequestHandler = async (_req: Request, res: Response) => {
-  const sqlQuery = await query('users').select('*') as User[];
-  return res.json(sqlQuery);
+  try {
+    const sqlQuery = await query('users').select('*') as User[];
+    return res.json(sqlQuery);
+  } catch(error) {
+    console.error('Failed to get users:', error);
+    return res.status(500).json({ message: 'Failed to get users' });
+  }
 };
 
 // Returns the user with the given user_id
@@ -33,11 +38,10 @@ export const UserPost: RequestHandler = async (req: Request, res: Response) => {
     const { first_name, last_name, email, password, role, company_id = null, professional_id = null } = req.body;
 
     // Number of salt rounds (higher is safer but slower)
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await hashPassword(password);
 
     const sqlQuery = await query('users')
-      .insert({ first_name, last_name, email, password: hashedPassword, role, company_id, professional_id });
+      .insert({ first_name, last_name, email, password_hash: hashedPassword, role, company_id, professional_id });
     const insertedUserId = sqlQuery[0];
 
     const createdUser = await query('users')
@@ -59,8 +63,7 @@ export const UserPut: RequestHandler = async (req: Request, res: Response) => {
 
     let hashedPassword: string | undefined = undefined;
     if (password !== undefined) {
-      const saltRounds = 10;
-      hashedPassword = await bcrypt.hash(password, saltRounds);
+      hashedPassword = await hashPassword(password);
     }
 
     const updateData: Partial<User> = { first_name, last_name, email, role };

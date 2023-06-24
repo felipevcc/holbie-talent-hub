@@ -53,6 +53,7 @@ const router = Router();
  *           type: string
  *           format: date-time
  *       example:
+ *         project_id: 1
  *         title: "Project Title"
  *         description: "Project Description"
  *         repository: "https://github.com/project"
@@ -93,11 +94,12 @@ const router = Router();
  *           items:
  *             $ref: '#/components/schemas/Collaborator'
  *       example:
- *         collaborators:
- *           - name: John
- *             role: Developer
- *           - name: Jane
- *             role: Designer
+ *           - profile_id: 1
+ *             first_name: John
+ *             headline: Frontend Developer
+ *           - profile_id: 2
+ *             first_name: Jane
+ *             headline: Designer UI/UX
  *
  *     Collaborator:
  *       type: object
@@ -186,14 +188,6 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Project'
- *       404:
- *         description: Project id not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Project not found
  *       500:
  *         description: Failed to create project
  *         content:
@@ -247,13 +241,20 @@ router.post('/professional_profiles/:profile_id/projects', ProjectPost);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Project'
+ *           example:
+ *             title: "Project Title"
+ *             description: "Project Description"
+ *             repository: "https://github.com/project/updated"
+ *             website: "https://project.com"
+ *             start_date: "2022-01-01"
+ *             end_date: "2022-12-31"
  *     responses:
  *       200:
  *         description: successfull operation
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Project'
+ *               $ref: '#/components/schemas/Project/updated'
  *       404:
  *         description: Project not found
  *         content:
@@ -276,6 +277,8 @@ router.post('/professional_profiles/:profile_id/projects', ProjectPost);
  *     parameters:
  *       - $ref: '#/components/parameters/project_id'
  *     responses:
+ *       204:
+ *        description: No content
  *       404:
  *         description: Project not found
  *         content:
@@ -345,21 +348,18 @@ router.delete('/projects/:project_id', ProjectDelete);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Collaborator'
+ *           example:
+ *             profile_id: 1
  *     responses:
- *       200:
+ *       201:
  *         description: successfull operation
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Collaborator'
- *       404:
- *         description: Project id not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  *             example:
- *               message: Project id not found
+ *               profile_id: 1
+ *               project_id: 1
  *       500:
  *         description: Failed to create collaborator
  *         content:
@@ -435,6 +435,7 @@ router.get('/professional_profiles/:profile_id/projects', ProfileProjectsGet);
  *               items:
  *                 $ref: '#/components/schemas/CompanyCapstoneProject'
  *               example:
+ *                 company_id: 1
  *                 project_id: 1
  *                 kind: "Backend"
  *                 active: true
@@ -472,6 +473,10 @@ router.get('/company_profiles/:company_id/capstones', CompanyCapstonesGet);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/CompanyCapstoneProject'
+ *           example:
+ *             project_id: 1
+ *             kind: "Backend"
+ *             active: true
  *     responses:
  *       200:
  *         description: Successful operation
@@ -480,6 +485,7 @@ router.get('/company_profiles/:company_id/capstones', CompanyCapstonesGet);
  *             schema:
  *               $ref: '#components/schemas/CompanyCapstoneProject'
  *             example:
+ *               company_id: 1
  *               project_id: 1
  *               kind: "Backend"
  *               active: true
@@ -521,6 +527,7 @@ router.post('/company_profiles/:company_id/capstones', CapstonePost);
  *               $ref: '#components/schemas/CompanyCapstoneProject'
  *             example:
  *               company_id: 1
+ *               project_id: 1
  *               kind: "Backend"
  *               active: true
  *       404:
@@ -559,6 +566,9 @@ router.get('/company_profiles/:company_id/capstones/:project_id', CapstoneGetByI
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/CompanyCapstoneProject'
+ *           example:
+ *             kind: "Backend"
+ *             active: false
  *     responses:
  *       200:
  *         description: Successful operation
@@ -566,6 +576,11 @@ router.get('/company_profiles/:company_id/capstones/:project_id', CapstoneGetByI
  *           application/json:
  *             schema:
  *               $ref: '#components/schemas/CompanyCapstoneProject'
+ *             example:
+ *               company_id: 1
+ *               project_id: 1
+ *               kind: "Backend"
+ *               active: false
  *       404:
  *         description: Capstone not found
  *         content:

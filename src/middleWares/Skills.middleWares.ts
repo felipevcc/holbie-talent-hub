@@ -8,8 +8,13 @@ import { Skill } from "../types/skills.d";
 
 // GET Returns all the skills
 export const SkillsGet: RequestHandler = async (_req: Request, res: Response) => {
-  const sqlQuery = await query('skills').select('*') as Skill[];
-  return res.json(sqlQuery);
+  try {
+    const sqlQuery = await query('skills').select('*') as Skill[];
+    return res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get skills:', error);
+    return res.status(500).json({ message: 'Failed to get skills' });
+  }
 };
 
 // GET Returns the skill with the given skill_id

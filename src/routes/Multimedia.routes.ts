@@ -184,6 +184,7 @@ const router = Router();
  *                 file_path: "/path/to/file.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
+ *                 profile_id: 1
  *       404:
  *         description: Multimedia not found
  *         content:
@@ -216,7 +217,7 @@ const router = Router();
  *             properties:
  *               media_type:
  *                 type: string
- *               file:
+ *               file_path:
  *                 type: string
  *                 format: binary
  *     responses:
@@ -227,8 +228,12 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfileMultimedia'
  *             example:
+ *               media_id: 1
  *               media_type: "image/png"
  *               file_path: "/path/to/file.png"
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
+ *               profile_id: 1
  *       500:
  *         description: Failed to created multimedia
  *         content:
@@ -257,10 +262,12 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfileMultimedia'
  *             example:
+ *               media_id: 1
  *               media_type: "image/png"
  *               file_path: "/path/to/file.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
+ *               profile_id: 1
  *       404:
  *         description: Professional multimedia not found
  *         content:
@@ -289,6 +296,9 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/ProfessionalProfileMultimedia'
+ *           example:
+ *             media_type: "image/png"
+ *             file_path: "/path/to/updated_file.png"
  *     responses:
  *       200:
  *         description: Successful operation
@@ -297,8 +307,20 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfileMultimedia'
  *             example:
+ *               media_id: 1
  *               media_type: "image/png"
  *               file_path: "/path/to/updated_file.png"
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
+ *               profile_id: 1
+ *       404:
+ *         description: Professional multimedia not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Professional multimedia not found
  *       500:
  *         description: Failed to update professional multimedia
  *         content:
@@ -360,6 +382,7 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  *                 file_path: "http://resources/image.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
+ *                 profile_id: 1
  *       404:
  *         description: Media not found
  *         content:
@@ -391,7 +414,7 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  *             properties:
  *               media_type:
  *                 type: string
- *               file:
+ *               file_path:
  *                 type: string
  *                 format: binary
  *     responses:
@@ -402,8 +425,12 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  *             schema:
  *               $ref: '#/components/schemas/CompanyMultimedia'
  *             example:
- *               media_type: "IMAGE/png"
+ *               media_id: 1
+ *               media_type: "image/png"
  *               file_path: "http://resources/image.png"
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
+ *               profile_id: 1
  *       500:
  *         description: Failed to create multimedia
  *         content:
@@ -432,6 +459,7 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *             schema:
  *               $ref: '#/components/schemas/CompanyMultimedia'
  *             example:
+ *               media_id: 1
  *               media_type: "image/png"
  *               file_path: "http://resources/image.png"
  *               created_at: "2023-06-22T10:00:00Z"
@@ -465,16 +493,23 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/CompanyMultimedia'
+ *           example:
+ *             media_type: "image/png"
+ *             file_path: "http://resources/image.jpg"
  *     responses:
- *       200:
+ *       204:
  *         description: Successful operation
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/CompanyMultimedia'
  *             example:
+ *               media_id: 1
  *               media_type: "image/png"
- *               file_path: "http://resources/image.png"
+ *               file_path: "http://resources/image.jpg"
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
+ *               profile_id: 1
  *       404:
  *         description: media not found
  *         content:
@@ -498,8 +533,16 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
- *       200:
- *         description: Successful operation
+ *       204:
+ *         description: No content
+ *       404:
+ *         description: media not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: media not found
  *       500:
  *         description: Failed to delete company multimedia
  *         content:
@@ -534,7 +577,7 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  *             properties:
  *               media_type:
  *                 type: string
- *               file:
+ *               file_path:
  *                 type: string
  *                 format: binary
  *     responses:
@@ -545,8 +588,12 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  *             schema:
  *               $ref: '#/components/schemas/ProjectMultimedia'
  *             example:
+ *               media_id: 1
  *               media_type: "image/png"
- *               file_path: "http://resources/image.png"
+ *               file_path: "/path/to/file1.png"
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
+ *               project_id: 1
  *       500:
  *         description: Failed to create multimedia
  *         content:
@@ -575,11 +622,13 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  *                 file_path: "/path/to/file1.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
+ *                 project_id: 1
  *               - media_id: 2
  *                 media_type: "video/mp4"
  *                 file_path: "/path/to/file2.mp4"
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
+ *                 project_id: 1
  *       404:
  *         description: Project not found
  *         content:
@@ -617,16 +666,18 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *             schema:
  *               $ref: '#/components/schemas/ProjectMultimedia'
  *             example:
- *               - project_id: 1
+ *               - media_id: 1
  *                 media_type: "image/png"
  *                 file_path: "/path/to/file1.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
- *               - project_id: 1
+ *                 project_id: 1
+ *               - media_id: 1
  *                 media_type: "video/mp4"
  *                 file_path: "/path/to/file2.mp4"
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
+ *                 project_id: 1
  *       404:
  *         description: Media not found
  *         content:
@@ -654,6 +705,9 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/ProjectMultimedia'
+ *           example:
+ *             media_type: "image/jpeg"
+ *             file_path: "/path/to/file.jpg"
  *     responses:
  *       200:
  *         description: Successful operation
@@ -662,8 +716,12 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *             schema:
  *               $ref: '#/components/schemas/ProjectMultimedia'
  *             example:
- *               media_type: "image/jpeg"
- *               file_path: "/path/to/file.jpg"
+ *               media_id: 1
+ *               media_type: "image/png"
+ *               file_path: "/path/to/file1.png"
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
+ *               project_id: 1
  *       404:
  *         description: Media not found
  *         content:
@@ -748,18 +806,12 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
  *             schema:
  *               $ref: '#/components/schemas/EducationMultimedia'
  *             example:
+ *               media_id: 1
  *               media_type: "image/png"
  *               file_path: "/path/to/file1.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
- *       404:
- *         description: Education not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Education not found
+ *               education_id: 1
  *       500:
  *         description: Failed to upload multimedia for education
  *         content:
@@ -788,11 +840,13 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
  *                 file_path: "/path/to/file1.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
+ *                 education_id: 1
  *               - media_id: 1
- *                 media_type: "video/mp4"
- *                 file_path: "/path/to/file2.mp4"
- *                 created_at: "2023-06-23T12:30:00Z"
- *                 updated_at: "2023-06-23T12:30:00Z"
+ *                 media_type: "image/png"
+ *                 file_path: "/path/to/file1.png"
+ *                 created_at: "2023-06-22T10:00:00Z"
+ *                 updated_at: "2023-06-22T10:00:00Z"
+ *                 education_id: 1
  *       404:
  *         description: Education not found
  *         content:
@@ -829,11 +883,13 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *             schema:
  *               $ref: '#/components/schemas/EducationMultimedia'
  *             example:
- *               education_id: 1
+ *               media_id: 1
  *               media_type: "image/png"
  *               file_path: "/path/to/file.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
+ *               education_id: 1
+ *               
  *       404:
  *         description: Education multimedia not found
  *         content:
@@ -862,6 +918,9 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/EducationMultimedia'
+ *           example:
+ *             media_type: "image/jpeg"
+ *             file_path: "/path/to/file.jpg"
  *     responses:
  *       200:
  *         description: Successful operation
@@ -870,11 +929,12 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *             schema:
  *               $ref: '#/components/schemas/EducationMultimedia'
  *             example:
- *               education_id: 1
+ *               media_id: 1
  *               media_type: "image/jpeg"
  *               file_path: "/path/to/file.jpg"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-23T12:30:00Z"
+ *               education_id: 1
  *       404:
  *         description: Education multimedia not found
  *         content:

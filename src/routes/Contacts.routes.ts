@@ -150,22 +150,21 @@ const router = Router();
  *             $ref: '#/components/schemas/ProfessionalProfileContact'
  *           example:
  *             contact_type: Phone
- *             contact_info: +1234567890
+ *             contact_info: "+1234567890"
  *     responses:
- *       '200':
+ *       '201':
  *         description: Contact created successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfileContact'
- *       '404':
- *         description: Professional profile not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  *             example:
- *               message: Professional profile not found
+ *               contact_id: 1
+ *               contact_type: Phone
+ *               contact_info: "+1234567890"
+ *               created_at: '2023-06-22T10:00:00Z'
+ *               updated_at: '2023-06-22T10:00:00Z'
+ *               profile_id: 123
  *       '500':
  *         description: Failed to create contact
  *         content:
@@ -191,7 +190,7 @@ const router = Router();
  *             example:
  *               - contact_id: 1
  *                 contact_type: Phone
- *                 contact_info: +1234567890
+ *                 contact_info: "+1234567890"
  *                 created_at: '2023-06-22T10:00:00Z'
  *                 updated_at: '2023-06-22T10:00:00Z'
  *                 profile_id: 123
@@ -238,8 +237,9 @@ router.post('/professional_profiles/:profile_id/contacts', ProfessionalContactPo
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfileContact'
  *             example:
+ *               contact_id: 1
  *               contact_type: Phone
- *               contact_info: +1234567890
+ *               contact_info: "+1234567890"
  *               created_at: '2023-06-22T10:00:00Z'
  *               updated_at: '2023-06-22T10:00:00Z'
  *               profile_id: 123
@@ -272,7 +272,7 @@ router.post('/professional_profiles/:profile_id/contacts', ProfessionalContactPo
  *             $ref: '#/components/schemas/ProfessionalProfileContact'
  *           example:
  *             contact_type: Phone
- *             contact_info: +1234567890
+ *             contact_info: "+1234567890"
  *     responses:
  *       '200':
  *         description: successful operation
@@ -281,8 +281,12 @@ router.post('/professional_profiles/:profile_id/contacts', ProfessionalContactPo
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfileContact'
  *             example:
+ *               contact_id: 1
  *               contact_type: Phone
- *               contact_info: +1234567890
+ *               contact_info: "+1234567890"
+ *               created_at: '2023-06-22T10:00:00Z'
+ *               updated_at: '2023-06-22T10:00:00Z'
+ *               profile_id: 123
  *       '404':
  *         description: Contact not found
  *         content:
@@ -357,18 +361,12 @@ router.delete('/professional_contacts/:contact_id', ProfessionalContactDelete);
  *             schema:
  *               $ref: '#/components/schemas/CompanyContact'
  *             example:
+ *               contact_id: 1
  *               contact_type: Email
  *               contact_info: jhon@example.com
  *               created_at: '2023-06-22T12:34:56Z'
  *               updated_at: '2023-06-22T12:34:56Z'
- *       '404':
- *         description: Company profile not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Company profile not found
+ *               company_id: 1
  *       '500':
  *         description: Failed to create contact
  *         content:
@@ -443,6 +441,7 @@ router.get('/company_profiles/:profile_id/contacts', CompanyContactsGet);
  *             schema:
  *               $ref: '#/components/schemas/CompanyContact'
  *             example:
+ *               contact_id: 1
  *               contact_type: email
  *               contact_info: Erick@example.com
  *               created_at: 2023-06-22T10:30:00Z
@@ -485,9 +484,13 @@ router.get('/company_profiles/:profile_id/contacts', CompanyContactsGet);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/CompanyContact'
- *           example:
- *             contact_type: email
- *             contact_info: updated@example.com
+ *             example:
+ *               contact_id: 1
+ *               contact_type: email
+ *               contact_info: updated@example.com
+ *               created_at: '2023-06-22T12:34:56Z'
+ *               updated_at: '2023-06-22T12:34:56Z'
+ *               company_id: 1
  *       '404':
  *         description: Company contact not found
  *         content:
@@ -562,19 +565,12 @@ router.delete('/company_contacts/:contact_id', CompanyContactDelete);
  *             schema:
  *               $ref: '#/components/schemas/ProjectContact'
  *             example:
+ *               contact_id: 1
  *               contact_type: Email
  *               contact_info: example@example.com
  *               created_at: '2023-06-22T12:34:56Z'
  *               updated_at: '2023-06-22T12:34:56Z'
  *               project_id: 1
- *       '404':
- *         description: Project not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Project not found
  *       '500':
  *         description: Failed to create contact
  *         content:
@@ -598,16 +594,18 @@ router.delete('/company_contacts/:contact_id', CompanyContactDelete);
  *               items:
  *                 $ref: '#/components/schemas/ProjectContact'
  *             example:
- *               - project: 1
+ *               - contact_id: 1
  *                 contact_type: Email
  *                 contact_info: example@example.com
  *                 created_at: '2023-06-22T12:34:56Z'
  *                 updated_at: '2023-06-22T12:34:56Z'
- *               - project_id: 1
+ *                 project_id: 1
+ *               - contact_id: 1
  *                 contact_type: Phone
- *                 contact_info: 1234567890
+ *                 contact_info: "1234567890"
  *                 created_at: '2023-06-22T12:34:56Z'
  *                 updated_at: '2023-06-22T12:34:56Z'
+ *                 project_id: 1
  *       '404':
  *         description: Project not found
  *         content:
@@ -645,8 +643,12 @@ router.get('/projects/:project_id/contacts', ProjectContactsGet);
  *             schema:
  *               $ref: '#/components/schemas/ProjectContact'
  *             example:
+ *               contact_id: 1
  *               contact_type: Email
- *               contact_info: jhon@example.com
+ *               contact_info: example@example.com
+ *               created_at: '2023-06-22T12:34:56Z'
+ *               updated_at: '2023-06-22T12:34:56Z'
+ *               project_id: 1
  *       '404':
  *         description: Project contact not found
  *         content:
@@ -674,6 +676,9 @@ router.get('/projects/:project_id/contacts', ProjectContactsGet);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/ProjectContact'
+ *           example:
+ *              contact_type: Email
+ *              contact_info: updated@example.com
  *     responses:
  *       '200':
  *         description: Contact updated successfully
@@ -681,6 +686,13 @@ router.get('/projects/:project_id/contacts', ProjectContactsGet);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProjectContact'
+ *             example:
+ *               contact_id: 1
+ *               contact_type: Email
+ *               contact_info: updated@example.com
+ *               created_at: '2023-06-22T12:34:56Z'
+ *               updated_at: '2023-06-22T12:34:56Z'
+ *               project_id: 1
  *       '404':
  *         description: Project contact not found
  *         content:

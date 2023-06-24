@@ -30,7 +30,7 @@ export const ProjectGetById: RequestHandler = async (req: Request, res: Response
 export const ProjectPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params
-    const { title, description = null, repository = null, website = null, start_date, end_date = null } = req.body;
+    const { title, description, repository, website, start_date, end_date = null } = req.body;
 
     const sqlQuery = await query('projects')
       .insert({ title, description, repository, website, start_date, end_date });
@@ -251,15 +251,15 @@ export const CompanyCapstonesGet: RequestHandler = async (req: Request, res: Res
 
     // Check if company exists
     const companyExists = await query('company_profiles')
-      .select('company_id')
-      .where('company_id', company_id)
+      .select('profile_id')
+      .where('profile_id', company_id)
       .first();
     if (!companyExists) {
       return res.status(404).json({ message: 'Company id not found' });
     }
 
     const sqlQuery = await query('company_capstone_projects')
-      .select('company_id')
+      .select('*')
       .where('company_id', company_id);
     return res.json(sqlQuery);
   } catch (error) {
@@ -268,13 +268,14 @@ export const CompanyCapstonesGet: RequestHandler = async (req: Request, res: Res
   }
 };
 
-// Returns the capstone with the given project_id
+// Returns the capstone with the given company_id and project_id
 export const CapstoneGetById: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { project_id } = req.params;
+    const { company_id, project_id } = req.params;
     const sqlQuery = await query('company_capstone_projects')
       .select('*')
-      .where('project_id', project_id)
+      .where('company_id', company_id)
+      .andWhere('project_id', project_id)
       .first() as Capstone;
     if (!sqlQuery) {
       return res.status(404).json({ message: 'Project id not found' });
@@ -310,7 +311,7 @@ export const CapstonePost: RequestHandler = async (req: Request, res: Response) 
 export const CapstonePut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { company_id, project_id } = req.params;
-    const { kind = null, active = null } = req.body;
+    const { kind, active } = req.body;
     const sqlQuery = await query('company_capstone_projects')
       .where('company_id', company_id)
       .andWhere('project_id', project_id)

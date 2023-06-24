@@ -46,13 +46,6 @@ const router = Router();
  *           type: integer
  *         receiver_id:
  *           type: integer
- *       example:
- *         positive_rating: true
- *         comment: "Great work!"
- *         created_at: "2021-01-01T00:00:00.000Z"
- *         updated_at: "2021-01-01T00:00:00.000Z"
- *         sender_id: 1
- *         receiver_id: 2
  *     ProjectRating:
  *       type: object
  *       properties:
@@ -72,13 +65,6 @@ const router = Router();
  *           type: integer
  *         project_id:
  *           type: integer
- *       example:
- *         positive_rating: true
- *         comment: "Great project!"
- *         created_at: "2021-01-01T00:00:00.000Z"
- *         updated_at: "2021-01-01T00:00:00.000Z"
- *         company_id: 1
- *         project_id: 2
  *     ProfileRating:
  *       type: object
  *       properties:
@@ -98,14 +84,6 @@ const router = Router();
  *           type: integer
  *         profile_id:
  *           type: integer
- *       example:
- *         rating_id: 1
- *         positive_rating: true
- *         comment: "Great profile!"
- *         created_at: "2021-01-01T00:00:00.000Z"
- *         updated_at: "2021-01-01T00:00:00.000Z"
- *         sender_id: 1
- *         profile_id: 2
  *     Error:
  *       type: object
  *       properties:
@@ -200,7 +178,7 @@ const router = Router();
  *     summary: Get profile rating by id
  *     tags: [Ratings]
  *     parameters:
- *       - $ref: '#/components/parameters/profile_id'
+ *       - $ref: '#/components/parameters/rating_id'
  *     responses:
  *       '200':
  *         description: successful operation
@@ -208,6 +186,14 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProfileRating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               sender_id: 1
+ *               profile_id: 2
  *       '404':
  *         description: Rating id not found
  *         content:
@@ -229,12 +215,13 @@ const router = Router();
  *     tags: [Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/rating_id'
- *       - in: body
- *         name: calificación
- *         description: Datos de la calificación a actualizar
- *         required: true
- *         schema:
- *           $ref: '#/components/schemas/ProfileRating'
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProfileRating'
+ *           example:
+ *             comment: "bad profile"
  *     responses:
  *       '200':
  *         description: successful operation
@@ -242,6 +229,14 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Rating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               sender_id: 1
+ *               profile_id: 2
  *       '404':
  *         description: User id not found
  *         content:
@@ -281,6 +276,22 @@ router.put('/profile_ratings/:rating_id', RatingPut);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProfileRating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               sender_id: 1
+ *               profile_id: 2
+ *       '404':
+ *         description: Rating id not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Rating id not found
  *       '500':
  *         description: Failed to get ratings
  *         content:
@@ -295,12 +306,15 @@ router.put('/profile_ratings/:rating_id', RatingPut);
  *     tags: [Users Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/user_id'
- *       - in: body
- *         name: rating
- *         description: Data of the rating to create
- *         required: true
- *         schema:
- *           $ref: '#/components/schemas/ProfileRating'
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProfileRating'
+ *           example:
+ *             positive_rating: true
+ *             comment: "Great work!"
+ *             receiver_id: 2
  *     responses:
  *       '201':
  *         description: Rating created successfully
@@ -308,6 +322,14 @@ router.put('/profile_ratings/:rating_id', RatingPut);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Rating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: true
+ *               comment: "Great work!"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               sender_id: 1
+ *               receiver_id: 2
  *       '500':
  *         description: Failed to create rating
  *         content:
@@ -335,6 +357,14 @@ router.post('/users/:user_id/ratings/sent', RatingPost);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProfileRating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               sender_id: 1
+ *               profile_id: 2
  *       '500':
  *         description: Failed to get ratings
  *         content:
@@ -365,6 +395,14 @@ router.get('/users/:user_id/ratings/received', UserReceivedRatingsGet);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProjectRating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               project_id: 2
  *       '404':
  *         description: Rating id not found
  *         content:
@@ -387,12 +425,13 @@ router.get('/users/:user_id/ratings/received', UserReceivedRatingsGet);
  *     tags: [Projects Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/rating_id'
- *       - in: body
- *         name: rating
- *         description: Data of the rating to update
- *         required: true
- *         schema:
- *           $ref: '#/components/schemas/ProjectRating'
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProjectRating'
+ *           example:
+ *             comment: "bad project"
  *     responses:
  *       '200':
  *         description: Successful operation
@@ -400,6 +439,14 @@ router.get('/users/:user_id/ratings/received', UserReceivedRatingsGet);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Rating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad project"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               project_id: 2
  *       '404':
  *         description: Rating id not found
  *         content:
@@ -441,6 +488,14 @@ router.put('/project_ratings/:rating_id/', ProjectRatingPut);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/ProfileRating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               project_id: 2
  *       '404':
  *         description: Company profile id not found
  *         content:
@@ -463,12 +518,15 @@ router.put('/project_ratings/:rating_id/', ProjectRatingPut);
  *     tags: [Company (sent - received)]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
- *       - in: body
- *         name: rating
- *         description: Data of the rating to create
- *         required: true
- *         schema:
- *           $ref: '#/components/schemas/ProfileRating'
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProfileRating'
+ *           example:
+ *             positive_rating: false
+ *             comment: "bad profile"
+ *             project_id: 2
  *     responses:
  *       '201':
  *         description: Rating created successfully
@@ -476,6 +534,14 @@ router.put('/project_ratings/:rating_id/', ProjectRatingPut);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProfileRating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               project_id: 2
  *       '500':
  *         description: Failed to create rating
  *         content:
@@ -505,6 +571,14 @@ router.post('/company_profiles/:profile_id/ratings', CompanyRatingPost);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/ProjectRating'
+ *             example:
+ *               rating_id: 1
+ *               positive_rating: false
+ *               comment: "bad profile"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               project_id: 2
  *       '404':
  *         description: Project id not found
  *         content:

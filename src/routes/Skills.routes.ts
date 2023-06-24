@@ -39,11 +39,6 @@ const router = Router();
  *         updated_at:
  *           type: string
  *           format: date-time
- *       example:
- *         name: python
- *         description: This is a skill example
- *         created_at: "2023-06-21T17:40:31.218Z"
- *         updated_at: "2023-06-21T17:40:31.218Z"
  *     Error:
  *       type: object
  *       properties:
@@ -103,6 +98,12 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Skill'
+ *             example:
+ *               skill_id: 1
+ *               name: python
+ *               description: This is a skill example
+ *               created_at: "2023-06-21T17:40:31.218Z"
+ *               updated_at: "2023-06-21T17:40:31.218Z"
  *       '500':
  *         description: Failed to get skills
  *         content:
@@ -132,6 +133,12 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Skill'
+ *             example:
+ *               skill_id: 1
+ *               name: python
+ *               description: This is a skill example
+ *               created_at: "2023-06-21T17:40:31.218Z"
+ *               updated_at: "2023-06-21T17:40:31.218Z"
  *       '500':
  *         description: Failed to create skill
  *         content:
@@ -159,6 +166,12 @@ router.post('/skills', SkillPost);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Skill'
+ *             example:
+ *               skill_id: 1
+ *               name: python
+ *               description: This is a skill example
+ *               created_at: "2023-06-21T17:40:31.218Z"
+ *               updated_at: "2023-06-21T17:40:31.218Z"
  *       '404':
  *         description: Skill not found
  *         content:
@@ -180,7 +193,7 @@ router.post('/skills', SkillPost);
  *     summary: Update a skill
  *     tags: [Skills]
  *     parameters:
- *       - $ref: '#/components/schemas/skill_id'
+ *       - $ref: '#/components/parameters/skill_id'
  *     requestBody:
  *       required: true
  *       content:
@@ -198,6 +211,12 @@ router.post('/skills', SkillPost);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Skill'
+ *             example:
+ *               skill_id: 1
+ *               name: python
+ *               description: This is a skill example
+ *               created_at: "2023-06-21T17:40:31.218Z"
+ *               updated_at: "2023-06-21T17:40:31.218Z"
  *       '404':
  *         description: Skill not found
  *         content:
@@ -270,6 +289,11 @@ router.delete('/skills/:skill_id', SkillDelete);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Skill'
+ *             example:
+ *               skill_id: 1
+ *               name: python
+ *               description: This is a skill example
+ *               proficiency_level: 3
  *       '404':
  *         description: Profile id not found
  *         content:
@@ -305,6 +329,8 @@ router.delete('/skills/:skill_id', SkillDelete);
  *             properties:
  *               skill_id:
  *                 type: integer
+ *           example:
+ *             skill_id: 1
  *     responses:
  *       '201':
  *         description: Skill added successfully to the professional profile
@@ -312,6 +338,10 @@ router.delete('/skills/:skill_id', SkillDelete);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Skill'
+ *             example:
+ *               profile_id: 1
+ *               skill_id: 1
+ *               proficiency_level: 3
  *       '500':
  *         description: Failed to create profile skill
  *         content:
@@ -350,6 +380,10 @@ router.post('/professional_profiles/:profile_id/skills', ProfileSkillPost);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Skill'
+ *             example:
+ *               skill_id: 1
+ *               name: python
+ *               description: This is a skill example
  *       '404':
  *         description: Project id not found
  *         content:
@@ -385,6 +419,8 @@ router.post('/professional_profiles/:profile_id/skills', ProfileSkillPost);
  *             properties:
  *               skill_id:
  *                 type: integer
+ *           example:
+ *             skill_id: 1
  *     responses:
  *       '201':
  *         description: Skill added successfully to the project
@@ -392,6 +428,9 @@ router.post('/professional_profiles/:profile_id/skills', ProfileSkillPost);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Skill'
+ *             example:
+ *               project_id: 1
+ *               skill_id: 1
  *       '500':
  *         description: Failed to create project skill
  *         content:

@@ -171,15 +171,24 @@ const router = Router();
  *                 about_us: We are a company that develops software
  *                 location: cali
  *                 website: www.holberton.com
- *                 phone: 123456789
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
  *               - profile_id: 2
  *                 company_name: Coderise
+ *                 industry: technology
+ *                 about_us: We are a company that develops software
  *                 location: medellin
  *                 website: www.coderise.com
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
+ *       '500':
+ *         description: Failed to get company profiles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Failed to get company profiles
  *
  * /api/v1/company_profiles/{profile_id}:
  *   get:
@@ -195,6 +204,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/CompanyProfile'
  *             example:
+ *               profile_id: 1
  *               company_name: Holberton
  *               industry: technology
  *               about_us: We are a company that develops software
@@ -235,18 +245,21 @@ const router = Router();
  *             location: New York, USA
  *             website: https://example.com
  *     responses:
- *       '200':
+ *       '201':
  *         description: Company profile created successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/CompanyProfile'
  *             example:
+ *               profile_id: 1
  *               company_name: Google
  *               industry: Technology
  *               about_us: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  *               location: New York, USA
  *               website: https://example.com
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
  *       '500':
  *         description: Failed to create company profile
  *         content:
@@ -275,11 +288,14 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/CompanyProfile'
  *             example:
+ *               profile_id: 1
  *               company_name: Google
  *               industry: Technology
  *               about_us: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  *               location: New York, USA
  *               website: https://google.com
+ *               created_at: "2023-06-22T10:00:00Z"
+ *               updated_at: "2023-06-22T10:00:00Z"
  *       '404':
  *         description: Company id not found
  *         content:
@@ -387,22 +403,15 @@ router.delete('/company_profiles/:profile_id', ProfileDelete);
  *           example:
  *             profile_id: 1
  *     responses:
- *       '200':
+ *       '201':
  *         description: Favorite profile added successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/FavoriteProfile'
  *             example:
+ *               company_id: 1
  *               profile_id: 1
- *       '404':
- *         description: Company id not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Company id not found
  *       '500':
  *         description: Failed to add favorite profile
  *         content:
@@ -465,10 +474,10 @@ router.delete('/company_profiles/:company_id/favorite_profiles/:profile_id', Fav
  *               items:
  *                 $ref: '#/components/schemas/ProfessionalProfile'
  *               example:
- *                 - profile_id: 1
+ *                 - professional_profile_id: 1
  *                   first_name: "John"
  *                   headline: "Software Engineer"
- *                 - profile_id: 2
+ *                 - professional_profile_id: 2
  *                   first_name: "Jane"
  *                   headline: "Web Developer"
  *       '404':
@@ -502,22 +511,15 @@ router.delete('/company_profiles/:company_id/favorite_profiles/:profile_id', Fav
  *           example:
  *             professional_profile_id: 1
  *     responses:
- *       '200':
+ *       '201':
  *         description: Employee added successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfile'
  *             example:
+ *               company_id: 1
  *               professional_profile_id: 1
- *       '404':
- *         description: Company id not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Company id not found
  *       '500':
  *         description: Failed to add employee
  *         content:

@@ -9,10 +9,15 @@ import { CompanyProfile } from "../types/company_profiles.d";
 
 // Returns all the profiles
 export const ProfilesGet: RequestHandler = async (_req: Request, res: Response) => {
-  const sqlQuery = await query('professional_profiles')
-    .select('*')
-    .where('is_user', true) as ProfessionalProfile[];
-  return res.json(sqlQuery);
+  try {
+    const sqlQuery = await query('professional_profiles')
+      .select('*')
+      .where('is_user', true) as ProfessionalProfile[];
+    return res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get profiles', error);
+    return res.status(500).json({ message: 'Failed to get profiles' });
+  }
 };
 
 // Returns the profile with the given profile_id
@@ -280,11 +285,11 @@ export const ExperiencePost: RequestHandler = async (req: Request, res: Response
 export const ExperiencePut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { experience_id } = req.params;
-    const { company_name, description, start_date, end_date } = req.body;
+    const { company_name, position, description, start_date, end_date } = req.body;
 
     const sqlQuery = await query('experience')
       .where('experience_id', experience_id)
-      .update({ company_name, description, start_date, end_date });
+      .update({ company_name, position, description, start_date, end_date });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {

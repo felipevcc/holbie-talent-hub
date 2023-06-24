@@ -7,9 +7,9 @@ import { ProfessionalContact, CompanyContact, ProjectContact } from "../types/co
 // ===============================================================
 
 // Returns all the professional profile contacts with the given profile_id
-export const ProfessionalContactsGet: RequestHandler = async (_req: Request, res: Response) => {
+export const ProfessionalContactsGet: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { profile_id } = _req.params;
+    const { profile_id } = req.params;
 
     // Check if profile exists
     const profileExists = await query('professional_profiles')

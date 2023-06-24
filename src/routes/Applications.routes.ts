@@ -37,13 +37,6 @@ const router = Router();
  *           type: integer
  *         professional_id:
  *           type: integer
- *       example:
- *         application_id: 1
- *         status: "PENDING"
- *         created_at: "2021-01-01T00:00:00.000Z"
- *         updated_at: "2021-01-01T00:00:00.000Z"
- *         company_id: 1
- *         professional_id: 2
  *     Error:
  *       type: object
  *       properties:
@@ -81,6 +74,13 @@ const router = Router();
  *       required: true
  *       schema:
  *         type: integer
+ *     profile_id:
+ *       in: path
+ *       name: profile_id
+ *       description: ID of the profile
+ *       required: true
+ *       schema:
+ *         type: integer
  */
 
 // ===============================================================
@@ -114,6 +114,13 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Application'
+ *             example:
+ *               application_id: 1
+ *               status: "PENDING"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               professional_id: 2
  *       '404':
  *         description: Company id not found
  *         content:
@@ -141,7 +148,7 @@ router.get('/company_profiles/:company_id/applications', CompanyApplicationsGet)
  *     tags:
  *       - Applications
  *     parameters:
- *       - $ref: '#/components/parameters/application_id'
+ *        - $ref: '#/components/parameters/profile_id'
  *     responses:
  *       '200':
  *         description: Successful operation
@@ -149,6 +156,13 @@ router.get('/company_profiles/:company_id/applications', CompanyApplicationsGet)
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Application'
+ *             example:
+ *               application_id: 1
+ *               status: "PENDING"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               professional_id: 2
  *       '404':
  *         description: porfile id not found
  *         content:
@@ -183,6 +197,7 @@ router.get('/professional_profiles/:profile_id/applications', ProfileApplication
  *         content:
  *           application/json:
  *             example:
+ *               application_id: 1
  *               status: "PENDING"
  *               created_at: "2021-01-01T00:00:00.000Z"
  *               updated_at: "2021-01-01T00:00:00.000Z"
@@ -256,14 +271,19 @@ router.post('/applications', ApplicationPost);
  *           schema:
  *             $ref: '#/components/schemas/UpdateApplication'
  *           example:
- *             status: "IN_PROGRESS"
+ *             status: "FINISHED"
  *     responses:
  *       '200':
  *         description: successful operation
  *         content:
  *           application/json:
  *             example:
- *               status: "IN_PROGRESS"
+ *               application_id: 1
+ *               status: "FINISHED"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               professional_id: 2
  *       '404':
  *         description: Application id not found
  *         content:

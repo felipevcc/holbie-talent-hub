@@ -195,6 +195,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfile'
  *             example:
+ *               profile_id: 1
  *               is_user: true
  *               headline: Web Developer
  *               about_me: Experienced web developer with a passion for front-end development.
@@ -238,6 +239,14 @@ const router = Router();
  *               salary_max: 100000
  *               created_at: 2023-06-22T12:34:56Z
  *               updated_at: 2023-06-22T12:34:56Z
+ *       500:
+ *         description: Failed to get professional profiles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Failed to get professional profiles
  */
 router.post('/professional_profiles', ProfilePost);
 router.get('/professional_profiles/:profile_id', ProfileGetById);
@@ -258,6 +267,7 @@ router.get('/professional_profiles/:profile_id', ProfileGetById);
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfile'
  *             example:
+ *               profile_id: 1
  *               is_user: true
  *               headline: "Software Engineer"
  *               about_me: "Experienced software engineer with a passion for creating innovative solutions."
@@ -297,7 +307,6 @@ router.get('/professional_profiles/:profile_id', ProfileGetById);
  *           schema:
  *             $ref: '#/components/schemas/ProfessionalProfile'
  *           example:
- *             is_user: true
  *             headline: Web Developer
  *             about_me: Experienced web developer with a passion for front-end development.
  *             location: San Francisco, CA
@@ -314,15 +323,18 @@ router.get('/professional_profiles/:profile_id', ProfileGetById);
  *             schema:
  *               $ref: '#/components/schemas/ProfessionalProfile'
  *             example:
+ *               profile_id: 1
  *               is_user: true
- *               headline: Web Developer
- *               about_me: Experienced web developer with a passion for front-end development.
- *               location: San Francisco, CA
- *               job_name: Full Stack Developer
- *               kind_job: REMOTE
- *               job_type: FULL_TIME
- *               salary_min: 60000
- *               salary_max: 100000
+ *               headline: "Software Engineer"
+ *               about_me: "Experienced software engineer with a passion for creating innovative solutions."
+ *               location: "New York, USA"
+ *               job_name: "Full Stack Developer"
+ *               kind_job: "REMOTE"
+ *               job_type: "FULL_TIME"
+ *               salary_min: 50000
+ *               salary_max: 80000
+ *               created_at: "2022-05-15T10:30:00Z"
+ *               updated_at: "2022-06-20T15:45:00Z"
  *       404:
  *         description: profile not found
  *         content:
@@ -390,7 +402,6 @@ router.delete('/professional_profiles/:profile_id', ProfileDelete);
  *           examples:
  *             example1:
  *               value:
- *                 education_id: 1
  *                 institution: "University of Example"
  *                 degree: "Bachelor of Science"
  *                 field_of_study: "Computer Science"
@@ -414,6 +425,7 @@ router.delete('/professional_profiles/:profile_id', ProfileDelete);
  *                   end_date: "2019-06-30"
  *                   created_at: "2021-12-15T10:30:00Z"
  *                   updated_at: "2021-12-15T10:30:00Z"
+ *                   profile_id: 1
  *       500:
  *         description: Failed to create education for professional profile
  *         content:
@@ -448,6 +460,7 @@ router.delete('/professional_profiles/:profile_id', ProfileDelete);
  *                 end_date: "2019-06-30"
  *                 created_at: "2021-12-15T10:30:00Z"
  *                 updated_at: "2021-12-15T10:30:00Z"
+ *                 profile_id: 1
  *               - education_id: 2
  *                 institution: "Another University"
  *                 degree: "Master of Business Administration"
@@ -456,6 +469,7 @@ router.delete('/professional_profiles/:profile_id', ProfileDelete);
  *                 end_date: "2022-12-31"
  *                 created_at: "2021-12-15T11:45:00Z"
  *                 updated_at: "2021-12-15T11:45:00Z"
+ *                 profile_id: 1
  *       404:
  *         description: Professional profile not found
  *         content:
@@ -492,6 +506,7 @@ router.get('/professional_profiles/:profile_id/education', ProfileEducationGet);
  *             schema:
  *               $ref: '#/components/schemas/Education'
  *             example:
+ *               education_id: 1
  *               institution: "University of Example"
  *               degree: "Bachelor of Science"
  *               field_of_study: "Computer Science"
@@ -499,6 +514,7 @@ router.get('/professional_profiles/:profile_id/education', ProfileEducationGet);
  *               end_date: "2019-06-30"
  *               created_at: "2021-12-15T10:30:00Z"
  *               updated_at: "2021-12-15T10:30:00Z"
+ *               profile_id: 1
  *       404:
  *         description: Education not found
  *         content:
@@ -548,6 +564,7 @@ router.get('/professional_profiles/:profile_id/education', ProfileEducationGet);
  *               end_date: "2020-06-30"
  *               created_at: "2021-12-15T10:30:00Z"
  *               updated_at: "2023-06-23T10:30:00Z"
+ *               profile_id: 1
  *       404:
  *         description: Education not found
  *         content:
@@ -612,11 +629,11 @@ router.delete('/education/:education_id', EducationDelete);
  *           schema:
  *             $ref: '#/components/schemas/Experience'
  *           example:
- *             company: "Example Company"
+ *             company_name: "Example Company"
  *             position: "Software Engineer"
+ *             description: "Worked on developing web applications"
  *             start_date: "2019-01-01"
  *             end_date: "2022-12-31"
- *             description: "Worked on developing web applications"
  *     responses:
  *       201:
  *         description: Experience added successfully
@@ -626,11 +643,14 @@ router.delete('/education/:education_id', EducationDelete);
  *               $ref: '#/components/schemas/Experience'
  *             example:
  *               experience_id: 1
- *               company: "Example Company"
+ *               company_name: "Example Company"
  *               position: "Software Engineer"
+ *               description: "Worked on developing web applications"
  *               start_date: "2019-01-01"
  *               end_date: "2022-12-31"
- *               description: "Worked on developing web applications"
+ *               created_at: "2021-12-15T10:30:00Z"
+ *               updated_at: "2021-12-15T10:30:00Z"
+ *               profile_id: 1   
  *       500:
  *         description: Failed to add experience to professional profile
  *         content:
@@ -655,17 +675,23 @@ router.delete('/education/:education_id', EducationDelete);
  *                 $ref: '#/components/schemas/Experience'
  *             example:
  *               - experience_id: 1
- *                 company: "Example Company"
+ *                 company_name: "Example Company"
  *                 position: "Software Engineer"
+ *                 description: "Worked on developing web applications"
  *                 start_date: "2019-01-01"
  *                 end_date: "2022-12-31"
- *                 description: "Worked on developing web applications"
+ *                 created_at: "2021-12-15T10:30:00Z"
+ *                 updated_at: "2023-06-23T10:30:00Z"
+ *                 profile_id: 1
  *               - experience_id: 2
  *                 company: "Another Company"
  *                 position: "Senior Developer"
+ *                 description: "Led a team in building a mobile app"
  *                 start_date: "2023-01-01"
  *                 end_date: "2023-06-30"
- *                 description: "Led a team in building a mobile app"
+ *                 created_at: "2021-12-15T10:30:00Z"
+ *                 updated_at: "2023-06-23T10:30:00Z"
+ *                 profile_id: 1
  *       404:
  *         description: Professional profile not found
  *         content:
@@ -702,11 +728,15 @@ router.get('/professional_profiles/:profile_id/experience', ProfileExperienceGet
  *             schema:
  *               $ref: '#/components/schemas/Experience'
  *             example:
- *               company: "Example Company"
+ *               experience_id: 1
+ *               company_name: "Example Company"
  *               position: "Software Engineer"
+ *               description: "Worked on developing web applications"
  *               start_date: "2018-01-01"
  *               end_date: "2022-12-31"
- *               description: "Worked on developing web applications"
+ *               created_at: "2021-12-15T10:30:00Z"
+ *               updated_at: "2023-06-23T10:30:00Z"
+ *               profile_id: 1
  *       404:
  *         description: Experience not found
  *         content:
@@ -735,11 +765,11 @@ router.get('/professional_profiles/:profile_id/experience', ProfileExperienceGet
  *           schema:
  *             $ref: '#/components/schemas/Experience'
  *           example:
- *             company: "Updated Company"
+ *             company_name: "Updated Company"
  *             position: "Senior Software Engineer"
+ *             description: "Led a team in developing web applications"
  *             start_date: "2019-01-01"
  *             end_date: "2023-12-31"
- *             description: "Led a team in developing web applications"
  *     responses:
  *       200:
  *         description: Experience updated successfully
@@ -748,11 +778,15 @@ router.get('/professional_profiles/:profile_id/experience', ProfileExperienceGet
  *             schema:
  *               $ref: '#/components/schemas/Experience'
  *             example:
- *               company: "Updated Company"
- *               position: "Senior Software Engineer"
- *               start_date: "2019-01-01"
- *               end_date: "2023-12-31"
+ *               experience_id: 1
+ *               company_name: "Example Company"
+ *               position: "Software Engineer"
  *               description: "Led a team in developing web applications"
+ *               start_date: "2018-01-01"
+ *               end_date: "2022-12-31"
+ *               created_at: "2021-12-15T10:30:00Z"
+ *               updated_at: "2023-06-23T10:30:00Z"
+ *               profile_id: 1
  *       404:
  *         description: Experience not found
  *         content:
@@ -822,7 +856,14 @@ router.delete('/experience/:experience_id', ExperienceDelete);
  *             example:
  *               - company_id: 1
  *                 company_name: "Google"
- * 
+ *       404:
+ *         description: Experience not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Experience not found
  *       500:
  *         description: Failed to get jobs
  *         content:

@@ -41,10 +41,11 @@ const router = Router();
  *         professional_id:
  *           type: integer
  *       example:
+ *         user_id: 1
  *         first_name: "John"
  *         last_name: "Doe"
  *         email: "john.doe@example.com"
- *         password: "123456"
+ *         password_hash: "123456"
  *         role: "ACADEMY-STUDENTS"
  *         created_at: "2021-01-01T00:00:00.000Z"
  *         updated_at: "2021-01-01T00:00:00.000Z"
@@ -130,7 +131,7 @@ const router = Router();
  *             first_name: John
  *             last_name: Doe
  *             email: john.doe@example.com
- *             password: 123456
+ *             password_hash: 123456
  *             role: ACADEMY-STUDENTS
  *             company_id: 1
  *             professional_id: 2
@@ -215,11 +216,16 @@ router.post('/users', UserPost);
  *             schema:
  *               $ref: '#/components/schemas/User'
  *             example:
- *               first_name: John
- *               last_name: Doe
- *               email: john.update@example.com
- *               password: 123456
- *               role: ACADEMY-STUDENTS
+ *               user_id: 1
+ *               first_name: "John"
+ *               last_name: "Doe"
+ *               email: "john.doe@example.com"
+ *               password_hash: "123456"
+ *               role: "ACADEMY-STUDENTS"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 1
+ *               professional_id: 2
  *       '404':
  *         description: User not found
  *         content:
