@@ -61,22 +61,12 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *  name: Skills
- *  description: Skills endpoints
- */
-
-/**
- * @swagger
- * tags:
- *  name: Professional Skills
- *  description: Professional Skills endpoints
- */
-
-/**
- * @swagger
- * tags:
- *  name: Project Skills
- *  description: Project Skills endpoints
+ *   - name: Skills
+ *     description: Skills endpoints
+ *   - name: Professional Skills
+ *     description: Professional Skills endpoints
+ *   - name: Project Skills
+ *     description: Project Skills endpoints
  */
 
 // ===============================================================

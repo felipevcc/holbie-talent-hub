@@ -70,7 +70,7 @@ const router = Router();
  *     company_id:
  *       in: path
  *       name: company_id
- *       description: ID de la empresa
+ *       description: ID of the company
  *       required: true
  *       schema:
  *         type: integer
@@ -88,10 +88,10 @@ const router = Router();
 // ===============================================================
 
 /**
- *  @swagger
+ * @swagger
  * tags:
- *  name: Applications
- *  description: Endpoints to applications
+ *   name: Applications
+ *   description: Endpoints to applications
  */
 
 // ===============================================================
@@ -103,8 +103,7 @@ const router = Router();
  * /api/v1/company_profiles/{company_id}/applications:
  *   get:
  *     summary: Get applications from a company
- *     tags:
- *       - Applications
+ *     tags: [Applications]
  *     parameters:
  *       - $ref: '#/components/parameters/company_id'
  *     responses:
@@ -145,8 +144,7 @@ router.get('/company_profiles/:company_id/applications', CompanyApplicationsGet)
  * /api/v1/professional_profiles/{profile_id}/applications:
  *   get:
  *     summary: Get applications from a profile
- *     tags:
- *       - Applications
+ *     tags: [Applications]
  *     parameters:
  *        - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -187,8 +185,7 @@ router.get('/professional_profiles/:profile_id/applications', ProfileApplication
  * /api/v1/applications/{application_id}:
  *   get:
  *     summary: Get application by id
- *     tags:
- *       - Applications
+ *     tags: [Applications]
  *     parameters:
  *       - $ref: '#/components/parameters/application_id'
  *     responses:

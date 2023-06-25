@@ -60,7 +60,7 @@ const router = Router();
  *     user_id:
  *       in: path
  *       name: user_id
- *       description: ID del usuario
+ *       description: User ID
  *       required: true
  *       schema:
  *         type: integer
@@ -73,9 +73,10 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *  name: Users
- *  description: Endpoints to users
+ *   name: Users
+ *   description: Endpoints to users
  */
+
 // ===============================================================
 // ============================ USERS ============================
 // ===============================================================

@@ -44,7 +44,7 @@ export const PopularFiltersGet: RequestHandler = async (_req: Request, res: Resp
       profile.skills = skills;
     }
 
-    return res.status(200).json(sqlQuery);
+    return res.json(sqlQuery);
   } catch (error) {
     console.error('Failed to get fake profiles', error);
     return res.status(500).json({ message: 'Failed to get fake profiles' });
@@ -183,7 +183,7 @@ export const FiltersPost: RequestHandler = async (req: Request, res: Response) =
     const maxProfiles = 3; // Number of results to return
     const sortedProfilesLimited = sortedProfiles.slice(0, maxProfiles);
 
-    return res.status(200).json(sortedProfilesLimited);
+    return res.json(sortedProfilesLimited);
   } catch (error) {
     console.error('Failed to get results', error);
     return res.status(500).json({ message: 'Failed to get results' });
@@ -218,7 +218,7 @@ export const SearchEnginePost: RequestHandler = async (req: Request, res: Respon
       return res.status(404).json({ message: 'Results not found' });
     }
 
-    return res.status(200).json(profiles);
+    return res.json(profiles);
   } catch (error) {
     console.error('Failed to get results', error);
     return res.status(500).json({ message: 'Failed to get results' });

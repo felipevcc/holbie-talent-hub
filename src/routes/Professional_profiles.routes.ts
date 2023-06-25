@@ -228,6 +228,7 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/ProfessionalProfile'
  *             example:
+ *               profile_id: 1
  *               is_user: true
  *               headline: Web Developer
  *               about_me: Experienced web developer with a passion for front-end development.
@@ -249,7 +250,7 @@ const router = Router();
  *               message: Failed to get professional profiles
  */
 router.post('/professional_profiles', ProfilePost);
-router.get('/professional_profiles/:profile_id', ProfileGetById);
+router.get('/professional_profiles', ProfilesGet);
 
 /**
  * @swagger
@@ -351,33 +352,33 @@ router.get('/professional_profiles/:profile_id', ProfileGetById);
  *               $ref: '#/components/schemas/Error'
  *             example:
  *               message: Failed to update professional profile
- *
- *   delete:
- *     summary: Delete a professional profile by ID
- *     tags: [ProfessionalProfiles]
- *     parameters:
- *       - $ref: '#/components/parameters/profile_id'
- *     responses:
- *       204:
- *         description: Professional profile deleted successfully
- *       404:
- *         description: Professional profile not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Professional profile not found
- *       500:
- *         description: Failed to delete professional profile
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               message: Failed to delete professional profile
- */
-router.get('/professional_profiles', ProfilesGet);
+*
+*   delete:
+*     summary: Delete a professional profile by ID
+*     tags: [ProfessionalProfiles]
+*     parameters:
+*       - $ref: '#/components/parameters/profile_id'
+*     responses:
+*       204:
+*         description: Professional profile deleted successfully
+*       404:
+*         description: Professional profile not found
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/Error'
+*             example:
+*               message: Professional profile not found
+*       500:
+*         description: Failed to delete professional profile
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/Error'
+*             example:
+*               message: Failed to delete professional profile
+*/
+router.get('/professional_profiles/:profile_id', ProfileGetById);
 router.put('/professional_profiles/:profile_id', ProfilePut);
 router.delete('/professional_profiles/:profile_id', ProfileDelete);
 

@@ -102,14 +102,14 @@ const router = Router();
  *     profile_id:
  *       in: path
  *       name: profile_id
- *       description: ID del perfil
+ *       description: Profile ID
  *       required: true
  *       schema:
  *         type: integer
  *     company_id:
  *       in: path
  *       name: company_id
- *       description: ID de la empresa
+ *       description: ID of the company
  *       required: true
  *       schema:
  *         type: integer
@@ -134,16 +134,11 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *  name: CompanyProfiles
- *  description: Endpoints to company profiles
+ *   - name: CompanyProfiles
+ *     description: Endpoints to company profiles
+ *   - name: FavoriteProfiles
+ *     description: Endpoints to favorite profiles
  */
-
- /**
-  * @swagger
-  * tags:
-  *   name: FavoriteProfiles
-  *   description: Endpoints to favorite profiles
-  */
 
 // ===============================================================
 // =========================== COMPANY ===========================

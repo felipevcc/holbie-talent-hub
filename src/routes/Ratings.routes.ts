@@ -142,29 +142,12 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *  name: Ratings
- *  description: Ratings endpoints
- */
-
-/**
- * @swagger
- * tags:
- *  name: Users Ratings
- *  description: Users Ratings endpoints
- */
-
-/**
- * @swagger
- * tags:
- *  name: Projects Ratings
- *  description: Projects Ratings endpoints
- */
-
-/**
- * @swagger
- * tags:
- *  name: Company (sent - received)
- *  description: Company (sent ratings - received) endpoints
+ *   - name: Ratings
+ *     description: Ratings endpoints
+ *   - name: Users Ratings
+ *     description: Users Ratings endpoints
+ *   - name: Company Projects Ratings
+ *     description: Projects Ratings endpoints and Company (sent ratings - received)
  */
 
 // ===============================================================
@@ -385,7 +368,7 @@ router.get('/users/:user_id/ratings/received', UserReceivedRatingsGet);
  * /api/v1/project_ratings/{rating_id}:
  *   get:
  *     summary: Get project rating by id
- *     tags: [Projects Ratings]
+ *     tags: [Company Projects Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/rating_id'
  *     responses:
@@ -422,7 +405,7 @@ router.get('/users/:user_id/ratings/received', UserReceivedRatingsGet);
  *
  *   put:
  *     summary: Update project rating by id
- *     tags: [Projects Ratings]
+ *     tags: [Company Projects Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/rating_id'
  *     requestBody:
@@ -476,7 +459,7 @@ router.put('/project_ratings/:rating_id/', ProjectRatingPut);
  * /api/v1/company_profiles/{profile_id}/ratings:
  *   get:
  *     summary: Get sent ratings by company profile id
- *     tags: [Company (sent - received)]
+ *     tags: [Company Projects Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -515,7 +498,7 @@ router.put('/project_ratings/:rating_id/', ProjectRatingPut);
  *
  *   post:
  *     summary: Create a new rating for a company profile
- *     tags: [Company (sent - received)]
+ *     tags: [Company Projects Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     requestBody:
@@ -559,7 +542,7 @@ router.post('/company_profiles/:profile_id/ratings', CompanyRatingPost);
  * /api/v1/projects/{project_id}/ratings:
  *   get:
  *     summary: Get received ratings by project id
- *     tags: [Company (sent - received)]
+ *     tags: [Company Projects Ratings]
  *     parameters:
  *       - $ref: '#/components/parameters/project_id'
  *     responses:
@@ -597,6 +580,5 @@ router.post('/company_profiles/:profile_id/ratings', CompanyRatingPost);
  *               message: Failed to get ratings
  */
 router.get('/projects/:project_id/ratings', ProjectReceivedRatingsGet);
-
 
 export default router;

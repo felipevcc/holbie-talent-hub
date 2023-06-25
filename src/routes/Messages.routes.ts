@@ -119,15 +119,10 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *  name: Messages
- *  description: Messages endpoints by ID
- */
-
-/**
- * @swagger
- * tags:
- *  name: User messages
- *  description: User Messages endpoints
+ *   - name: Messages
+ *     description: Messages endpoints by ID
+ *   - name: User messages
+ *     description: User Messages endpoints
  */
 
 // ===============================================================
