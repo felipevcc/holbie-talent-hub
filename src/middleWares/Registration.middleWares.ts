@@ -34,8 +34,9 @@ export const tempRegistrationPost = async (req: Request, res: Response) => {
       companyProfileId = existingUser.company_id;
     } else {
       // Create a new company_profile and relate the new user to it
+      const [companyName] = extractedDomain.split('.') // Extract company name from email domain
       const newCompanyProfile = await query('company_profiles')
-        .insert({});
+        .insert({company_name: companyName});
       companyProfileId = newCompanyProfile[0];
       userRole = 'COMPANY-ADMIN';
     }
@@ -44,8 +45,9 @@ export const tempRegistrationPost = async (req: Request, res: Response) => {
     const hashedPassword: string = await hashPassword(tempPassword);
 
     // Create the new user with the email and the company_profile id
+    const [firstName] = email.split('@'); // Extract first name from email
     const newUser = await query('users')
-      .insert({ email, company_id: companyProfileId, first_name: '', last_name: '', password_hash: hashedPassword, role: userRole});
+      .insert({ email, company_id: companyProfileId, first_name: firstName, last_name: '', password_hash: hashedPassword, role: userRole});
     const insertedUserId = newUser[0];
 
     const createdUser = await query('users')

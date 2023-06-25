@@ -122,11 +122,11 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   - name: ProfessionalContacts
+ *   - name: Professional contacts
  *     description: Endpoints professional profile contacts
- *   - name: CompanyContacts
+ *   - name: Company contacts
  *     description: Endpoints company profile contacts
- *   - name: ProjectContacts
+ *   - name: Project contacts
  *     description: Endpoints project contacts
  */
 
@@ -139,7 +139,7 @@ const router = Router();
  * /api/v1/professional_profiles/{profile_id}/contacts:
  *   post:
  *     summary: Create a contact for a professional profile
- *     tags: [ProfessionalContacts]
+ *     tags: [Professional contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     requestBody:
@@ -175,7 +175,7 @@ const router = Router();
  *               message: Failed to create contact
  *   get:
  *     summary: Get contacts for a professional profile
- *     tags: [ProfessionalContacts]
+ *     tags: [Professional contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -226,7 +226,7 @@ router.post('/professional_profiles/:profile_id/contacts', ProfessionalContactPo
  * /api/v1/professional_contacts/{contact_id}:
  *   get:
  *     summary: Get a professional contact by ID
- *     tags: [ProfessionalContacts]
+ *     tags: [Professional contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     responses:
@@ -261,7 +261,7 @@ router.post('/professional_profiles/:profile_id/contacts', ProfessionalContactPo
  *               message: Failed to get contact
  *   put:
  *     summary: Update a professional contact
- *     tags: [ProfessionalContacts]
+ *     tags: [Professional contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     requestBody:
@@ -305,7 +305,7 @@ router.post('/professional_profiles/:profile_id/contacts', ProfessionalContactPo
  *               message: Failed to update contact
  *   delete:
  *     summary: Delete a professional contact
- *     tags: [ProfessionalContacts]
+ *     tags: [Professional contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     responses:
@@ -341,7 +341,7 @@ router.delete('/professional_contacts/:contact_id', ProfessionalContactDelete);
  * /api/v1/company_profiles/{profile_id}/contacts:
  *   post:
  *     summary: Create a new contact for a company profile
- *     tags: [CompanyContacts]
+ *     tags: [Company contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     requestBody:
@@ -377,7 +377,7 @@ router.delete('/professional_contacts/:contact_id', ProfessionalContactDelete);
  *               message: Failed to create contact
  *   get:
  *     summary: Get contacts for a company profile
- *     tags: [CompanyContacts]
+ *     tags: [Company contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -430,7 +430,7 @@ router.get('/company_profiles/:profile_id/contacts', CompanyContactsGet);
  * /api/v1/company_contacts/{contact_id}:
  *   get:
  *     summary: Get a company contact by ID
- *     tags: [CompanyContacts]
+ *     tags: [Company contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     responses:
@@ -465,7 +465,7 @@ router.get('/company_profiles/:profile_id/contacts', CompanyContactsGet);
  *               message: Failed to get company contact
  *   put:
  *     summary: Update a company contact
- *     tags: [CompanyContacts]
+ *     tags: [Company contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     requestBody:
@@ -509,7 +509,7 @@ router.get('/company_profiles/:profile_id/contacts', CompanyContactsGet);
  *               message: Failed to update contact
  *   delete:
  *     summary: Delete a company contact
- *     tags: [CompanyContacts]
+ *     tags: [Company contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     responses:
@@ -545,7 +545,7 @@ router.delete('/company_contacts/:contact_id', CompanyContactDelete);
  * /api/v1/projects/{project_id}/contacts:
  *   post:
  *     summary: Create a new contact for a project
- *     tags: [ProjectContacts]
+ *     tags: [Project contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/project_id'
  *     requestBody:
@@ -581,7 +581,7 @@ router.delete('/company_contacts/:contact_id', CompanyContactDelete);
  *               message: Failed to create contact
  *   get:
  *     summary: Get contacts for a project
- *     tags: [ProjectContacts]
+ *     tags: [Project contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/project_id'
  *     responses:
@@ -632,7 +632,7 @@ router.get('/projects/:project_id/contacts', ProjectContactsGet);
  * /api/v1/project_contacts/{contact_id}:
  *   get:
  *     summary: Get a project contact by ID
- *     tags: [ProjectContacts]
+ *     tags: [Project contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     responses:
@@ -667,7 +667,7 @@ router.get('/projects/:project_id/contacts', ProjectContactsGet);
  *               message: Failed to get project contact
  *   put:
  *     summary: Update a project contact
- *     tags: [ProjectContacts]
+ *     tags: [Project contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     requestBody:
@@ -711,7 +711,7 @@ router.get('/projects/:project_id/contacts', ProjectContactsGet);
  *               message: Failed to update contact
  *   delete:
  *     summary: Delete a project contact
- *     tags: [ProjectContacts]
+ *     tags: [Project contacts]
  *     parameters:
  *       - $ref: '#/components/parameters/contact_id'
  *     responses:

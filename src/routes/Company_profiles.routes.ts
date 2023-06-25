@@ -134,9 +134,9 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   - name: CompanyProfiles
+ *   - name: Company profiles
  *     description: Endpoints to company profiles
- *   - name: FavoriteProfiles
+ *   - name: Favorite profiles
  *     description: Endpoints to favorite profiles
  */
 
@@ -148,8 +148,8 @@ const router = Router();
  * @swagger
  * /api/v1/company_profiles:
  *   get:
- *     summary: Get company profiles
- *     tags: [CompanyProfiles]
+ *     summary: Get all the company profiles
+ *     tags: [Company profiles]
  *     responses:
  *       '200':
  *         description: Successful operation
@@ -188,7 +188,7 @@ const router = Router();
  * /api/v1/company_profiles/{profile_id}:
  *   get:
  *     summary: Get company profile by ID
- *     tags: [CompanyProfiles]
+ *     tags: [Company profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -226,7 +226,7 @@ const router = Router();
  *
  *   post:
  *     summary: Create company profile
- *     tags: [CompanyProfiles]
+ *     tags: [Company profiles]
  *     requestBody:
  *       required: true
  *       content:
@@ -266,7 +266,7 @@ const router = Router();
  *
  *   put:
  *     summary: Update company profile
- *     tags: [CompanyProfiles]
+ *     tags: [Company profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     requestBody:
@@ -310,7 +310,7 @@ const router = Router();
  *
  *   delete:
  *     summary: Delete company profile
- *     tags: [CompanyProfiles]
+ *     tags: [Company profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -348,7 +348,7 @@ router.delete('/company_profiles/:profile_id', ProfileDelete);
  * /api/v1/company_profiles/{company_id}/favorite_profiles:
  *   get:
  *     summary: Get favorite profiles for a company
- *     tags: [FavoriteProfiles]
+ *     tags: [Favorite profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/company_id'
  *     responses:
@@ -386,7 +386,7 @@ router.delete('/company_profiles/:profile_id', ProfileDelete);
  *
  *   post:
  *     summary: Add favorite profile to a company
- *     tags: [FavoriteProfiles]
+ *     tags: [Favorite profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/company_id'
  *     requestBody:
@@ -419,7 +419,7 @@ router.delete('/company_profiles/:profile_id', ProfileDelete);
  * /api/v1/company_profiles/{company_id}/favorite_profiles/{profile_id}:
  *   delete:
  *     summary: Delete favorite profile from a company
- *     tags: [FavoriteProfiles]
+ *     tags: [Favorite profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/company_id'
  *       - $ref: '#/components/parameters/profile_id'
@@ -456,7 +456,7 @@ router.delete('/company_profiles/:company_id/favorite_profiles/:profile_id', Fav
  * /api/v1/company_profiles/{company_id}/employees:
  *   get:
  *     summary: Get employees of a company
- *     tags: [CompanyProfiles]
+ *     tags: [Company profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/company_id'
  *     responses:
@@ -494,7 +494,7 @@ router.delete('/company_profiles/:company_id/favorite_profiles/:profile_id', Fav
  *
  *   post:
  *     summary: Add employee to a company
- *     tags: [CompanyProfiles]
+ *     tags: [Company profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/company_id'
  *     requestBody:

@@ -147,13 +147,13 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   - name: ProfessionalMultimedia
+ *   - name: Professional multimedia
  *     description: Endpoints multimedia of the professional profile
- *   - name: CompanyMultimedia
+ *   - name: Company multimedia
  *     description: Endpoints multimedia of the company profile
- *   - name: ProjectMultimedia
+ *   - name: Project multimedia
  *     description: Endpoints multimedia of the project
- *   - name: EducationMultimedia
+ *   - name: Education multimedia
  *     description: Endpoints multimedia of the education
  */
 
@@ -166,7 +166,7 @@ const router = Router();
  * /api/v1/professional_profiles/{profile_id}/multimedia:
  *   get:
  *     summary: Get multimedia for a professional profile
- *     tags: [ProfessionalMultimedia]
+ *     tags: [Professional multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -205,7 +205,7 @@ const router = Router();
  *
  *   post:
  *     summary: Add multimedia to a professional profile
- *     tags: [ProfessionalMultimedia]
+ *     tags: [Professional multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     requestBody:
@@ -251,7 +251,7 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  * /api/v1/professional_multimedia/{media_id}:
  *   get:
  *     summary: Get professional multimedia by ID
- *     tags: [ProfessionalMultimedia]
+ *     tags: [Professional multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
@@ -287,7 +287,7 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *
  *   put:
  *     summary: Update professional multimedia
- *     tags: [ProfessionalMultimedia]
+ *     tags: [Professional multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     requestBody:
@@ -332,7 +332,7 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *
  *   delete:
  *     summary: Delete professional multimedia
- *     tags: [ProfessionalMultimedia]
+ *     tags: [Professional multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
@@ -364,7 +364,7 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  * /api/v1/company_profiles/{profile_id}/multimedia:
  *   get:
  *     summary: Get multimedia for a company profile
- *     tags: [CompanyMultimedia]
+ *     tags: [Company multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -402,7 +402,7 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  *
  *   post:
  *     summary: Add multimedia to a company profile
- *     tags: [CompanyMultimedia]
+ *     tags: [Company multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     requestBody:
@@ -448,7 +448,7 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  * /api/v1/company_multimedia/{media_id}:
  *   get:
  *     summary: Get company multimedia by ID
- *     tags: [CompanyMultimedia]
+ *     tags: [Company multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
@@ -484,7 +484,7 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *
  *   put:
  *     summary: Update company multimedia
- *     tags: [CompanyMultimedia]
+ *     tags: [Company multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     requestBody:
@@ -529,7 +529,7 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *
  *   delete:
  *     summary: Delete company multimedia
- *     tags: [CompanyMultimedia]
+ *     tags: [Company multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
@@ -565,7 +565,7 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  * /api/v1/projects/{project_id}/multimedia:
  *   post:
  *     summary: Created multimedia to a project
- *     tags: [ProjectMultimedia]
+ *     tags: [Project multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/project_id'
  *     requestBody:
@@ -604,7 +604,7 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  *               message: Failed to create multimedia in the project
  *   get:
  *     summary: Get project multimedia
- *     tags: [ProjectMultimedia]
+ *     tags: [Project multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/project_id'
  *     responses:
@@ -655,7 +655,7 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  * /api/v1/project_multimedia/{media_id}:
  *   get:
  *     summary: Get project multimedia by ID
- *     tags: [ProjectMultimedia]
+ *     tags: [Project multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
@@ -696,7 +696,7 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *               message: Failed to get project multimedia
  *   put:
  *     summary: Update project multimedia
- *     tags: [ProjectMultimedia]
+ *     tags: [Project multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     requestBody:
@@ -740,7 +740,7 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *               message: Failed to update project multimedia
  *   delete:
  *     summary: Delete project multimedia
- *     tags: [ProjectMultimedia]
+ *     tags: [Project multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
@@ -776,7 +776,7 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
  * /api/v1/education/{education_id}/multimedia:
  *   post:
  *     summary: Upload multimedia for education
- *     tags: [EducationMultimedia]
+ *     tags: [Education multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/education_id'
  *     requestBody:
@@ -822,7 +822,7 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
  *               message: Failed to upload multimedia for education
  *   get:
  *     summary: Get multimedia for education
- *     tags: [EducationMultimedia]
+ *     tags: [Education multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/education_id'
  *     responses:
@@ -872,7 +872,7 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  * /api/v1/education_multimedia/{media_id}:
  *   get:
  *     summary: Get education multimedia by ID
- *     tags: [EducationMultimedia]
+ *     tags: [Education multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:
@@ -909,7 +909,7 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *
  *   put:
  *     summary: Update education multimedia
- *     tags: [EducationMultimedia]
+ *     tags: [Education multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     requestBody:
@@ -954,7 +954,7 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *
  *   delete:
  *     summary: Delete education multimedia
- *     tags: [EducationMultimedia]
+ *     tags: [Education multimedia]
  *     parameters:
  *       - $ref: '#/components/parameters/media_id'
  *     responses:

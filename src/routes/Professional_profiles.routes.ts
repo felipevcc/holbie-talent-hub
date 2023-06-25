@@ -151,7 +151,7 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   - name: ProfessionalProfiles
+ *   - name: Professional profiles
  *     description: Endpoints to manage professional profiles
  *   - name: Experience
  *     description: Endpoints to manage experience of a professional profile
@@ -170,7 +170,7 @@ const router = Router();
  * /api/v1/professional_profiles:
  *   post:
  *     summary: Create a new professional profile
- *     tags: [ProfessionalProfiles]
+ *     tags: [Professional profiles]
  *     requestBody:
  *       required: true
  *       content:
@@ -217,7 +217,7 @@ const router = Router();
  *               message: Failed to create professional profile
  *   get:
  *     summary: Get all professional profiles
- *     tags: [ProfessionalProfiles]
+ *     tags: [Professional profiles]
  *     responses:
  *       200:
  *         description: Successful operation
@@ -257,7 +257,7 @@ router.get('/professional_profiles', ProfilesGet);
  * /api/v1/professional_profiles/{profile_id}:
  *   get:
  *     summary: Get a professional profile by ID
- *     tags: [ProfessionalProfiles]
+ *     tags: [Professional profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     responses:
@@ -298,7 +298,7 @@ router.get('/professional_profiles', ProfilesGet);
  *               message: Failed to get professional profile
  *   put:
  *     summary: Update a professional profile by ID
- *     tags: [ProfessionalProfiles]
+ *     tags: [Professional profiles]
  *     parameters:
  *       - $ref: '#/components/parameters/profile_id'
  *     requestBody:
@@ -355,7 +355,7 @@ router.get('/professional_profiles', ProfilesGet);
 *
 *   delete:
 *     summary: Delete a professional profile by ID
-*     tags: [ProfessionalProfiles]
+*     tags: [Professional profiles]
 *     parameters:
 *       - $ref: '#/components/parameters/profile_id'
 *     responses:
