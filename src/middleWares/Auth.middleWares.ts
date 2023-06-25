@@ -14,7 +14,7 @@ export const auth = async (password: string, hash: string) => {
   return await bycrypt.compare(password, hash);
 };
 
-// Example of use in the login process
+// Login
 export const Login: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;

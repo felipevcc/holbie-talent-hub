@@ -28,6 +28,8 @@ const router = Router();
  *           type: string
  *         email:
  *           type: string
+ *         password_hash:
+ *           type: string
  *         role:
  *           type: string
  *         created_at:
@@ -45,11 +47,11 @@ const router = Router();
  *         first_name: "John"
  *         last_name: "Doe"
  *         email: "john.doe@example.com"
- *         password_hash: "123456"
+ *         password_hash: "$2b$10$p0RRjMhuEGBc.3ysIJhZde3FYN3"
  *         role: "ACADEMY-STUDENTS"
  *         created_at: "2021-01-01T00:00:00.000Z"
  *         updated_at: "2021-01-01T00:00:00.000Z"
- *         company_id: 1
+ *         company_id: null
  *         professional_id: 2
  *     Error:
  *       type: object
@@ -132,9 +134,8 @@ const router = Router();
  *             first_name: John
  *             last_name: Doe
  *             email: john.doe@example.com
- *             password_hash: 123456
+ *             password_hash: "123456"
  *             role: ACADEMY-STUDENTS
- *             company_id: 1
  *             professional_id: 2
  *     responses:
  *       '201':
@@ -221,11 +222,11 @@ router.post('/users', UserPost);
  *               first_name: "John"
  *               last_name: "Doe"
  *               email: "john.doe@example.com"
- *               password_hash: "123456"
+ *               password_hash: "$2b$10$p0RRjMhuEGBc.3ysIJhZde3FYN3"
  *               role: "ACADEMY-STUDENTS"
  *               created_at: "2021-01-01T00:00:00.000Z"
  *               updated_at: "2021-01-01T00:00:00.000Z"
- *               company_id: 1
+ *               company_id: null
  *               professional_id: 2
  *       '404':
  *         description: User not found
