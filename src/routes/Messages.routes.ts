@@ -30,7 +30,7 @@ const router = Router();
  *           type: string
  *         type_connection:
  *           type: string
- *           enum: [COMPANY, PROJECT]
+ *           enum: [APPLICATION, PROJECT]
  *         created_at:
  *           type: string
  *           format: date-time
@@ -51,7 +51,7 @@ const router = Router();
  *         message_id: 1
  *         subject: "Subject"
  *         content: "Content"
- *         type_connection: "COMPANY"
+ *         type_connection: "APPLICATION"
  *         created_at: "2021-01-01T00:00:00.000Z"
  *         updated_at: "2021-01-01T00:00:00.000Z"
  *         sender_id: 1
@@ -79,7 +79,7 @@ const router = Router();
  *           type: string
  *         type_connection:
  *           type: string
- *           enum: [COMPANY, PROJECT]
+ *           enum: [APPLICATION, PROJECT]
  *         receiver_id:
  *           type: integer
  *         application_id:
@@ -91,7 +91,7 @@ const router = Router();
  *       example:
  *         subject: "Subject"
  *         content: "Content"
- *         type_connection: "COMPANY"
+ *         type_connection: "APPLICATION"
  *         receiver_id: 2
  *         application_id: 1
  *

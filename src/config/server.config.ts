@@ -57,6 +57,6 @@ app.use("/api/v1", RegistrationRoutes);
 // Documentation (Swagger)
 import swaggerUi from "swagger-ui-express";
 import swaggerSpecs from "../documentation/swagger";
-app.use("/api/documentation", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+app.use("/api/v1/documentation", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 export default app;
