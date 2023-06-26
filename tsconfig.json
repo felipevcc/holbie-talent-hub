@@ -23,6 +23,25 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "removeComments": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "$Applications/*": ["./src/app/Applications/*"],
+      "$Auth/*": ["./src/app/Auth/*"],
+      "$Company/*": ["./src/app/Company/*"],
+      "$Company_profiles/*": ["./src/app/Company_profiles/*"],
+      "$Contacts/*": ["./src/app/Contacts/*"],
+      "$Filters/*": ["./src/app/Filters/*"],
+      "$Messages/*": ["./src/app/Messages/*"],
+      "$Multimedia/*": ["./src/app/Multimedia/*"],
+      "$Professional/*": ["./src/app/Professional/*"],
+      "$Professional_profiles/*": ["./src/app/Professional_profiles/*"],
+      "$Projects/*": ["./src/app/Projects/*"],
+      "$Ratings/*": ["./src/app/Ratings/*"],
+      "$Registration/*": ["./src/app/Registration/*"],
+      "$Skills/*": ["./src/app/Skills/*"],
+      "$Users/*": ["./src/app/Users/*"],
+      "$Infrastructure/*": ["./src/infrastructure/*"],
+      "$Share/*": ["./src/share/*"],
+    }
   }
 }
