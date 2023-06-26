@@ -2,6 +2,17 @@
 
 Backend project at Coderise for a recruitment system between companies and students.
 
+## Setup
+
+To configure the database server you must create the `.env` file where the necessary environment variables for the connection with the database will be. the file must have the following variables:
+```
+DB_HOST="localhost"
+DB_USER="root"
+DB_PASS="123"
+DB_NAME="holbie_talent_hub"
+```
+The values of these variables depend on where and how the database is created, these were a few examples.
+
 ## Documentation
 
 Documentation is implemented with Swagger in this path: `http://localhost:3000/api/v1/documentation`.
