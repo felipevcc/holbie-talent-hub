@@ -7,6 +7,7 @@ Backend project at Coderise for a recruitment system between companies and stude
 To configure the database server you must create the `.env` file where the necessary environment variables for the connection with the database will be. the file must have the following variables:
 ```
 DB_HOST="localhost"
+DB_PORT=3306
 DB_USER="root"
 DB_PASS="123"
 DB_NAME="holbie_talent_hub"
