@@ -1,6 +1,6 @@
 import { RequestHandler, Request, Response } from "express";
-import { knexInstance as query } from "$Infrastructure/MySQL/ConnetDB.services";
-import { Application } from "$Applications/domain/Applications.d";
+import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
+import { Application } from "../domain/Applications.d";
 
 // ===============================================================
 // ========================== APPLICATIONS =======================

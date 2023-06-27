@@ -1,7 +1,7 @@
 import { RequestHandler, Request, Response } from "express";
-import { knexInstance as query } from "$Infrastructure/MySQL/ConnetDB.services";
-import { User } from "$Users/domain/Users.d";
-import { hashPassword } from "$Share/Crypt.services";
+import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
+import { User } from "../domain/Users.d";
+import { hashPassword } from "../../../share/Crypt.services";
 
 // Returns all the users
 export const UsersGet: RequestHandler = async (_req: Request, res: Response) => {

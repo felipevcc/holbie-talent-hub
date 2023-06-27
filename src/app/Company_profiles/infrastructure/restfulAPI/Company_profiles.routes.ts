@@ -13,7 +13,7 @@ import {
   // Employees
   EmployeesGet,
   EmployeePost,
-} from "$Company_profiles/use-cases/Company_profiles.use-case";
+} from "../../use-cases/Company_profiles.use-case";
 
 const router = Router();
 

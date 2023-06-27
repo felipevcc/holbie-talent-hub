@@ -1,6 +1,6 @@
 import { RequestHandler, Request, Response } from "express";
-import { knexInstance as query } from "$Infrastructure/MySQL/ConnetDB.services";
-import { ProfessionalContact, CompanyContact, ProjectContact } from "$Contacts/domain/Contacts.d";
+import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
+import { ProfessionalContact, CompanyContact, ProjectContact } from "../domain/Contacts.d";
 
 // ===============================================================
 // ================ PROFESSIONAL_PROFILE_CONTACTS ================

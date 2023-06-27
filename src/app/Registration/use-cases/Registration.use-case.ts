@@ -1,7 +1,7 @@
 import { RequestHandler, Request, Response } from "express";
-import { knexInstance as query } from "$Infrastructure/MySQL/ConnetDB.services";
-import { User } from "$Users/domain/Users.d";
-import { hashPassword } from "$Share/Crypt.services";
+import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
+import { User } from "../../Users/domain/Users.d";
+import { hashPassword } from "../../../share/Crypt.services";
 import public_domains from "./resources/public_domains.json"
 
 // * Temporary registration: (POST)

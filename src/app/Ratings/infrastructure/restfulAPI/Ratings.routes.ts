@@ -15,7 +15,7 @@ import {
   CompanyRatingPost,
   // Project (received ratings)
   ProjectReceivedRatingsGet
-} from "$Ratings/use-cases/Ratings.use-case";
+} from "../../use-cases/Ratings.use-case";
 
 const router = Router();
 

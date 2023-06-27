@@ -20,7 +20,7 @@ import {
   ExperienceDelete,
   // Jobs
   JobGet
-} from "$Professional_profiles/use-cases/Professional_profiles.use-case";
+} from "../../use-cases/Professional_profiles.use-case";
 
 const router = Router();
 

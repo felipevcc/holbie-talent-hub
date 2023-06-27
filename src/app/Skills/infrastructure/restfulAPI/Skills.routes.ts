@@ -12,7 +12,7 @@ import {
   // ProjectSkills
   ProjectSkillsGet,
   ProjectSkillPost
-} from "$Skills/use-cases/Skills.use-case";
+} from "../../use-cases/Skills.use-case";
 
 const router = Router();
 

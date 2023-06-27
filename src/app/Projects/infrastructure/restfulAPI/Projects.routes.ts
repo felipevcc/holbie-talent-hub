@@ -15,7 +15,7 @@ import {
   CapstoneGetById,
   CapstonePost,
   CapstonePut
- } from "$Projects/use-cases/Projects.use-case";
+ } from "../../use-cases/Projects.use-case";
 
 const router = Router();
 

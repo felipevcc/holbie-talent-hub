@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { FakeProfilesGet, PopularFiltersGet, FiltersPost, SearchEnginePost } from "$Filters/use-cases/Filters.use-case";
+import {
+  FakeProfilesGet,
+  PopularFiltersGet,
+  FiltersPost,
+  SearchEnginePost
+} from "../../use-cases/Filters.use-case";
 
 const router = Router();
 

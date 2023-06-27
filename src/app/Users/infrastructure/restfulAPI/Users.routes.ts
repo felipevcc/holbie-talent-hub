@@ -5,7 +5,7 @@ import {
   UserGetById,
   UserPost,
   UserPut,
-  UserDelete } from "$Users/use-cases/Users.use-case";
+  UserDelete } from "../../use-cases/Users.use-case";
 
 const router = Router();
 

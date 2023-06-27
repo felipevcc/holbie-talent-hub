@@ -7,7 +7,7 @@ import {
   ApplicationPost,
   ApplicationPut,
   ApplicationDelete
-} from "$Applications/use-cases/Applications.use-case";
+} from "../../use-cases/Applications.use-case";
 
 const router = Router();
 

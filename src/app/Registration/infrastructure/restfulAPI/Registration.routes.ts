@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { tempRegistrationPost, RegistrationPut, RegistrationPost } from "$Registration/use-cases/Registration.use-case";
+import {
+  tempRegistrationPost,
+  RegistrationPut,
+  RegistrationPost
+} from "../../use-cases/Registration.use-case";
 
 const router = Router();
 

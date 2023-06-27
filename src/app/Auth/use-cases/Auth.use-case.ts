@@ -1,6 +1,6 @@
 import { RequestHandler, Request, Response } from "express";
-import { knexInstance as query } from "$Infrastructure/MySQL/ConnetDB.services";
-import { auth } from "$Share/Crypt.services";
+import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
+import { auth } from "../../../share/Crypt.services";
 
 // Login
 export const Login: RequestHandler = async (req: Request, res: Response) => {

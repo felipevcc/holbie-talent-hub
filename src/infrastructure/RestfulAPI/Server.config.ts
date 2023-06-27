@@ -25,19 +25,19 @@ app.use(helmet());
 app.use(express.json());
 
 // Import routes
-import ApplicationsRoutes from "$Applications/infrastructure/restfulAPI/Applications.routes";
-import Company_profilesRoutes from "$Company_profiles/infrastructure/restfulAPI/Company_profiles.routes";
-import ContactsRoutes from "$Contacts/infrastructure/restfulAPI/Contacts.routes";
-import MessagesRoutes from "$Messages/infrastructure/restfulAPI/Messages.routes";
-import MultimediaRoutes from "$Multimedia/infrastructure/restfulAPI/Multimedia.routes";
-import Professional_profilesRoutes from "$Professional_profiles/infrastructure/restfulAPI/Professional_profiles.routes";
-import ProjectsRoutes from "$Projects/infrastructure/restfulAPI/Projects.routes";
-import RatingsRoutes from "$Ratings/infrastructure/restfulAPI/Ratings.routes";
-import SkillsRoutes from "$Skills/infrastructure/restfulAPI/Skills.routes";
-import UsersRoutes from "$Users/infrastructure/restfulAPI/Users.routes";
-import FiltersRoutes from "$Filters/infrastructure/restfulAPI/Filters.routes";
-import AuthRoutes from "$Auth/infrastructure/restfulAPI/Auth.routes";
-import RegistrationRoutes from "$Registration/infrastructure/restfulAPI/Registration.routes";
+import ApplicationsRoutes from "../../app/Applications/infrastructure/restfulAPI/Applications.routes";
+import Company_profilesRoutes from "../../app/Company_profiles/infrastructure/restfulAPI/Company_profiles.routes";
+import ContactsRoutes from "../../app/Contacts/infrastructure/restfulAPI/Contacts.routes";
+import MessagesRoutes from "../../app/Messages/infrastructure/restfulAPI/Messages.routes";
+import MultimediaRoutes from "../../app/Multimedia/infrastructure/restfulAPI/Multimedia.routes";
+import Professional_profilesRoutes from "../../app/Professional_profiles/infrastructure/restfulAPI/Professional_profiles.routes";
+import ProjectsRoutes from "../../app/Projects/infrastructure/restfulAPI/Projects.routes";
+import RatingsRoutes from "../../app/Ratings/infrastructure/restfulAPI/Ratings.routes";
+import SkillsRoutes from "../../app/Skills/infrastructure/restfulAPI/Skills.routes";
+import UsersRoutes from "../../app/Users/infrastructure/restfulAPI/Users.routes";
+import FiltersRoutes from "../../app/Filters/infrastructure/restfulAPI/Filters.routes";
+import AuthRoutes from "../../app/Auth/infrastructure/restfulAPI/Auth.routes";
+import RegistrationRoutes from "../../app/Registration/infrastructure/restfulAPI/Registration.routes";
 
 // Use routes
 app.use("/api/v1", ApplicationsRoutes);

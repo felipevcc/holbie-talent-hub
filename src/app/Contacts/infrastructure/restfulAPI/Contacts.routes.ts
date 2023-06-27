@@ -18,7 +18,7 @@ import {
   ProjectContactPost,
   ProjectContactPut,
   ProjectContactDelete
-} from "$Contacts/use-cases/Contacts.use-case";
+} from "../../use-cases/Contacts.use-case";
 
 const router = Router();
 

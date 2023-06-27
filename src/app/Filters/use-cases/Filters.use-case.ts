@@ -1,7 +1,6 @@
 import { RequestHandler, Request, Response } from "express";
-import { knexInstance as query } from "$Infrastructure/MySQL/ConnetDB.services";
-import { Filters } from "$Filters/domain/Filters.d";
-//import { ProfessionalProfile } from "../domain/professional_profiles.d";
+import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
+import { Filters } from "../domain/Filters.d";
 
 // Fake profiles
 export const FakeProfilesGet: RequestHandler = async (_req: Request, res: Response) => {

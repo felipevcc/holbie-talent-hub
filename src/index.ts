@@ -1,5 +1,5 @@
-import app from "$Infrastructure/RestfulAPI/Server.config";
-import connectDB from "$Infrastructure/MySQL/ConnetDB.services";
+import app from "./infrastructure/RestfulAPI/Server.config";
+import connectDB from "./infrastructure/MySQL/ConnetDB.services";
 
 const run = async () => {
   try {

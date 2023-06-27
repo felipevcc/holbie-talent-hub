@@ -7,7 +7,7 @@ import {
   // UserMessages
   UserSentMessagesGet,
   UserReceivedMessagesGet
-} from "$Messages/use-cases/Messages.use-case";
+} from "../../use-cases/Messages.use-case";
 
 const router = Router();
 

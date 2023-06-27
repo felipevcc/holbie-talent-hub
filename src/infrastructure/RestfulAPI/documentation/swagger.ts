@@ -12,12 +12,16 @@ const swaggerDefinition: OAS3Definition = {
       url: "http://localhost:3000",
       description: "Development server"
     },
+    {
+      url: "https://recruitment-system-production.up.railway.app/api/v1/documentation",
+      description: "Production server"
+    }
   ]
 };
 
 const options: OAS3Options = {
   swaggerDefinition,
-  apis: ["./**/*.routes.ts"],
+  apis: ["./**/*.routes.ts"]
 };
 
 const swaggerSpecs = swaggerJSDoc(options);

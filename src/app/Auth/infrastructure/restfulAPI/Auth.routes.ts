@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Login } from "$Auth/use-cases/Auth.use-case";
+import { Login } from "../../use-cases/Auth.use-case";
 
 const router = Router();
 

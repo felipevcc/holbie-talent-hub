@@ -1,6 +1,11 @@
 import { RequestHandler, Request, Response } from "express";
-import { knexInstance as query } from "$Infrastructure/MySQL/ConnetDB.services";
-import { ProfessionalMultimedia, CompanyMultimedia, ProjectMultimedia, EducationMultimedia } from "$Multimedia/domain/Multimedia.d";
+import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
+import {
+  ProfessionalMultimedia,
+  CompanyMultimedia,
+  ProjectMultimedia,
+  EducationMultimedia
+} from "../domain/Multimedia.d";
 
 // ===============================================================
 // ================ PROFESSIONAL_PROFILE_MULTIMEDIA ==============

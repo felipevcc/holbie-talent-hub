@@ -24,7 +24,7 @@ import {
     EducationMultimediaPost,
     EducationMultimediaPut,
     EducationMultimediaDelete
-} from "$Multimedia/use-cases/Multimedia.use-case";
+} from "../../use-cases/Multimedia.use-case";
 
 const router = Router();
 
