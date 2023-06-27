@@ -13,7 +13,7 @@ const swaggerDefinition: OAS3Definition = {
       description: "Development server"
     },
     {
-      url: "https://recruitment-system-production.up.railway.app/api/v1",
+      url: "https://recruitment-system-production.up.railway.app",
       description: "Production server"
     }
   ]
