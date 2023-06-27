@@ -193,24 +193,31 @@ export const FiltersPost: RequestHandler = async (req: Request, res: Response) =
 // Search engine to filter
 export const SearchEnginePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { filter } = req.body;
+    const { filters } = req.body;
+
+    // Divide el filtro en palabras individuales
+    const filterKeywords = filters.split(' ');
 
     // Professional profiles filter
     const profiles = await query('professional_profiles')
       .select('professional_profiles.*')
       .where((builder) => {
-        builder
-          .where('location', 'LIKE', `%${filter}%`)
-          .orWhere('job_name', 'LIKE', `%${filter}%`)
-          .orWhere('kind_job', 'LIKE', `%${filter}%`)
-          .orWhere('job_type', 'LIKE', `%${filter}%`)
-          .orWhereExists(function () {
-            this.select('*')
-              .from('professional_skills')
-              .join('skills', 'professional_skills.skill_id', 'skills.skill_id')
-              .whereRaw(`professional_skills.profile_id = professional_profiles.profile_id`)
-              .andWhere('skills.name', 'LIKE', `%${filter}%`);
+        filterKeywords.forEach((keyword: string) => {
+          builder.andWhere((nestedBuilder) => {
+            nestedBuilder
+              .where('location', 'LIKE', `%${keyword}%`)
+              .orWhere('job_name', 'LIKE', `%${keyword}%`)
+              .orWhere('kind_job', 'LIKE', `%${keyword}%`)
+              .orWhere('job_type', 'LIKE', `%${keyword}%`)
+              .orWhereExists(function () {
+                this.select('*')
+                  .from('professional_skills')
+                  .join('skills', 'professional_skills.skill_id', 'skills.skill_id')
+                  .whereRaw(`professional_skills.profile_id = professional_profiles.profile_id`)
+                  .andWhere('skills.name', 'LIKE', `%${keyword}%`);
+              });
           });
+        });
       })
       .where('is_user', true);
 

@@ -297,10 +297,10 @@ router.post('/filters', FiltersPost);
  *           schema:
  *             type: object
  *             properties:
- *               filter:
+ *               filters:
  *                 type: string
  *           example:
- *             filter: "Backend"
+ *             filters: "Backend"
  *     responses:
  *       '200':
  *         description: successful operation
