@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { tempRegistrationPost, RegistrationPut } from "$Registration/use-cases/Registration.use-case";
+import { tempRegistrationPost, RegistrationPut, RegistrationPost } from "$Registration/use-cases/Registration.use-case";
 
 const router = Router();
 
@@ -42,6 +42,19 @@ const router = Router();
  *         first_name:
  *           type: string
  *         last_name:
+ *           type: string
+ *         password:
+ *           type: string
+ *         role:
+ *           type: string
+ *     RegistrationPost:
+ *       type: object
+ *       properties:
+ *         first_name:
+ *           type: string
+ *         last_name:
+ *           type: string
+ *         email:
  *           type: string
  *         password:
  *           type: string
@@ -132,7 +145,7 @@ const router = Router();
 router.post('/temp_registration', tempRegistrationPost);
 
 // =================================================================
-// =================== COMPANY USER REGISTRATION ===================
+// ================= COMPANY USER REGISTRATION PUT =================
 // =================================================================
 
 /**
@@ -190,5 +203,64 @@ router.post('/temp_registration', tempRegistrationPost);
  *               message: Failed to register user
  */
 router.put('/registration/:user_id', RegistrationPut);
+
+// =================================================================
+// =================== COMPANY USER REGISTRATION ===================
+// =================================================================
+
+/**
+ * @swagger
+ * /api/v1/registration:
+ *   post:
+ *     summary: Company user registration
+ *     tags: [Registration]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegistrationPost'
+ *           example:
+ *             first_name: "Alexa"
+ *             last_name: "Muñoz"
+ *             email: "alexam@coderise.com"
+ *             password: "1234"
+ *             role: "COMPANY-STAFF"
+ *     responses:
+ *       '201':
+ *         description: successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *             example:
+ *               user_id: 21
+ *               first_name: "Alexa"
+ *               last_name: "Muñoz"
+ *               email: "alexam@coderise.com"
+ *               password_hash: "$2b$10$fj0tSN9vbg2EzCgf2xQcFe"
+ *               role: "COMPANY-STAFF"
+ *               created_at: "2021-01-01T00:00:00.000Z"
+ *               updated_at: "2021-01-01T00:00:00.000Z"
+ *               company_id: 2
+ *               professional_id: null
+ *       '400':
+ *         description: Invalid email domain (public domain)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Invalid email domain (public domain)
+ *       '500':
+ *         description: Failed to register user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Failed to register user
+ */
+router.put('/registration', RegistrationPost);
 
 export default router;
