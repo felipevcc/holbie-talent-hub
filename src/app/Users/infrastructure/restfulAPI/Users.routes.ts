@@ -28,8 +28,6 @@ const router = Router();
  *           type: string
  *         email:
  *           type: string
- *         password:
- *           type: string
  *         role:
  *           type: string
  *         created_at:
@@ -47,7 +45,6 @@ const router = Router();
  *         first_name: "John"
  *         last_name: "Doe"
  *         email: "john.doe@example.com"
- *         password_hash: "$2b$10$p0RRjMhuEGBc.3ysIJhZde3FYN3"
  *         role: "ACADEMY-STUDENTS"
  *         created_at: "2021-01-01T00:00:00.000Z"
  *         updated_at: "2021-01-01T00:00:00.000Z"
@@ -222,7 +219,6 @@ router.post('/users', UserPost);
  *               first_name: "John"
  *               last_name: "Doe"
  *               email: "john.doe@example.com"
- *               password_hash: "$2b$10$p0RRjMhuEGBc.3ysIJhZde3FYN3"
  *               role: "ACADEMY-STUDENTS"
  *               created_at: "2021-01-01T00:00:00.000Z"
  *               updated_at: "2021-01-01T00:00:00.000Z"

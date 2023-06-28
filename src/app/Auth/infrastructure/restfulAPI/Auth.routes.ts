@@ -22,8 +22,6 @@ const router = Router();
  *           type: string
  *         email:
  *           type: string
- *         password_hash:
- *           type: string
  *         role:
  *           type: string
  *         created_at:
@@ -92,7 +90,6 @@ const router = Router();
  *               first_name: "Alexa"
  *               last_name: "Muñoz"
  *               email: "alexam@gmail.com"
- *               password_hash: "$2b$10$fj0tSN9vbg2EzCgf2xQcFe"
  *               role: "ACADEMY-STUDENTS"
  *               created_at: "2021-01-01T00:00:00.000Z"
  *               updated_at: "2021-01-01T00:00:00.000Z"

@@ -1,12 +1,13 @@
 import { RequestHandler, Request, Response } from "express";
 import { knexInstance as query } from "../../../infrastructure/MySQL/ConnetDB.services";
-import { User } from "../domain/Users.d";
+import { User, FullUser } from "../domain/Users.d";
 import { hashPassword } from "../../../share/Crypt.services";
 
 // Returns all the users
 export const UsersGet: RequestHandler = async (_req: Request, res: Response) => {
   try {
-    const sqlQuery = await query('users').select('*') as User[];
+    const sqlQuery = await query('users')
+      .select('user_id', 'first_name', 'last_name', 'email', 'role', 'created_at', 'updated_at', 'company_id', 'professional_id') as User[];
     return res.json(sqlQuery);
   } catch(error) {
     console.error('Failed to get users:', error);
@@ -19,7 +20,7 @@ export const UserGetById: RequestHandler = async (req: Request, res: Response) =
   try {
     const { user_id } = req.params;
     const sqlQuery = await query('users')
-      .select('*')
+      .select('user_id', 'first_name', 'last_name', 'email', 'role', 'created_at', 'updated_at', 'company_id', 'professional_id')
       .where('user_id', user_id)
       .first() as User;
     if (!sqlQuery) {
@@ -45,6 +46,7 @@ export const UserPost: RequestHandler = async (req: Request, res: Response) => {
     const insertedUserId = sqlQuery[0];
 
     const createdUser = await query('users')
+      .select('user_id', 'first_name', 'last_name', 'email', 'role', 'created_at', 'updated_at', 'company_id', 'professional_id')
       .where('user_id', insertedUserId)
       .first() as User;
 
@@ -66,7 +68,7 @@ export const UserPut: RequestHandler = async (req: Request, res: Response) => {
       hashedPassword = await hashPassword(password);
     }
 
-    const updateData: Partial<User> = { first_name, last_name, email, role };
+    const updateData: Partial<FullUser> = { first_name, last_name, email, role };
     if (hashedPassword !== undefined) {
       updateData.password_hash = hashedPassword;
     }
@@ -80,6 +82,7 @@ export const UserPut: RequestHandler = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User not found' });
     } else {
       const updatedUser = await query('users')
+        .select('user_id', 'first_name', 'last_name', 'email', 'role', 'created_at', 'updated_at', 'company_id', 'professional_id')
         .where('user_id', user_id)
         .first() as User;
       return res.json(updatedUser);

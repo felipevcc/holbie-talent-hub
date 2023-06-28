@@ -26,8 +26,6 @@ const router = Router();
  *           type: string
  *         email:
  *           type: string
- *         password_hash:
- *           type: string
  *         role:
  *           type: string
  *         created_at:
@@ -123,7 +121,6 @@ const router = Router();
  *               first_name: null
  *               last_name: null
  *               email: "alexam@coderise.com"
- *               password_hash: "$2b$10$fj0tSN9vbg2EzCgf2xQcFe"
  *               role: "COMPANY-STAFF"
  *               created_at: "2021-01-01T00:00:00.000Z"
  *               updated_at: "2021-01-01T00:00:00.000Z"
@@ -183,7 +180,6 @@ router.post('/temp_registration', tempRegistrationPost);
  *               first_name: "Alexa"
  *               last_name: "Muñoz"
  *               email: "alexam@coderise.com"
- *               password_hash: "$2b$10$fj0tSN9vbg2EzCgf2xQcFe"
  *               role: "COMPANY-STAFF"
  *               created_at: "2021-01-01T00:00:00.000Z"
  *               updated_at: "2021-01-01T00:00:00.000Z"
@@ -242,7 +238,6 @@ router.put('/registration/:user_id', RegistrationPut);
  *               first_name: "Alexa"
  *               last_name: "Muñoz"
  *               email: "alexam@coderise.com"
- *               password_hash: "$2b$10$fj0tSN9vbg2EzCgf2xQcFe"
  *               role: "COMPANY-STAFF"
  *               created_at: "2021-01-01T00:00:00.000Z"
  *               updated_at: "2021-01-01T00:00:00.000Z"

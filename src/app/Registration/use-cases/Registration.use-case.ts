@@ -51,7 +51,7 @@ export const tempRegistrationPost = async (req: Request, res: Response) => {
     const insertedUserId = newUser[0];
 
     const createdUser = await query('users')
-      .select('*')
+      .select('user_id', 'first_name', 'last_name', 'email', 'role', 'created_at', 'updated_at', 'company_id', 'professional_id')
       .where('user_id', insertedUserId)
       .first() as User;
 
@@ -80,6 +80,7 @@ export const RegistrationPut: RequestHandler = async (req: Request, res: Respons
       return res.status(404).json({ message: 'User not found' });
     } else {
       const updatedUser = await query('users')
+        .select('user_id', 'first_name', 'last_name', 'email', 'role', 'created_at', 'updated_at', 'company_id', 'professional_id')
         .where('user_id', user_id)
         .first() as User;
       return res.json(updatedUser);
@@ -133,7 +134,7 @@ export const RegistrationPost: RequestHandler = async (req: Request, res: Respon
     const insertedUserId = newUser[0];
 
     const createdUser = await query('users')
-      .select('*')
+      .select('user_id', 'first_name', 'last_name', 'email', 'role', 'created_at', 'updated_at', 'company_id', 'professional_id')
       .where('user_id', insertedUserId)
       .first() as User;
 

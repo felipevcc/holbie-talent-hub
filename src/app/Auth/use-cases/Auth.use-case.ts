@@ -20,6 +20,7 @@ export const Login: RequestHandler = async (req: Request, res: Response) => {
     const passwordMatch = await auth(password, storedHashedPassword);
 
     if (passwordMatch) {
+      delete storedUser.password_hash;
       return res.status(200).json(storedUser);
     } else {
       return res.status(401).json({ message: 'Invalid credentials' });
