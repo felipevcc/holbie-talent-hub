@@ -265,6 +265,6 @@ router.put('/registration/:user_id', RegistrationPut);
  *             example:
  *               message: Failed to register user
  */
-router.put('/registration', RegistrationPost);
+router.post('/registration', RegistrationPost);
 
 export default router;
