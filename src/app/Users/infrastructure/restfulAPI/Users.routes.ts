@@ -28,7 +28,7 @@ const router = Router();
  *           type: string
  *         email:
  *           type: string
- *         password_hash:
+ *         password:
  *           type: string
  *         role:
  *           type: string
@@ -134,7 +134,7 @@ const router = Router();
  *             first_name: John
  *             last_name: Doe
  *             email: john.doe@example.com
- *             password_hash: "123456"
+ *             password: "123456"
  *             role: ACADEMY-STUDENTS
  *             professional_id: 2
  *     responses:
