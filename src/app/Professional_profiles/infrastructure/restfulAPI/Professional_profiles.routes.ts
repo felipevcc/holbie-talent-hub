@@ -19,7 +19,9 @@ import {
   ExperiencePut,
   ExperienceDelete,
   // Jobs
-  JobGet
+  JobGet,
+  // User
+  ProfileUserGet
 } from "../../use-cases/Professional_profiles.use-case";
 
 const router = Router();
@@ -115,6 +117,39 @@ const router = Router();
  *           format: date-time
  *         profile_id:
  *           type: integer
+ *     User:
+ *       type: object
+ *       properties:
+ *         user_id:
+ *           type: integer
+ *         first_name:
+ *           type: string
+ *         last_name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         role:
+ *           type: string
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *         updated_at:
+ *           type: string
+ *           format: date-time
+ *         company_id:
+ *           type: integer
+ *         professional_id:
+ *           type: integer
+ *       example:
+ *         user_id: 1
+ *         first_name: "John"
+ *         last_name: "Doe"
+ *         email: "john.doe@example.com"
+ *         role: "ACADEMY-STUDENTS"
+ *         created_at: "2021-01-01T00:00:00.000Z"
+ *         updated_at: "2021-01-01T00:00:00.000Z"
+ *         company_id: null
+ *         professional_id: 2
  *     Error:
  *       type: object
  *       properties:
@@ -875,5 +910,43 @@ router.delete('/experience/:experience_id', ExperienceDelete);
  *               message: Failed to get jobs for professional profile
  */
 router.get('/professional_profiles/:profile_id/jobs', JobGet);
+
+// ===============================================================
+// ====================== PROFILE USER (user) ====================
+// ===============================================================
+
+/**
+ * @swagger
+ * /api/v1/professional_profiles/{profile_id}/user:
+ *   get:
+ *     summary: Get professional profile user
+ *     tags: [Professional profiles]
+ *     parameters:
+ *       - $ref: '#/components/parameters/profile_id'
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Profile id not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Profile id not found
+ *       500:
+ *         description: Failed to get user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               message: Failed to get user
+ */
+router.get('/professional_profiles/:profile_id/user', ProfileUserGet);
 
 export default router;

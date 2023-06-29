@@ -6,6 +6,7 @@ import {
   Experience
 } from "../domain/Professional_profiles.d";
 import { CompanyProfile } from "../../Company_profiles/domain/Company_profiles.d";
+import { User } from "../../Users/domain/Users.d";
 
 // ===============================================================
 // ==================== PROFESSIONAL_PROFILES ====================
@@ -356,5 +357,35 @@ export const JobGet: RequestHandler = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Failed to get jobs', error);
     return res.status(500).json({ message: 'Failed to get jobs' });
+  }
+};
+
+// ===============================================================
+// ===================== PROFILE_USER (user) =====================
+// ===============================================================
+
+// Returns the user with the given profile_id
+export const ProfileUserGet: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { profile_id } = req.params;
+
+    // Check if the profile exists
+    const profileExists = await query('professional_profiles')
+      .select('profile_id')
+      .where('profile_id', profile_id)
+      .first();
+    if (!profileExists) {
+      return res.status(404).json({ message: 'Profile id not found' });
+    }
+
+    const sqlQuery = await query('users')
+      .select('users.user_id', 'users.first_name', 'users.last_name', 'users.email', 'users.role', 'users.created_at', 'users.updated_at', 'users.company_id', 'users.professional_id')
+      .join('professional_profiles', 'professional_profiles.profile_id', 'users.professional_id')
+      .where('users.professional_id', profile_id)
+      .first() as User;
+    return res.json(sqlQuery);
+  } catch (error) {
+    console.error('Failed to get user', error);
+    return res.status(500).json({ message: 'Failed to get user' });
   }
 };
