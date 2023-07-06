@@ -95,12 +95,29 @@ const router = Router();
  *             $ref: '#/components/schemas/Collaborator'
  *       example:
  *           - profile_id: 1
- *             first_name: John
- *             headline: Frontend Developer
+ *             is_user: 1,
+ *             headline: Web Developer,
+ *             about_me: Experienced web developer with a passion for front-end development.,
+ *             location: San Francisco, CA,
+ *             job_name: Full Stack Developer,
+ *             kind_job: REMOTE,
+ *             job_type: FULL_TIME,
+ *             salary_min: 8000,
+ *             salary_max: 10000,
+ *             created_at: 2023-06-28T01:14:59.000Z,
+ *             updated_at: 2023-06-28T01:14:59.000Z
  *           - profile_id: 2
- *             first_name: Jane
- *             headline: Designer UI/UX
- *
+ *             is_user: 1,
+ *             headline: Backend Developer,
+ *             about_me: Passionate about programming and web development, with experience in backend development using Python and Node.js, using frameworks such as Django, Flask, and Express. I am a developer focused on creating robust and efficient solutions, and I am excited to learn and grow in a challenging environment.,
+ *             location: Cali, Colombia,
+ *             job_name: Backend Developer,
+ *             kind_job: REMOTE,
+ *             job_type: FULL_TIME,
+ *             salary_min: 8000,
+ *             salary_max: 10000,
+ *             created_at: 2023-07-03T22:08:11.000Z,
+ *             updated_at: 2023-07-03T22:08:11.000Z
  *     Collaborator:
  *       type: object
  *       properties:

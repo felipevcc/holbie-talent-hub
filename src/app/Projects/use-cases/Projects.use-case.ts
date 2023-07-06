@@ -114,7 +114,7 @@ export const ProjectCollaboratorsGet: RequestHandler = async (req: Request, res:
     }
 
     const sqlQuery = await query('professional_profiles_projects')
-      .select('professional_profiles.profile_id', 'users.first_name', 'professional_profiles.headline')
+      .select('professional_profiles.*')
       .join('professional_profiles', 'professional_profiles.profile_id', 'professional_profiles_projects.profile_id')
       .join('users', 'users.professional_id', 'professional_profiles_projects.profile_id')
       .where('professional_profiles_projects.project_id', project_id) as ProfessionalProfile[];
