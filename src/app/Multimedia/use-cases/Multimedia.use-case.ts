@@ -169,10 +169,10 @@ export const CompanyMultimediaGetById: RequestHandler = async (req: Request, res
 export const CompanyMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, description, title } = req.body;
 
     const sqlQuery = await query('company_multimedia')
-      .insert({ media_type, file_path, profile_id });
+      .insert({ media_type, file_path, profile_id, description, title });
     const insertedMediaId = sqlQuery[0];
 
     const createdMedia = await query('company_multimedia')
@@ -190,11 +190,11 @@ export const CompanyMultimediaPost: RequestHandler = async (req: Request, res: R
 export const CompanyMultimediaPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { media_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, description, title } = req.body;
 
     const sqlQuery = await query('company_multimedia')
       .where('media_id', media_id)
-      .update({ media_type, file_path });
+      .update({ media_type, file_path, description, title });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -281,10 +281,10 @@ export const ProjectMultimediaGetById: RequestHandler = async (req: Request, res
 export const ProjectMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { project_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, description, title } = req.body;
 
     const sqlQuery = await query('project_multimedia')
-      .insert({ media_type, file_path, project_id });
+      .insert({ media_type, file_path, project_id, description, title });
     const insertedMultimediaId = sqlQuery[0];
 
     const createdMultimedia = await query('project_multimedia')
@@ -302,11 +302,11 @@ export const ProjectMultimediaPost: RequestHandler = async (req: Request, res: R
 export const ProjectMultimediaPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { media_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, description, title } = req.body;
 
     const sqlQuery = await query('project_multimedia')
       .where('media_id', media_id)
-      .update({ media_type, file_path });
+      .update({ media_type, file_path, description, title });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
@@ -380,10 +380,10 @@ export const EducationMultimediaGetById: RequestHandler = async (req: Request, r
 export const EducationMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { education_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, description, title } = req.body;
 
     const sqlQuery = await query('education_multimedia')
-      .insert({ media_type, file_path, education_id });
+      .insert({ media_type, file_path, education_id, description, title });
     const insertedMultimediaId = sqlQuery[0];
 
     const createdMultimedia = await query('education_multimedia')
@@ -401,11 +401,11 @@ export const EducationMultimediaPost: RequestHandler = async (req: Request, res:
 export const EducationMultimediaPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { media_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, description, title } = req.body;
 
     const sqlQuery = await query('education_multimedia')
       .where('media_id', media_id)
-      .update({ media_type, file_path });
+      .update({ media_type, file_path, description, title });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {

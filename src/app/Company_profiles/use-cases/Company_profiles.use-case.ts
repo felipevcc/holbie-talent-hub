@@ -39,9 +39,9 @@ export const ProfileGetById: RequestHandler = async (req: Request, res: Response
 // POST endpoint to create a company profile
 export const ProfilePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { company_name, industry, about_us, location, website } = req.body;
+    const { company_name, industry, about_us, location, website, readme, retention_rate, logo, company_size, employee_benefits } = req.body;
     const sqlQuery = await query('company_profiles')
-      .insert({ company_name, industry, about_us, location, website });
+      .insert({ company_name, industry, about_us, location, website, readme, retention_rate, logo, company_size, employee_benefits  });
 
     const ProfileId = sqlQuery[0];
     const createdCompany = await query('company_profiles')
@@ -59,11 +59,11 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
 export const ProfilePut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
-    const { company_name, industry, about_us, location, website } = req.body;
+    const { company_name, industry, about_us, location, website, readme, retention_rate, logo, company_size, employee_benefits } = req.body;
 
     const sqlQuery = await query('company_profiles')
       .where('profile_id', profile_id)
-      .update({ company_name, industry, about_us, location, website });
+      .update({ company_name, industry, about_us, location, website, readme, retention_rate, logo, company_size, employee_benefits });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {

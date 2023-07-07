@@ -46,10 +46,10 @@ export const ProfileGetById: RequestHandler = async (req: Request, res: Response
 // POST endpoint to create a profile
 export const ProfilePost: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { is_user, headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max } = req.body;
+    const { is_user, headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max, readme } = req.body;
 
     const sqlQuery = await query('professional_profiles')
-      .insert({ is_user, headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max });
+      .insert({ is_user, headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max, readme });
     const insertedProfileId = sqlQuery[0];
 
     const createdProfile = await query('professional_profiles')
@@ -67,11 +67,11 @@ export const ProfilePost: RequestHandler = async (req: Request, res: Response) =
 export const ProfilePut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
-    const { headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max } = req.body;
+    const { headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max, readme } = req.body;
 
     const sqlQuery = await query('professional_profiles')
       .where('profile_id', profile_id)
-      .update({ headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max });
+      .update({ headline, about_me, location, job_name, kind_job, job_type, salary_min, salary_max, readme });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
