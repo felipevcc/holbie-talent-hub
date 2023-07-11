@@ -57,10 +57,10 @@ export const ProfessionalMultimediaGetById: RequestHandler = async (req: Request
 export const ProfessionalMultimediaPost: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { profile_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, title, description } = req.body;
 
     const sqlQuery = await query('professional_profile_multimedia')
-      .insert({ media_type, file_path, profile_id });
+      .insert({ media_type, file_path, title, description, profile_id });
     const insertedMultimediaId = sqlQuery[0];
 
     const createdMultimedia = await query('professional_profile_multimedia')
@@ -78,11 +78,11 @@ export const ProfessionalMultimediaPost: RequestHandler = async (req: Request, r
 export const ProfessionalMultimediaPut: RequestHandler = async (req: Request, res: Response) => {
   try {
     const { media_id } = req.params;
-    const { media_type, file_path } = req.body;
+    const { media_type, file_path, title, description } = req.body;
 
     const sqlQuery = await query('professional_profile_multimedia')
       .where('media_id', media_id)
-      .update({ media_type, file_path });
+      .update({ media_type, file_path, title, description });
 
     const affectedRows = sqlQuery;
     if (!affectedRows) {
