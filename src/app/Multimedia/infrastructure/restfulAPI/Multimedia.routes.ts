@@ -43,6 +43,10 @@ const router = Router();
  *           type: integer
  *         media_type:
  *           type: string
+ *         description:
+ *           type: string
+ *         title:
+ *           type: string
  *         file_path:
  *           type: string
  *         created_at:
@@ -60,6 +64,10 @@ const router = Router();
  *         media_id:
  *           type: integer
  *         media_type:
+ *           type: string
+ *         description:
+ *           type: string
+ *         title:
  *           type: string
  *         file_path:
  *           type: string
@@ -79,6 +87,10 @@ const router = Router();
  *           type: integer
  *         media_type:
  *           type: string
+ *         description:
+ *           type: string
+ *         title:
+ *           type: string
  *         file_path:
  *           type: string
  *         created_at:
@@ -96,6 +108,10 @@ const router = Router();
  *         media_id:
  *           type: integer
  *         media_type:
+ *           type: string
+ *         description:
+ *           type: string
+ *         title:
  *           type: string
  *         file_path:
  *           type: string
@@ -181,6 +197,8 @@ const router = Router();
  *             example:
  *               - media_id: 1
  *                 media_type: "image/png"
+ *                 description: "Image description"
+ *                 title: "Image title"
  *                 file_path: "/path/to/file.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
@@ -217,6 +235,10 @@ const router = Router();
  *             properties:
  *               media_type:
  *                 type: string
+ *               description:
+ *                 type: string
+ *               title:
+ *                 type: string
  *               file_path:
  *                 type: string
  *                 format: binary
@@ -230,6 +252,8 @@ const router = Router();
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/file.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -264,6 +288,8 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/file.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -298,6 +324,8 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *             $ref: '#/components/schemas/ProfessionalProfileMultimedia'
  *           example:
  *             media_type: "image/png"
+ *             description: "Image description"
+ *             title: "Image title"
  *             file_path: "/path/to/updated_file.png"
  *     responses:
  *       200:
@@ -309,6 +337,8 @@ router.post('/professional_profiles/:profile_id/multimedia', ProfessionalMultime
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/updated_file.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -379,6 +409,8 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  *             example:
  *               - media_id: 1
  *                 media_type: "image/png"
+ *                 description: "Image description"
+ *                 title: "Image title"
  *                 file_path: "http://resources/image.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
@@ -414,6 +446,10 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  *             properties:
  *               media_type:
  *                 type: string
+ *               description:
+ *                 type: string
+ *               title:
+ *                 type: string
  *               file_path:
  *                 type: string
  *                 format: binary
@@ -427,6 +463,8 @@ router.delete('/professional_multimedia/:media_id/', ProfessionalMultimediaDelet
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "http://resources/image.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -461,6 +499,8 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "http://resources/image.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -495,6 +535,8 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *             $ref: '#/components/schemas/CompanyMultimedia'
  *           example:
  *             media_type: "image/png"
+ *             description: "Image description"
+ *             title: "Image title"
  *             file_path: "http://resources/image.jpg"
  *     responses:
  *       204:
@@ -506,6 +548,8 @@ router.post('/company_profiles/:profile_id/multimedia', CompanyMultimediaPost);
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "http://resources/image.jpg"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -577,6 +621,10 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  *             properties:
  *               media_type:
  *                 type: string
+ *               description:
+ *                type: string
+ *               title:
+ *                type: string
  *               file_path:
  *                 type: string
  *                 format: binary
@@ -590,6 +638,8 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/file1.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -619,13 +669,17 @@ router.delete('/company_multimedia/:media_id', CompanyMediaDelete);
  *             example:
  *               - media_id: 1
  *                 media_type: "image/png"
+ *                 description: "Image description"
+ *                 title: "Image title"
  *                 file_path: "/path/to/file1.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
  *                 project_id: 1
  *               - media_id: 2
- *                 media_type: "video/mp4"
- *                 file_path: "/path/to/file2.mp4"
+ *                 media_type: "image/jpg"
+ *                 description: "Image description"
+ *                 title: "Image title"
+ *                 file_path: "/path/to/file2.jpg"
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
  *                 project_id: 1
@@ -668,13 +722,17 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *             example:
  *               - media_id: 1
  *                 media_type: "image/png"
+ *                 description: "Image description"
+ *                 title: "Image title"
  *                 file_path: "/path/to/file1.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
  *                 project_id: 1
  *               - media_id: 1
- *                 media_type: "video/mp4"
- *                 file_path: "/path/to/file2.mp4"
+ *                 media_type: "image/jpg"
+ *                 description: "Image description"
+ *                 title: "Image title"
+ *                 file_path: "/path/to/file2.jpg"
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
  *                 project_id: 1
@@ -707,7 +765,9 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *             $ref: '#/components/schemas/ProjectMultimedia'
  *           example:
  *             media_type: "image/jpeg"
- *             file_path: "/path/to/file.jpg"
+ *             description: "Image description"
+ *             title: "Image title"
+ *             file_path: "/path/to/file.jpeg"
  *     responses:
  *       200:
  *         description: Successful operation
@@ -718,6 +778,8 @@ router.get('/projects/:project_id/multimedia', ProjectMultimediaGet);
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/file1.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -786,17 +848,19 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
  *           schema:
  *             type: object
  *             properties:
- *               file:
- *                 type: string
- *                 format: binary
  *               media_type:
  *                 type: string
- *                 description: Type of the multimedia (e.g., image/png, video/mp4)
- *             required:
- *               - file
- *               - media_type
+ *               description:
+ *                type: string
+ *               title:
+ *                type: string
+ *               file_path:
+ *                 type: string
+ *                 format: binary
  *           example:
  *             media_type: "image/png"
+ *             description: "Image description"
+ *             title: "Image title"
  *             file_path: "/path/to/file1.png"
  *     responses:
  *       201:
@@ -808,6 +872,8 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/file1.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -837,12 +903,16 @@ router.delete('/project_multimedia/:media_id', ProjectMultimediaDelete);
  *             example:
  *               - media_id: 1
  *                 media_type: "image/png"
+ *                 description: "Image description"
+ *                 title: "Image title"
  *                 file_path: "/path/to/file1.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
  *                 education_id: 1
  *               - media_id: 1
  *                 media_type: "image/png"
+ *                 description: "Image description"
+ *                 title: "Image title"
  *                 file_path: "/path/to/file1.png"
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
@@ -885,6 +955,8 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *             example:
  *               media_id: 1
  *               media_type: "image/png"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/file.png"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
@@ -920,6 +992,8 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *             $ref: '#/components/schemas/EducationMultimedia'
  *           example:
  *             media_type: "image/jpeg"
+ *             description: "Image description"
+ *             title: "Image title"
  *             file_path: "/path/to/file.jpg"
  *     responses:
  *       200:
@@ -931,6 +1005,8 @@ router.get('/education/:education_id/multimedia', EducationMultimediaGet);
  *             example:
  *               media_id: 1
  *               media_type: "image/jpeg"
+ *               description: "Image description"
+ *               title: "Image title"
  *               file_path: "/path/to/file.jpg"
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-23T12:30:00Z"

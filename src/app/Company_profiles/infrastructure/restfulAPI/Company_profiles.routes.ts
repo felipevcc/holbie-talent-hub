@@ -40,16 +40,22 @@ const router = Router();
  *           type: string
  *         website:
  *           type: string
+ *         readme:
+ *           type: string
+ *         retention_rate:
+ *           type: integer
+ *         logo:
+ *           type: string
+ *         company_size:
+ *           type: integer
+ *         employee_benefits:
+ *           type: string
  *         created_at:
  *           type: string
  *           format: date-time
  *         updated_at:
  *           type: string
  *           format: date-time
- *         favorite_profiles:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/FavoriteProfile'
  *     FavoriteProfile:
  *       type: object
  *       properties:
@@ -84,6 +90,16 @@ const router = Router();
  *           type: string
  *         website:
  *           type: string
+ *         readme:
+ *           type: string
+ *         retention_rate:
+ *           type: integer
+ *         logo:
+ *           type: string
+ *         company_size:
+ *           type: integer
+ *         employee_benefits:
+ *           type: string
  *     UpdateCompanyProfile:
  *       type: object
  *       properties:
@@ -96,6 +112,16 @@ const router = Router();
  *         location:
  *           type: string
  *         website:
+ *           type: string
+ *         readme:
+ *           type: string
+ *         retention_rate:
+ *           type: integer
+ *         logo:
+ *           type: string
+ *         company_size:
+ *           type: integer
+ *         employee_benefits:
  *           type: string
  *
  *   parameters:
@@ -166,6 +192,11 @@ const router = Router();
  *                 about_us: We are a company that develops software
  *                 location: cali
  *                 website: www.holberton.com
+ *                 readme: We are a company that develops software
+ *                 retention_rate: 90
+ *                 logo: https://blog.holbertonschool.com/wp-content/logo.jpg
+ *                 company_size: 167
+ *                 employee_benefits: We have a lot of benefits
  *                 created_at: "2023-06-22T10:00:00Z"
  *                 updated_at: "2023-06-22T10:00:00Z"
  *               - profile_id: 2
@@ -174,6 +205,11 @@ const router = Router();
  *                 about_us: We are a company that develops software
  *                 location: medellin
  *                 website: www.coderise.com
+ *                 readme: We are a company that develops software
+ *                 retention_rate: 95
+ *                 logo: https://coderise.com/wp-content/icon.jpg
+ *                 company_size: 25
+ *                 employee_benefits: We have a lot of benefits
  *                 created_at: "2023-06-23T12:30:00Z"
  *                 updated_at: "2023-06-23T12:30:00Z"
  *       '500':
@@ -205,6 +241,11 @@ const router = Router();
  *               about_us: We are a company that develops software
  *               location: cali
  *               website: www.holberton.com
+ *               readme: We are a company that develops software
+ *               retention_rate: 90
+ *               logo: https://blog.holbertonschool.com/wp-content/logo.jpg
+ *               company_size: 167
+ *               employee_benefits: We have a lot of benefits
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
  *       '404':
@@ -238,7 +279,12 @@ const router = Router();
  *             industry: Technology
  *             about_us: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  *             location: New York, USA
- *             website: https://example.com
+ *             website: https://googlewebsite.com
+ *             readme: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ *             retention_rate: 90
+ *             logo: https://googlewebsite.com/content/logo.png
+ *             company_size: 5926
+ *             employee_benefits: We have a lot of benefits
  *     responses:
  *       '201':
  *         description: Company profile created successfully
@@ -252,7 +298,12 @@ const router = Router();
  *               industry: Technology
  *               about_us: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  *               location: New York, USA
- *               website: https://example.com
+ *               website: https://googlewebsite.com
+ *               readme: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ *               retention_rate: 90
+ *               logo: https://googlewebsite.com/content/logo.png
+ *               company_size: 5926
+ *               employee_benefits: We have a lot of benefits
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
  *       '500':
@@ -288,7 +339,12 @@ const router = Router();
  *               industry: Technology
  *               about_us: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  *               location: New York, USA
- *               website: https://google.com
+ *               website: https://googlewebsite.com
+ *               readme: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ *               retention_rate: 90
+ *               logo: https://googlewebsite.com/content/logo.png
+ *               company_size: 5926
+ *               employee_benefits: We have a lot of benefits
  *               created_at: "2023-06-22T10:00:00Z"
  *               updated_at: "2023-06-22T10:00:00Z"
  *       '404':
@@ -340,7 +396,7 @@ router.put('/company_profiles/:profile_id', ProfilePut);
 router.delete('/company_profiles/:profile_id', ProfileDelete);
 
 // ===============================================================
-// =========================== FAVORIT PROFILES ==================
+// ======================== FAVORITE PROFILES ====================
 // ===============================================================
 
 /**
