@@ -14,6 +14,10 @@ const swaggerDefinition: OAS3Definition = {
     },
     {
       url: "https://recruitment-system-production.up.railway.app",
+      description: "Secondary production server for testing"
+    },
+    {
+      url: "https://165.232.131.33",
       description: "Production server"
     }
   ]

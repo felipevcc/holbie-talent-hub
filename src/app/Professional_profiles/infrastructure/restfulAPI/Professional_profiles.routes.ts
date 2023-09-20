@@ -45,6 +45,10 @@ const router = Router();
  *           type: string
  *         about_me:
  *           type: string
+ *         profile:
+ *           type: string
+ *         readme:
+ *           type: string
  *         location:
  *           type: string
  *         job_name:
@@ -216,6 +220,8 @@ const router = Router();
  *             is_user: true
  *             headline: Web Developer
  *             about_me: Experienced web developer with a passion for front-end development.
+ *             profile: https://www.example.com/profile.png
+ *             readme: Experienced web developer with a passion for front-end development.
  *             location: San Francisco, CA
  *             job_name: Full Stack Developer
  *             kind_job: REMOTE
@@ -234,6 +240,8 @@ const router = Router();
  *               is_user: true
  *               headline: Web Developer
  *               about_me: Experienced web developer with a passion for front-end development.
+ *               profile: https://www.example.com/profile.png
+ *               readme: Experienced web developer with a passion for front-end development.
  *               location: San Francisco, CA
  *               job_name: Full Stack Developer
  *               kind_job: REMOTE
@@ -263,18 +271,34 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/ProfessionalProfile'
  *             example:
- *               profile_id: 1
- *               is_user: true
- *               headline: Web Developer
- *               about_me: Experienced web developer with a passion for front-end development.
- *               location: San Francisco, CA
- *               job_name: Full Stack Developer
- *               kind_job: REMOTE
- *               job_type: FULL_TIME
- *               salary_min: 80000
- *               salary_max: 100000
- *               created_at: 2023-06-22T12:34:56Z
- *               updated_at: 2023-06-22T12:34:56Z
+ *               - profile_id: 1
+ *                 is_user: true
+ *                 headline: Web Developer
+ *                 about_me: Experienced web developer with a passion for front-end development.
+ *                 profile: https://www.example.com/profile.png
+ *                 readme: Experienced web developer with a passion for front-end development.
+ *                 location: San Francisco, CA
+ *                 job_name: Full Stack Developer
+ *                 kind_job: REMOTE
+ *                 job_type: FULL_TIME
+ *                 salary_min: 8000
+ *                 salary_max: 10000
+ *                 created_at: 2023-06-22T12:34:56.000Z
+ *                 updated_at: 2023-06-22T12:34:56.000Z
+ *               - profile_id: 2
+ *                 is_user: true
+ *                 headline: Backend Developer
+ *                 about_me: Passionate about programming and web development.
+ *                 profile: https://www.example.com/profile.jpg
+ *                 readme: Passionate about programming and web development.
+ *                 location: Cali, Colombia
+ *                 job_name: Backend Developer
+ *                 kind_job: REMOTE
+ *                 job_type: FULL_TIME
+ *                 salary_min: 6000
+ *                 salary_max: 8000
+ *                 created_at: 2023-07-03T22:08:11.000Z
+ *                 updated_at: 2023-07-03T22:08:11.000Z
  *       500:
  *         description: Failed to get professional profiles
  *         content:
@@ -307,6 +331,8 @@ router.get('/professional_profiles', ProfilesGet);
  *               is_user: true
  *               headline: "Software Engineer"
  *               about_me: "Experienced software engineer with a passion for creating innovative solutions."
+ *               profile: https://www.example.com/profile.png
+ *               readme: Experienced software engineer with a passion for creating innovative solutions.
  *               location: "New York, USA"
  *               job_name: "Software Developer"
  *               kind_job: "REMOTE"
@@ -345,6 +371,8 @@ router.get('/professional_profiles', ProfilesGet);
  *           example:
  *             headline: Web Developer
  *             about_me: Experienced web developer with a passion for front-end development.
+ *             profile: https://www.example.com/profile.png
+ *             readme: Experienced web developer with a passion for front-end development.
  *             location: San Francisco, CA
  *             job_name: Full Stack Developer
  *             kind_job: REMOTE
@@ -361,16 +389,18 @@ router.get('/professional_profiles', ProfilesGet);
  *             example:
  *               profile_id: 1
  *               is_user: true
- *               headline: "Software Engineer"
- *               about_me: "Experienced software engineer with a passion for creating innovative solutions."
- *               location: "New York, USA"
- *               job_name: "Full Stack Developer"
- *               kind_job: "REMOTE"
- *               job_type: "FULL_TIME"
- *               salary_min: 50000
- *               salary_max: 80000
- *               created_at: "2022-05-15T10:30:00Z"
- *               updated_at: "2022-06-20T15:45:00Z"
+ *               headline: Web Developer
+ *               about_me: Experienced web developer with a passion for front-end development.
+ *               profile: https://www.example.com/profile.png
+ *               readme: Experienced web developer with a passion for front-end development.
+ *               location: San Francisco, CA
+ *               job_name: Full Stack Developer
+ *               kind_job: REMOTE
+ *               job_type: FULL_TIME
+ *               salary_min: 60000
+ *               salary_max: 100000
+ *               created_at: 2022-05-15T10:30:000Z
+ *               updated_at: 2022-06-20T15:45:000Z
  *       404:
  *         description: profile not found
  *         content:
